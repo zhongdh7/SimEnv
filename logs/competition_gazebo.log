@@ -1,0 +1,26 @@
+xacro: in-order processing became default in ROS Melodic. You can drop the option.
+[0m[INFO] [1783605969.697115704]: Finished loading Gazebo ROS API Plugin.[0m
+[0m[INFO] [1783605969.698019281]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m
+[0m[INFO] [1783605970.702053208]: waitForService: Service [/gazebo/set_physics_properties] is now available.[0m
+[0m[INFO] [1783605970.730118820, 0.028000000]: Physics dynamic reconfigure ready.[0m
+[0m[INFO] [1783605971.023276438, 0.228000000]: <initialOrientationAsReference> is unset, using default value of false to comply with REP 145 (world as orientation reference)[0m
+[0m[INFO] [1783605971.023327736, 0.228000000]: <robotNamespace> set to: //[0m
+[0m[INFO] [1783605971.023337806, 0.228000000]: <topicName> set to: trunk_imu[0m
+[0m[INFO] [1783605971.023345008, 0.228000000]: <frameName> set to: imu_link[0m
+[0m[INFO] [1783605971.023369014, 0.228000000]: <updateRateHZ> set to: 1000[0m
+[0m[INFO] [1783605971.023379788, 0.228000000]: <gaussianNoise> set to: 0[0m
+[0m[INFO] [1783605971.023408280, 0.228000000]: <xyzOffset> set to: 0 0 0[0m
+[0m[INFO] [1783605971.023432273, 0.228000000]: <rpyOffset> set to: 0 -0 0[0m
+[0m[INFO] [1783605975.682028137, 0.228000000]: load csv file name:/home/loser/SimEnv/src/unitree_guide/unitree_ros/robots/a1_description/scan_mode/mid360.csv[0m
+cannot convert str:
+data size:800000
+[ERROR] [1783605982.135844, 0.228000]: SetModelConfiguration service failed. Exiting.
+[INFO] [1783605969.622104, 0.000000]: Loading model XML from ros parameter robot_description
+[INFO] [1783605969.627250, 0.000000]: Waiting for service /gazebo/spawn_urdf_model
+[INFO] [1783605970.832350, 0.126000]: Calling service /gazebo/spawn_urdf_model
+[INFO] [1783605980.482323, 0.228000]: Spawn status: SpawnModel: Successfully spawned entity
+[INFO] [1783605980.483187, 0.228000]: Waiting for service /gazebo/set_model_configuration
+[INFO] [1783605980.484939, 0.228000]: temporary hack to **fix** the -J joint position option (issue #93), sleeping for 1 second to avoid race condition.
+[INFO] [1783605981.486183, 0.228000]: Calling service /gazebo/set_model_configuration
+Service call failed: unable to connect to service: [Errno 104] Connection reset by peer
+Segmentation fault (core dumped)
