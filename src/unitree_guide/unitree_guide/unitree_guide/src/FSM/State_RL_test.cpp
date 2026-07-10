@@ -519,9 +519,9 @@ void State_RL::load_policy()
     // load model from check point
     std::cout << "cuda::is_available():" << torch::cuda::is_available() << std::endl;
     device= torch::kCPU;
-    if (torch::cuda::is_available()){
-        device = torch::kCUDA;
-    }
+    // if (torch::cuda::is_available()){
+    //     device = torch::kCUDA;
+    // }
     model = torch::jit::load(model_path);
     std::cout << "load model is successed!" << std::endl;
     model.to(device);

@@ -590,6 +590,7 @@ junior_ctrl_EXTERNAL_OBJECTS =
 /home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/build.make
 /home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: /home/loser/libtorch/lib/libtorch.so
 /home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: /home/loser/libtorch/lib/libc10.so
+/home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: /home/loser/libtorch/lib/libkineto.a
 /home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: /usr/local/cuda/lib64/libnvrtc.so
 /home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: /home/loser/libtorch/lib/libc10_cuda.so
 /home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: /opt/ros/noetic/lib/librobot_state_publisher_solver.so
@@ -636,6 +637,7 @@ junior_ctrl_EXTERNAL_OBJECTS =
 /home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: /home/loser/libtorch/lib/libc10_cuda.so
 /home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: /home/loser/libtorch/lib/libc10.so
 /home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: /usr/local/cuda/lib64/libcudart.so
+/home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: /usr/local/cuda/lib64/libnvToolsExt.so
 /home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl: unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/loser/SimEnv/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Linking CXX executable /home/loser/SimEnv/devel/lib/unitree_guide/junior_ctrl"
 	cd /home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/junior_ctrl.dir/link.txt --verbose=$(VERBOSE)

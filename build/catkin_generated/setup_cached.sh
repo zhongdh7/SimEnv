@@ -9,7 +9,6 @@
 # modified environment variables
 export CMAKE_PREFIX_PATH="/home/loser/SimEnv/devel:$CMAKE_PREFIX_PATH"
 export LD_LIBRARY_PATH="/home/loser/SimEnv/devel/lib:$LD_LIBRARY_PATH"
-export PATH='/home/loser/cartographer_ws/install_isolated/bin:/opt/ros/noetic/bin:/opt/cmake-3.30.5-linux-x86_64/bin:/home/loser/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/loser/.config/Code/User/globalStorage/github.copilot-chat/copilotCli:/home/loser/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin:/opt/cmake-3.30.5-linux-x86_64/bin:/opt/cmake-3.30.5-linux-x86_64/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
 export PKG_CONFIG_PATH="/home/loser/SimEnv/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PWD='/home/loser/SimEnv/build'
 export PYTHONPATH="/home/loser/SimEnv/devel/lib/python3/dist-packages:$PYTHONPATH"

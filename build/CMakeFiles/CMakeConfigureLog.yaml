@@ -1421,3 +1421,91 @@ events:
         12.8
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "/home/loser/libtorch/share/cmake/Caffe2/public/cuda.cmake:108 (try_run)"
+      - "/home/loser/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)"
+      - "/home/loser/libtorch/share/cmake/Torch/TorchConfig.cmake:62 (find_package)"
+      - "unitree_guide/unitree_guide/unitree_guide/CMakeLists.txt:22 (find_package)"
+    directories:
+      source: "/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp"
+      binary: "/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/loser/libtorch/share/cmake/Caffe2/public;/home/loser/libtorch/share/cmake;/home/loser/libtorch/share/cmake/Caffe2;/home/loser/libtorch/share/cmake/Caffe2/public/../Modules_CUDA_fix"
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: '/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /opt/cmake-3.30.5-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_efce5/fast
+        make[1]: 进入目录“/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp”
+        /usr/bin/make  -f CMakeFiles/cmTC_efce5.dir/build.make CMakeFiles/cmTC_efce5.dir/build
+        make[2]: 进入目录“/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp”
+        Building CXX object CMakeFiles/cmTC_efce5.dir/detect_cuda_version.cc.o
+        /usr/bin/c++  -I/usr/local/cuda/include  -o CMakeFiles/cmTC_efce5.dir/detect_cuda_version.cc.o -c /home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/detect_cuda_version.cc
+        Linking CXX executable cmTC_efce5
+        /opt/cmake-3.30.5-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_efce5.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_efce5.dir/detect_cuda_version.cc.o -o cmTC_efce5  -Wl,-rpath,/usr/local/cuda/lib64 /usr/local/cuda/lib64/libcudart.so
+        make[2]: 离开目录“/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp”
+        make[1]: 离开目录“/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp”
+        
+      exitCode: 0
+    runResult:
+      variable: "run_result"
+      cached: true
+      stdout: |
+        12.8
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "/home/loser/libtorch/share/cmake/Caffe2/public/cuda.cmake:99 (try_run)"
+      - "/home/loser/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)"
+      - "/home/loser/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)"
+      - "unitree_guide/unitree_guide/unitree_guide/CMakeLists.txt:22 (find_package)"
+    directories:
+      source: "/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp"
+      binary: "/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/loser/libtorch/share/cmake/Caffe2/public;/home/loser/libtorch/share/cmake;/home/loser/libtorch/share/cmake/Caffe2;/home/loser/libtorch/share/cmake/Caffe2/public/../Modules_CUDA_fix"
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: '/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /opt/cmake-3.30.5-linux-x86_64/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_280f0/fast
+        make[1]: 进入目录“/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp”
+        /usr/bin/make  -f CMakeFiles/cmTC_280f0.dir/build.make CMakeFiles/cmTC_280f0.dir/build
+        make[2]: 进入目录“/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp”
+        Building CXX object CMakeFiles/cmTC_280f0.dir/detect_cuda_version.cc.o
+        /usr/bin/c++  -I/usr/local/cuda/include  -o CMakeFiles/cmTC_280f0.dir/detect_cuda_version.cc.o -c /home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/detect_cuda_version.cc
+        Linking CXX executable cmTC_280f0
+        /opt/cmake-3.30.5-linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_280f0.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_280f0.dir/detect_cuda_version.cc.o -o cmTC_280f0  -Wl,-rpath,/usr/local/cuda/lib64 /usr/local/cuda/lib64/libcudart.so
+        make[2]: 离开目录“/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp”
+        make[1]: 离开目录“/home/loser/SimEnv/build/unitree_guide/unitree_guide/unitree_guide/CMakeFiles/CMakeTmp”
+        
+      exitCode: 0
+    runResult:
+      variable: "run_result"
+      cached: true
+      stdout: |
+        12.8
+      exitCode: 0
+...
