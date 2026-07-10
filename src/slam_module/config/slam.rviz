@@ -6,6 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
+        - /TF1
         - /TF1/Frames1
         - /PointCloud21
         - /Image1
@@ -55,12 +56,70 @@ Visualization Manager:
       Reference Frame: <Fixed Frame>
       Value: true
     - Class: rviz/TF
-      Enabled: false
+      Enabled: true
       Filter (blacklist): ""
       Filter (whitelist): ""
       Frame Timeout: 15
       Frames:
         All Enabled: false
+        FL_calf:
+          Value: false
+        FL_foot:
+          Value: false
+        FL_hip:
+          Value: false
+        FL_thigh:
+          Value: false
+        FL_thigh_shoulder:
+          Value: false
+        FR_calf:
+          Value: false
+        FR_foot:
+          Value: false
+        FR_hip:
+          Value: false
+        FR_thigh:
+          Value: false
+        FR_thigh_shoulder:
+          Value: false
+        RL_calf:
+          Value: false
+        RL_foot:
+          Value: false
+        RL_hip:
+          Value: false
+        RL_thigh:
+          Value: false
+        RL_thigh_shoulder:
+          Value: false
+        RR_calf:
+          Value: false
+        RR_foot:
+          Value: false
+        RR_hip:
+          Value: false
+        RR_thigh:
+          Value: false
+        RR_thigh_shoulder:
+          Value: false
+        base:
+          Value: true
+        imu_link:
+          Value: false
+        laser_livox:
+          Value: false
+        livox_imu_link:
+          Value: false
+        map:
+          Value: true
+        odom:
+          Value: true
+        real_sense:
+          Value: false
+        real_sense_optical_frame:
+          Value: false
+        trunk:
+          Value: false
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -68,9 +127,48 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        map:
+          odom:
+            base:
+              laser_livox:
+                livox_imu_link:
+                  {}
+              real_sense:
+                real_sense_optical_frame:
+                  {}
+              trunk:
+                FL_hip:
+                  FL_thigh:
+                    FL_calf:
+                      FL_foot:
+                        {}
+                  FL_thigh_shoulder:
+                    {}
+                FR_hip:
+                  FR_thigh:
+                    FR_calf:
+                      FR_foot:
+                        {}
+                  FR_thigh_shoulder:
+                    {}
+                RL_hip:
+                  RL_thigh:
+                    RL_calf:
+                      RL_foot:
+                        {}
+                  RL_thigh_shoulder:
+                    {}
+                RR_hip:
+                  RR_thigh:
+                    RR_calf:
+                      RR_foot:
+                        {}
+                  RR_thigh_shoulder:
+                    {}
+                imu_link:
+                  {}
       Update Interval: 0
-      Value: false
+      Value: true
     - Alpha: 0.699999988079071
       Class: rviz/Map
       Color Scheme: map
@@ -159,7 +257,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 9.141715049743652
+      Distance: 8.479196548461914
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -175,9 +273,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.2853984832763672
+      Pitch: 0.34979745745658875
       Target Frame: <Fixed Frame>
-      Yaw: 4.813553333282471
+      Yaw: 4.708550930023193
     Saved: ~
 Window Geometry:
   Displays:

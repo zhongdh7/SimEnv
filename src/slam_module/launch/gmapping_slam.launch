@@ -76,6 +76,6 @@
   </node>
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find slam_module)/config/slam.rviz"/>
   <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering"/>
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find slam_module)/config/gamappings_slam.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find slam_module)/maps/gamappings_slam.yaml"/>
 
 </launch>
