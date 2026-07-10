@@ -2,7 +2,6 @@ file(REMOVE_RECURSE
   "/home/loser/SimEnv/devel/lib/unitree_legged_real/ros_example_position"
   "/home/loser/SimEnv/devel/lib/unitree_legged_real/ros_example_position.pdb"
   "CMakeFiles/ros_example_position.dir/src/exe/example_position.cpp.o"
-  "CMakeFiles/ros_example_position.dir/src/exe/example_position.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

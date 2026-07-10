@@ -2,7 +2,6 @@ file(REMOVE_RECURSE
   "/home/loser/SimEnv/devel/lib/libunitree_controller.pdb"
   "/home/loser/SimEnv/devel/lib/libunitree_controller.so"
   "CMakeFiles/unitree_controller.dir/src/body.cpp.o"
-  "CMakeFiles/unitree_controller.dir/src/body.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

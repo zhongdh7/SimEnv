@@ -2,7 +2,6 @@ file(REMOVE_RECURSE
   "/home/loser/SimEnv/devel/lib/unitree_controller/unitree_servo"
   "/home/loser/SimEnv/devel/lib/unitree_controller/unitree_servo.pdb"
   "CMakeFiles/unitree_servo.dir/src/servo.cpp.o"
-  "CMakeFiles/unitree_servo.dir/src/servo.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

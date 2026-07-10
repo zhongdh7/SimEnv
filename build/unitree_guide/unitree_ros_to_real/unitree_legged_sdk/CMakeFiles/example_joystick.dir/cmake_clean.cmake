@@ -2,7 +2,6 @@ file(REMOVE_RECURSE
   "../../../example_joystick"
   "../../../example_joystick.pdb"
   "CMakeFiles/example_joystick.dir/example/example_joystick.cpp.o"
-  "CMakeFiles/example_joystick.dir/example/example_joystick.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

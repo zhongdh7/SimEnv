@@ -2,7 +2,6 @@ file(REMOVE_RECURSE
   "/home/loser/SimEnv/devel/lib/libso3_control_nodelet.pdb"
   "/home/loser/SimEnv/devel/lib/libso3_control_nodelet.so"
   "CMakeFiles/so3_control_nodelet.dir/src/so3_control_nodelet.cpp.o"
-  "CMakeFiles/so3_control_nodelet.dir/src/so3_control_nodelet.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

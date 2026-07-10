@@ -2,7 +2,6 @@ file(REMOVE_RECURSE
   "/home/loser/SimEnv/devel/lib/odom_visualization/odom_visualization"
   "/home/loser/SimEnv/devel/lib/odom_visualization/odom_visualization.pdb"
   "CMakeFiles/odom_visualization.dir/src/odom_visualization.cpp.o"
-  "CMakeFiles/odom_visualization.dir/src/odom_visualization.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

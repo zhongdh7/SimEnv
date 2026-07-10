@@ -43,13 +43,13 @@
         <gravity>true</gravity>
         <sensor name="imu_sensor" type="imu">
             <always_on>true</always_on>
-            <update_rate>400</update_rate>
-            <visualize>true</visualize>
+            <update_rate>200</update_rate>
+            <visualize>false</visualize>
             <topic>__default_topic__</topic>
             <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
                 <topicName>trunk_imu</topicName>
                 <bodyName>imu_link</bodyName>
-                <updateRateHZ>400.0</updateRateHZ>
+                <updateRateHZ>200.0</updateRateHZ>
                 <gaussianNoise>0.0</gaussianNoise>
                 <xyzOffset>0 0 0</xyzOffset>
                 <rpyOffset>0 0 0</rpyOffset>
@@ -63,7 +63,7 @@
         <gazebo>
             <plugin name="${plugin_name}" filename="libgazebo_ros_p3d.so">
                 <alwaysOn>true</alwaysOn>
-                <update_rate>100</update_rate>
+                <update_rate>50</update_rate>
                 <bodyName>${body_name}</bodyName>
                 <topicName>${topic_name}</topicName>
                 <frameName>${frame_name}</frameName>
@@ -187,7 +187,7 @@
     <gazebo reference="FL_thigh">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
         <material>Gazebo/DarkGrey</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
@@ -195,12 +195,12 @@
     <gazebo reference="FL_calf">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
     </gazebo>
     <gazebo reference="FL_foot">
         <mu1>0.6</mu1>
         <mu2>0.6</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
         <material>Gazebo/DarkGrey</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
@@ -215,7 +215,7 @@
     <gazebo reference="FR_thigh">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
         <material>Gazebo/DarkGrey</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
@@ -223,12 +223,12 @@
     <gazebo reference="FR_calf">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
     </gazebo>
     <gazebo reference="FR_foot">
         <mu1>0.6</mu1>
         <mu2>0.6</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
         <material>Gazebo/DarkGrey</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
@@ -243,7 +243,7 @@
     <gazebo reference="RL_thigh">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
         <material>Gazebo/DarkGrey</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
@@ -251,12 +251,12 @@
     <gazebo reference="RL_calf">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
     </gazebo>
     <gazebo reference="RL_foot">
         <mu1>0.6</mu1>
         <mu2>0.6</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
         <material>Gazebo/DarkGrey</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
@@ -271,7 +271,7 @@
     <gazebo reference="RR_thigh">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
         <material>Gazebo/DarkGrey</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
@@ -279,12 +279,12 @@
     <gazebo reference="RR_calf">
         <mu1>0.2</mu1>
         <mu2>0.2</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
     </gazebo>
     <gazebo reference="RR_foot">
         <mu1>0.6</mu1>
         <mu2>0.6</mu2>
-        <self_collide>1</self_collide>
+        <self_collide>0</self_collide>
         <material>Gazebo/DarkGrey</material>
         <kp  value="1000000.0"/>
         <kd  value="1.0"/>
@@ -369,13 +369,13 @@
             <gravity>true</gravity>
             <sensor name="imu_sensor" type="imu">
                 <always_on>true</always_on>
-                <update_rate>400</update_rate>
-                <visualize>true</visualize>
+                <update_rate>200</update_rate>
+                <visualize>false</visualize>
                 <topic>__default_topic__</topic>
                 <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
                     <topicName>/livox/imu</topicName>
                     <bodyName>livox_imu_link</bodyName>
-                    <updateRateHZ>400.0</updateRateHZ>
+                    <updateRateHZ>200.0</updateRateHZ>
                     <gaussianNoise>0.0</gaussianNoise>
                     <xyzOffset>0 0 0</xyzOffset>
                     <rpyOffset>0 0 0</rpyOffset>
@@ -391,13 +391,13 @@
         <gazebo reference="real_sense">
             <sensor type="depth" name="real_sense">
                 <always_on>true</always_on>
-                <update_rate>20.0</update_rate>
+                <update_rate>10.0</update_rate>
                 <camera>
                     <horizontal_fov>${60.0*3.14/180.0}</horizontal_fov>
                     <image>
                         <format>R8G8B8</format>
-                        <width>640</width>
-                        <height>480</height>
+                        <width>320</width>
+                        <height>240</height>
                     </image>
                     <clip>
                         <near>0.05</near>

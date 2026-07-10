@@ -87,7 +87,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/Version.h
  /home/loser/libtorch/include/ATen/WrapDimUtils.h
  /home/loser/libtorch/include/ATen/WrapDimUtilsMulti.h
- /home/loser/libtorch/include/ATen/accelerator/Graph.h
  /home/loser/libtorch/include/ATen/core/ATenGeneral.h
  /home/loser/libtorch/include/ATen/core/ATenOpList.h
  /home/loser/libtorch/include/ATen/core/ATen_fwd.h
@@ -101,7 +100,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/core/Formatting.h
  /home/loser/libtorch/include/ATen/core/Generator.h
  /home/loser/libtorch/include/ATen/core/GeneratorForPrivateuseone.h
- /home/loser/libtorch/include/ATen/core/GraphImplInterface.h
  /home/loser/libtorch/include/ATen/core/IListRef.h
  /home/loser/libtorch/include/ATen/core/IListRef_inl.h
  /home/loser/libtorch/include/ATen/core/LegacyTypeDispatch.h
@@ -174,7 +172,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/detail/MPSHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/MTIAHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/PrivateUse1HooksInterface.h
- /home/loser/libtorch/include/ATen/detail/XLAHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/XPUHooksInterface.h
  /home/loser/libtorch/include/ATen/ops/_adaptive_avg_pool2d.h
  /home/loser/libtorch/include/ATen/ops/_adaptive_avg_pool2d_backward.h
@@ -341,9 +338,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_native.h
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_ops.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward_native.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward_ops.h
@@ -469,9 +463,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/_flash_attention_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_native.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace_native.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace_ops.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_ops.h
  /home/loser/libtorch/include/ATen/ops/_foobar.h
  /home/loser/libtorch/include/ATen/ops/_foobar_native.h
@@ -506,9 +497,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min.h
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min_ops.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone_native.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone_ops.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy_ops.h
@@ -578,9 +566,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/_foreach_pow.h
  /home/loser/libtorch/include/ATen/ops/_foreach_pow_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_pow_ops.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum_native.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum_ops.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal_ops.h
@@ -647,12 +632,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper.h
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper_native.h
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper_ops.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward_ops.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_native.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_ops.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice_native.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice_ops.h
@@ -674,9 +653,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_native.h
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_ops.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm_native.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm_ops.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type_native.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type_ops.h
@@ -922,18 +898,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/_pdist_forward.h
  /home/loser/libtorch/include/ATen/ops/_pdist_forward_native.h
  /home/loser/libtorch/include/ATen/ops/_pdist_forward_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform_ops.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory_native.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory_ops.h
@@ -1017,15 +981,9 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm.h
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2_native.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2_ops.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2_native.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2_ops.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward_native.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward_ops.h
@@ -1308,14 +1266,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_meta.h
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_native.h
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_ops.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_meta.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_ops.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_meta.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_native.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_ops.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward_meta.h
@@ -1346,9 +1296,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight.h
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_native.h
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_ops.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss_native.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss_ops.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices_native.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices_ops.h
@@ -1385,8 +1332,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_for_cpu_ops.h
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros.h
- /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros_ops.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm_ops.h
@@ -2030,9 +1975,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/digamma_meta.h
  /home/loser/libtorch/include/ATen/ops/digamma_native.h
  /home/loser/libtorch/include/ATen/ops/digamma_ops.h
- /home/loser/libtorch/include/ATen/ops/dim.h
- /home/loser/libtorch/include/ATen/ops/dim_native.h
- /home/loser/libtorch/include/ATen/ops/dim_ops.h
  /home/loser/libtorch/include/ATen/ops/dist.h
  /home/loser/libtorch/include/ATen/ops/dist_native.h
  /home/loser/libtorch/include/ATen/ops/dist_ops.h
@@ -2372,9 +2314,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/ger.h
  /home/loser/libtorch/include/ATen/ops/ger_native.h
  /home/loser/libtorch/include/ATen/ops/ger_ops.h
- /home/loser/libtorch/include/ATen/ops/get_device.h
- /home/loser/libtorch/include/ATen/ops/get_device_native.h
- /home/loser/libtorch/include/ATen/ops/get_device_ops.h
  /home/loser/libtorch/include/ATen/ops/glu.h
  /home/loser/libtorch/include/ATen/ops/glu_backward.h
  /home/loser/libtorch/include/ATen/ops/glu_backward_jvp.h
@@ -2459,10 +2398,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/hardtanh_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/hardtanh_native.h
  /home/loser/libtorch/include/ATen/ops/hardtanh_ops.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_meta.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_native.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_ops.h
  /home/loser/libtorch/include/ATen/ops/heaviside.h
  /home/loser/libtorch/include/ATen/ops/heaviside_meta.h
  /home/loser/libtorch/include/ATen/ops/heaviside_native.h
@@ -2574,9 +2509,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/is_conj.h
  /home/loser/libtorch/include/ATen/ops/is_conj_native.h
  /home/loser/libtorch/include/ATen/ops/is_conj_ops.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous_native.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous_ops.h
  /home/loser/libtorch/include/ATen/ops/is_distributed.h
  /home/loser/libtorch/include/ATen/ops/is_distributed_native.h
  /home/loser/libtorch/include/ATen/ops/is_distributed_ops.h
@@ -2703,9 +2635,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/lift_fresh_ops.h
  /home/loser/libtorch/include/ATen/ops/lift_native.h
  /home/loser/libtorch/include/ATen/ops/lift_ops.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum_native.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum_ops.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky_ex.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky_ex_meta.h
@@ -3062,9 +2991,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose.h
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose_native.h
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose_ops.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss_native.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss_ops.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution_native.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution_ops.h
@@ -3318,9 +3244,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/nuclear_norm.h
  /home/loser/libtorch/include/ATen/ops/nuclear_norm_native.h
  /home/loser/libtorch/include/ATen/ops/nuclear_norm_ops.h
- /home/loser/libtorch/include/ATen/ops/numel.h
- /home/loser/libtorch/include/ATen/ops/numel_native.h
- /home/loser/libtorch/include/ATen/ops/numel_ops.h
  /home/loser/libtorch/include/ATen/ops/numpy_T.h
  /home/loser/libtorch/include/ATen/ops/numpy_T_native.h
  /home/loser/libtorch/include/ATen/ops/numpy_T_ops.h
@@ -4105,9 +4028,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/stft.h
  /home/loser/libtorch/include/ATen/ops/stft_native.h
  /home/loser/libtorch/include/ATen/ops/stft_ops.h
- /home/loser/libtorch/include/ATen/ops/storage_offset.h
- /home/loser/libtorch/include/ATen/ops/storage_offset_native.h
- /home/loser/libtorch/include/ATen/ops/storage_offset_ops.h
  /home/loser/libtorch/include/ATen/ops/stride.h
  /home/loser/libtorch/include/ATen/ops/stride_native.h
  /home/loser/libtorch/include/ATen/ops/stride_ops.h
@@ -4140,9 +4060,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_for_size_ops.h
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_native.h
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_ops.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous_native.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous_ops.h
  /home/loser/libtorch/include/ATen/ops/sym_numel.h
  /home/loser/libtorch/include/ATen/ops/sym_numel_native.h
  /home/loser/libtorch/include/ATen/ops/sym_numel_ops.h
@@ -4461,11 +4378,9 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/c10/core/Allocator.h
  /home/loser/libtorch/include/c10/core/AutogradState.h
  /home/loser/libtorch/include/c10/core/Backend.h
- /home/loser/libtorch/include/c10/core/CachingDeviceAllocator.h
  /home/loser/libtorch/include/c10/core/CompileTimeFunctionPointer.h
  /home/loser/libtorch/include/c10/core/DefaultDtype.h
  /home/loser/libtorch/include/c10/core/Device.h
- /home/loser/libtorch/include/c10/core/DeviceCapability.h
  /home/loser/libtorch/include/c10/core/DeviceGuard.h
  /home/loser/libtorch/include/c10/core/DeviceType.h
  /home/loser/libtorch/include/c10/core/DispatchKey.h
@@ -4499,7 +4414,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/c10/core/TensorOptions.h
  /home/loser/libtorch/include/c10/core/UndefinedTensorImpl.h
  /home/loser/libtorch/include/c10/core/WrapDimMinimal.h
- /home/loser/libtorch/include/c10/core/alignment.h
  /home/loser/libtorch/include/c10/core/impl/COW.h
  /home/loser/libtorch/include/c10/core/impl/COWDeleter.h
  /home/loser/libtorch/include/c10/core/impl/DeviceGuardImplInterface.h
@@ -4509,7 +4423,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/c10/core/impl/InlineStreamGuard.h
  /home/loser/libtorch/include/c10/core/impl/LocalDispatchKeySet.h
  /home/loser/libtorch/include/c10/core/impl/PyInterpreter.h
- /home/loser/libtorch/include/c10/core/impl/PyInterpreterHooks.h
  /home/loser/libtorch/include/c10/core/impl/PyObjectSlot.h
  /home/loser/libtorch/include/c10/core/impl/PythonDispatcherTLS.h
  /home/loser/libtorch/include/c10/core/impl/SizesAndStrides.h
@@ -4517,12 +4430,14 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/c10/core/impl/VirtualGuardImpl.h
  /home/loser/libtorch/include/c10/macros/Export.h
  /home/loser/libtorch/include/c10/macros/Macros.h
+ /home/loser/libtorch/include/c10/macros/cmake_macros.h
  /home/loser/libtorch/include/c10/util/AlignOf.h
- /home/loser/libtorch/include/c10/util/ApproximateClock.h
  /home/loser/libtorch/include/c10/util/ArrayRef.h
+ /home/loser/libtorch/include/c10/util/BFloat16-inl.h
  /home/loser/libtorch/include/c10/util/BFloat16.h
  /home/loser/libtorch/include/c10/util/Backtrace.h
  /home/loser/libtorch/include/c10/util/Bitset.h
+ /home/loser/libtorch/include/c10/util/C++17.h
  /home/loser/libtorch/include/c10/util/CallOnce.h
  /home/loser/libtorch/include/c10/util/ConstexprCrc.h
  /home/loser/libtorch/include/c10/util/Deprecated.h
@@ -4532,13 +4447,19 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/c10/util/ExclusivelyOwnedTensorTraits.h
  /home/loser/libtorch/include/c10/util/FbcodeMaps.h
  /home/loser/libtorch/include/c10/util/Flags.h
- /home/loser/libtorch/include/c10/util/Float4_e2m1fn_x2.h
+ /home/loser/libtorch/include/c10/util/Float8_e4m3fn-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e4m3fn.h
+ /home/loser/libtorch/include/c10/util/Float8_e4m3fnuz-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e4m3fnuz.h
+ /home/loser/libtorch/include/c10/util/Float8_e5m2-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e5m2.h
+ /home/loser/libtorch/include/c10/util/Float8_e5m2fnuz-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e5m2fnuz.h
+ /home/loser/libtorch/include/c10/util/Float8_e8m0fnu-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e8m0fnu.h
+ /home/loser/libtorch/include/c10/util/Float8_fnuz_cvt.h
  /home/loser/libtorch/include/c10/util/FunctionRef.h
+ /home/loser/libtorch/include/c10/util/Half-inl.h
  /home/loser/libtorch/include/c10/util/Half.h
  /home/loser/libtorch/include/c10/util/IdWrapper.h
  /home/loser/libtorch/include/c10/util/Lazy.h
@@ -4571,11 +4492,11 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/c10/util/complex_utils.h
  /home/loser/libtorch/include/c10/util/env.h
  /home/loser/libtorch/include/c10/util/flat_hash_map.h
+ /home/loser/libtorch/include/c10/util/floating_point_utils.h
  /home/loser/libtorch/include/c10/util/hash.h
  /home/loser/libtorch/include/c10/util/intrusive_ptr.h
  /home/loser/libtorch/include/c10/util/irange.h
  /home/loser/libtorch/include/c10/util/llvmMathExtras.h
- /home/loser/libtorch/include/c10/util/logging_common.h
  /home/loser/libtorch/include/c10/util/logging_is_not_google_glog.h
  /home/loser/libtorch/include/c10/util/order_preserving_flat_hash_map.h
  /home/loser/libtorch/include/c10/util/overflows.h
@@ -4811,7 +4732,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/torch/csrc/jit/serialization/import.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/pickle.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/pickler.h
- /home/loser/libtorch/include/torch/csrc/jit/serialization/pickler_helper.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/unpickler.h
  /home/loser/libtorch/include/torch/csrc/profiler/api.h
  /home/loser/libtorch/include/torch/csrc/profiler/events.h
@@ -4824,42 +4744,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/torch/csrc/utils/variadic.h
  /home/loser/libtorch/include/torch/custom_class.h
  /home/loser/libtorch/include/torch/custom_class_detail.h
- /home/loser/libtorch/include/torch/headeronly/core/DeviceType.h
- /home/loser/libtorch/include/torch/headeronly/core/Dispatch.h
- /home/loser/libtorch/include/torch/headeronly/core/Layout.h
- /home/loser/libtorch/include/torch/headeronly/core/MemoryFormat.h
- /home/loser/libtorch/include/torch/headeronly/core/ScalarType.h
- /home/loser/libtorch/include/torch/headeronly/core/TensorAccessor.h
- /home/loser/libtorch/include/torch/headeronly/core/enum_tag.h
- /home/loser/libtorch/include/torch/headeronly/macros/Export.h
- /home/loser/libtorch/include/torch/headeronly/macros/Macros.h
- /home/loser/libtorch/include/torch/headeronly/macros/cmake_macros.h
- /home/loser/libtorch/include/torch/headeronly/util/BFloat16.h
- /home/loser/libtorch/include/torch/headeronly/util/Deprecated.h
- /home/loser/libtorch/include/torch/headeronly/util/Exception.h
- /home/loser/libtorch/include/torch/headeronly/util/Float4_e2m1fn_x2.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e4m3fn.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e4m3fnuz.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e5m2.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e5m2fnuz.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e8m0fnu.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_fnuz_cvt.h
- /home/loser/libtorch/include/torch/headeronly/util/Half.h
- /home/loser/libtorch/include/torch/headeronly/util/HeaderOnlyArrayRef.h
- /home/loser/libtorch/include/torch/headeronly/util/Metaprogramming.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeList.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeSafeSignMath.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeTraits.h
- /home/loser/libtorch/include/torch/headeronly/util/bit_cast.h
- /home/loser/libtorch/include/torch/headeronly/util/bits.h
- /home/loser/libtorch/include/torch/headeronly/util/complex.h
- /home/loser/libtorch/include/torch/headeronly/util/floating_point_utils.h
- /home/loser/libtorch/include/torch/headeronly/util/qint32.h
- /home/loser/libtorch/include/torch/headeronly/util/qint8.h
- /home/loser/libtorch/include/torch/headeronly/util/quint2x4.h
- /home/loser/libtorch/include/torch/headeronly/util/quint4x2.h
- /home/loser/libtorch/include/torch/headeronly/util/quint8.h
- /home/loser/libtorch/include/torch/headeronly/version.h
  /home/loser/libtorch/include/torch/library.h
  /home/loser/libtorch/include/torch/script.h
  /opt/ros/noetic/include/gazebo_msgs/ModelState.h
@@ -6592,86 +6476,17 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /usr/include/x86_64-linux-gnu/sys/ucontext.h
  /usr/include/x86_64-linux-gnu/sys/uio.h
  /usr/include/x86_64-linux-gnu/sys/un.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/adxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/ammintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124fmapsintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124vnniwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bitalgintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512cdintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512dqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512erintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512fintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmavlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512pfintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2vlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmiintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmivlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlbwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vldqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnniintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnnivlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqvlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/bmi2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/bmiintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/cetintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/cldemoteintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clflushoptintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clwbintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clzerointrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/emmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/f16cintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/float.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fma4intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fmaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fxsrintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/gfniintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/ia32intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/immintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/limits.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/lwpintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/lzcntintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/mm3dnow.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/mm_malloc.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/mmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/movdirintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/mwaitxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pconfigintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pkuintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/popcntintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/prfchwintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/quadmath.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/rdseedintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/rtmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/sgxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/shaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/smmintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stddef.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdint.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/syslimits.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/tbmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/tmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/vaesintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/vpclmulqdqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/waitpkgintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/wbnoinvdintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/wmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/x86intrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/xmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xopintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavecintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveoptintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavesintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xtestintrin.h
  /usr/local/include/eigen3/Eigen/Cholesky
  /usr/local/include/eigen3/Eigen/Core
  /usr/local/include/eigen3/Eigen/Dense
@@ -16263,7 +16078,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/Version.h
  /home/loser/libtorch/include/ATen/WrapDimUtils.h
  /home/loser/libtorch/include/ATen/WrapDimUtilsMulti.h
- /home/loser/libtorch/include/ATen/accelerator/Graph.h
  /home/loser/libtorch/include/ATen/core/ATenGeneral.h
  /home/loser/libtorch/include/ATen/core/ATenOpList.h
  /home/loser/libtorch/include/ATen/core/ATen_fwd.h
@@ -16277,7 +16091,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/core/Formatting.h
  /home/loser/libtorch/include/ATen/core/Generator.h
  /home/loser/libtorch/include/ATen/core/GeneratorForPrivateuseone.h
- /home/loser/libtorch/include/ATen/core/GraphImplInterface.h
  /home/loser/libtorch/include/ATen/core/IListRef.h
  /home/loser/libtorch/include/ATen/core/IListRef_inl.h
  /home/loser/libtorch/include/ATen/core/LegacyTypeDispatch.h
@@ -16350,7 +16163,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/detail/MPSHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/MTIAHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/PrivateUse1HooksInterface.h
- /home/loser/libtorch/include/ATen/detail/XLAHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/XPUHooksInterface.h
  /home/loser/libtorch/include/ATen/ops/_adaptive_avg_pool2d.h
  /home/loser/libtorch/include/ATen/ops/_adaptive_avg_pool2d_backward.h
@@ -16517,9 +16329,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_native.h
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_ops.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward_native.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward_ops.h
@@ -16645,9 +16454,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_flash_attention_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_native.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace_native.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace_ops.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_ops.h
  /home/loser/libtorch/include/ATen/ops/_foobar.h
  /home/loser/libtorch/include/ATen/ops/_foobar_native.h
@@ -16682,9 +16488,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min.h
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min_ops.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone_native.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone_ops.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy_ops.h
@@ -16754,9 +16557,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_foreach_pow.h
  /home/loser/libtorch/include/ATen/ops/_foreach_pow_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_pow_ops.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum_native.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum_ops.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal_ops.h
@@ -16823,12 +16623,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper.h
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper_native.h
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper_ops.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward_ops.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_native.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_ops.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice_native.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice_ops.h
@@ -16850,9 +16644,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_native.h
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_ops.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm_native.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm_ops.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type_native.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type_ops.h
@@ -17098,18 +16889,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_pdist_forward.h
  /home/loser/libtorch/include/ATen/ops/_pdist_forward_native.h
  /home/loser/libtorch/include/ATen/ops/_pdist_forward_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform_ops.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory_native.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory_ops.h
@@ -17193,15 +16972,9 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm.h
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2_native.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2_ops.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2_native.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2_ops.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward_native.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward_ops.h
@@ -17484,14 +17257,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_meta.h
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_native.h
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_ops.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_meta.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_ops.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_meta.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_native.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_ops.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward_meta.h
@@ -17522,9 +17287,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight.h
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_native.h
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_ops.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss_native.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss_ops.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices_native.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices_ops.h
@@ -17561,8 +17323,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_for_cpu_ops.h
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros.h
- /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros_ops.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm_ops.h
@@ -18206,9 +17966,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/digamma_meta.h
  /home/loser/libtorch/include/ATen/ops/digamma_native.h
  /home/loser/libtorch/include/ATen/ops/digamma_ops.h
- /home/loser/libtorch/include/ATen/ops/dim.h
- /home/loser/libtorch/include/ATen/ops/dim_native.h
- /home/loser/libtorch/include/ATen/ops/dim_ops.h
  /home/loser/libtorch/include/ATen/ops/dist.h
  /home/loser/libtorch/include/ATen/ops/dist_native.h
  /home/loser/libtorch/include/ATen/ops/dist_ops.h
@@ -18548,9 +18305,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/ger.h
  /home/loser/libtorch/include/ATen/ops/ger_native.h
  /home/loser/libtorch/include/ATen/ops/ger_ops.h
- /home/loser/libtorch/include/ATen/ops/get_device.h
- /home/loser/libtorch/include/ATen/ops/get_device_native.h
- /home/loser/libtorch/include/ATen/ops/get_device_ops.h
  /home/loser/libtorch/include/ATen/ops/glu.h
  /home/loser/libtorch/include/ATen/ops/glu_backward.h
  /home/loser/libtorch/include/ATen/ops/glu_backward_jvp.h
@@ -18635,10 +18389,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/hardtanh_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/hardtanh_native.h
  /home/loser/libtorch/include/ATen/ops/hardtanh_ops.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_meta.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_native.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_ops.h
  /home/loser/libtorch/include/ATen/ops/heaviside.h
  /home/loser/libtorch/include/ATen/ops/heaviside_meta.h
  /home/loser/libtorch/include/ATen/ops/heaviside_native.h
@@ -18750,9 +18500,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/is_conj.h
  /home/loser/libtorch/include/ATen/ops/is_conj_native.h
  /home/loser/libtorch/include/ATen/ops/is_conj_ops.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous_native.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous_ops.h
  /home/loser/libtorch/include/ATen/ops/is_distributed.h
  /home/loser/libtorch/include/ATen/ops/is_distributed_native.h
  /home/loser/libtorch/include/ATen/ops/is_distributed_ops.h
@@ -18879,9 +18626,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/lift_fresh_ops.h
  /home/loser/libtorch/include/ATen/ops/lift_native.h
  /home/loser/libtorch/include/ATen/ops/lift_ops.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum_native.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum_ops.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky_ex.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky_ex_meta.h
@@ -19238,9 +18982,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose.h
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose_native.h
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose_ops.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss_native.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss_ops.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution_native.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution_ops.h
@@ -19494,9 +19235,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/nuclear_norm.h
  /home/loser/libtorch/include/ATen/ops/nuclear_norm_native.h
  /home/loser/libtorch/include/ATen/ops/nuclear_norm_ops.h
- /home/loser/libtorch/include/ATen/ops/numel.h
- /home/loser/libtorch/include/ATen/ops/numel_native.h
- /home/loser/libtorch/include/ATen/ops/numel_ops.h
  /home/loser/libtorch/include/ATen/ops/numpy_T.h
  /home/loser/libtorch/include/ATen/ops/numpy_T_native.h
  /home/loser/libtorch/include/ATen/ops/numpy_T_ops.h
@@ -20281,9 +20019,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/stft.h
  /home/loser/libtorch/include/ATen/ops/stft_native.h
  /home/loser/libtorch/include/ATen/ops/stft_ops.h
- /home/loser/libtorch/include/ATen/ops/storage_offset.h
- /home/loser/libtorch/include/ATen/ops/storage_offset_native.h
- /home/loser/libtorch/include/ATen/ops/storage_offset_ops.h
  /home/loser/libtorch/include/ATen/ops/stride.h
  /home/loser/libtorch/include/ATen/ops/stride_native.h
  /home/loser/libtorch/include/ATen/ops/stride_ops.h
@@ -20316,9 +20051,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_for_size_ops.h
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_native.h
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_ops.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous_native.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous_ops.h
  /home/loser/libtorch/include/ATen/ops/sym_numel.h
  /home/loser/libtorch/include/ATen/ops/sym_numel_native.h
  /home/loser/libtorch/include/ATen/ops/sym_numel_ops.h
@@ -20637,11 +20369,9 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/core/Allocator.h
  /home/loser/libtorch/include/c10/core/AutogradState.h
  /home/loser/libtorch/include/c10/core/Backend.h
- /home/loser/libtorch/include/c10/core/CachingDeviceAllocator.h
  /home/loser/libtorch/include/c10/core/CompileTimeFunctionPointer.h
  /home/loser/libtorch/include/c10/core/DefaultDtype.h
  /home/loser/libtorch/include/c10/core/Device.h
- /home/loser/libtorch/include/c10/core/DeviceCapability.h
  /home/loser/libtorch/include/c10/core/DeviceGuard.h
  /home/loser/libtorch/include/c10/core/DeviceType.h
  /home/loser/libtorch/include/c10/core/DispatchKey.h
@@ -20675,7 +20405,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/core/TensorOptions.h
  /home/loser/libtorch/include/c10/core/UndefinedTensorImpl.h
  /home/loser/libtorch/include/c10/core/WrapDimMinimal.h
- /home/loser/libtorch/include/c10/core/alignment.h
  /home/loser/libtorch/include/c10/core/impl/COW.h
  /home/loser/libtorch/include/c10/core/impl/COWDeleter.h
  /home/loser/libtorch/include/c10/core/impl/DeviceGuardImplInterface.h
@@ -20685,7 +20414,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/core/impl/InlineStreamGuard.h
  /home/loser/libtorch/include/c10/core/impl/LocalDispatchKeySet.h
  /home/loser/libtorch/include/c10/core/impl/PyInterpreter.h
- /home/loser/libtorch/include/c10/core/impl/PyInterpreterHooks.h
  /home/loser/libtorch/include/c10/core/impl/PyObjectSlot.h
  /home/loser/libtorch/include/c10/core/impl/PythonDispatcherTLS.h
  /home/loser/libtorch/include/c10/core/impl/SizesAndStrides.h
@@ -20693,12 +20421,14 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/core/impl/VirtualGuardImpl.h
  /home/loser/libtorch/include/c10/macros/Export.h
  /home/loser/libtorch/include/c10/macros/Macros.h
+ /home/loser/libtorch/include/c10/macros/cmake_macros.h
  /home/loser/libtorch/include/c10/util/AlignOf.h
- /home/loser/libtorch/include/c10/util/ApproximateClock.h
  /home/loser/libtorch/include/c10/util/ArrayRef.h
+ /home/loser/libtorch/include/c10/util/BFloat16-inl.h
  /home/loser/libtorch/include/c10/util/BFloat16.h
  /home/loser/libtorch/include/c10/util/Backtrace.h
  /home/loser/libtorch/include/c10/util/Bitset.h
+ /home/loser/libtorch/include/c10/util/C++17.h
  /home/loser/libtorch/include/c10/util/CallOnce.h
  /home/loser/libtorch/include/c10/util/ConstexprCrc.h
  /home/loser/libtorch/include/c10/util/Deprecated.h
@@ -20708,13 +20438,19 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/util/ExclusivelyOwnedTensorTraits.h
  /home/loser/libtorch/include/c10/util/FbcodeMaps.h
  /home/loser/libtorch/include/c10/util/Flags.h
- /home/loser/libtorch/include/c10/util/Float4_e2m1fn_x2.h
+ /home/loser/libtorch/include/c10/util/Float8_e4m3fn-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e4m3fn.h
+ /home/loser/libtorch/include/c10/util/Float8_e4m3fnuz-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e4m3fnuz.h
+ /home/loser/libtorch/include/c10/util/Float8_e5m2-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e5m2.h
+ /home/loser/libtorch/include/c10/util/Float8_e5m2fnuz-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e5m2fnuz.h
+ /home/loser/libtorch/include/c10/util/Float8_e8m0fnu-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e8m0fnu.h
+ /home/loser/libtorch/include/c10/util/Float8_fnuz_cvt.h
  /home/loser/libtorch/include/c10/util/FunctionRef.h
+ /home/loser/libtorch/include/c10/util/Half-inl.h
  /home/loser/libtorch/include/c10/util/Half.h
  /home/loser/libtorch/include/c10/util/IdWrapper.h
  /home/loser/libtorch/include/c10/util/Lazy.h
@@ -20747,11 +20483,11 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/util/complex_utils.h
  /home/loser/libtorch/include/c10/util/env.h
  /home/loser/libtorch/include/c10/util/flat_hash_map.h
+ /home/loser/libtorch/include/c10/util/floating_point_utils.h
  /home/loser/libtorch/include/c10/util/hash.h
  /home/loser/libtorch/include/c10/util/intrusive_ptr.h
  /home/loser/libtorch/include/c10/util/irange.h
  /home/loser/libtorch/include/c10/util/llvmMathExtras.h
- /home/loser/libtorch/include/c10/util/logging_common.h
  /home/loser/libtorch/include/c10/util/logging_is_not_google_glog.h
  /home/loser/libtorch/include/c10/util/order_preserving_flat_hash_map.h
  /home/loser/libtorch/include/c10/util/overflows.h
@@ -20987,7 +20723,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/torch/csrc/jit/serialization/import.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/pickle.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/pickler.h
- /home/loser/libtorch/include/torch/csrc/jit/serialization/pickler_helper.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/unpickler.h
  /home/loser/libtorch/include/torch/csrc/profiler/api.h
  /home/loser/libtorch/include/torch/csrc/profiler/events.h
@@ -21000,42 +20735,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/torch/csrc/utils/variadic.h
  /home/loser/libtorch/include/torch/custom_class.h
  /home/loser/libtorch/include/torch/custom_class_detail.h
- /home/loser/libtorch/include/torch/headeronly/core/DeviceType.h
- /home/loser/libtorch/include/torch/headeronly/core/Dispatch.h
- /home/loser/libtorch/include/torch/headeronly/core/Layout.h
- /home/loser/libtorch/include/torch/headeronly/core/MemoryFormat.h
- /home/loser/libtorch/include/torch/headeronly/core/ScalarType.h
- /home/loser/libtorch/include/torch/headeronly/core/TensorAccessor.h
- /home/loser/libtorch/include/torch/headeronly/core/enum_tag.h
- /home/loser/libtorch/include/torch/headeronly/macros/Export.h
- /home/loser/libtorch/include/torch/headeronly/macros/Macros.h
- /home/loser/libtorch/include/torch/headeronly/macros/cmake_macros.h
- /home/loser/libtorch/include/torch/headeronly/util/BFloat16.h
- /home/loser/libtorch/include/torch/headeronly/util/Deprecated.h
- /home/loser/libtorch/include/torch/headeronly/util/Exception.h
- /home/loser/libtorch/include/torch/headeronly/util/Float4_e2m1fn_x2.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e4m3fn.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e4m3fnuz.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e5m2.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e5m2fnuz.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e8m0fnu.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_fnuz_cvt.h
- /home/loser/libtorch/include/torch/headeronly/util/Half.h
- /home/loser/libtorch/include/torch/headeronly/util/HeaderOnlyArrayRef.h
- /home/loser/libtorch/include/torch/headeronly/util/Metaprogramming.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeList.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeSafeSignMath.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeTraits.h
- /home/loser/libtorch/include/torch/headeronly/util/bit_cast.h
- /home/loser/libtorch/include/torch/headeronly/util/bits.h
- /home/loser/libtorch/include/torch/headeronly/util/complex.h
- /home/loser/libtorch/include/torch/headeronly/util/floating_point_utils.h
- /home/loser/libtorch/include/torch/headeronly/util/qint32.h
- /home/loser/libtorch/include/torch/headeronly/util/qint8.h
- /home/loser/libtorch/include/torch/headeronly/util/quint2x4.h
- /home/loser/libtorch/include/torch/headeronly/util/quint4x2.h
- /home/loser/libtorch/include/torch/headeronly/util/quint8.h
- /home/loser/libtorch/include/torch/headeronly/version.h
  /home/loser/libtorch/include/torch/library.h
  /home/loser/libtorch/include/torch/script.h
  /opt/ros/noetic/include/geometry_msgs/Twist.h
@@ -22740,86 +22439,17 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /usr/include/x86_64-linux-gnu/sys/ucontext.h
  /usr/include/x86_64-linux-gnu/sys/uio.h
  /usr/include/x86_64-linux-gnu/sys/un.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/adxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/ammintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124fmapsintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124vnniwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bitalgintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512cdintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512dqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512erintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512fintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmavlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512pfintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2vlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmiintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmivlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlbwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vldqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnniintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnnivlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqvlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/bmi2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/bmiintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/cetintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/cldemoteintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clflushoptintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clwbintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clzerointrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/emmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/f16cintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/float.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fma4intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fmaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fxsrintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/gfniintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/ia32intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/immintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/limits.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/lwpintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/lzcntintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/mm3dnow.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/mm_malloc.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/mmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/movdirintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/mwaitxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pconfigintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pkuintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/popcntintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/prfchwintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/quadmath.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/rdseedintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/rtmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/sgxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/shaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/smmintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stddef.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdint.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/syslimits.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/tbmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/tmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/vaesintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/vpclmulqdqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/waitpkgintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/wbnoinvdintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/wmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/x86intrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/xmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xopintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavecintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveoptintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavesintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xtestintrin.h
  /usr/local/include/eigen3/Eigen/Cholesky
  /usr/local/include/eigen3/Eigen/Core
  /usr/local/include/eigen3/Eigen/Dense
@@ -26797,7 +26427,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/Version.h
  /home/loser/libtorch/include/ATen/WrapDimUtils.h
  /home/loser/libtorch/include/ATen/WrapDimUtilsMulti.h
- /home/loser/libtorch/include/ATen/accelerator/Graph.h
  /home/loser/libtorch/include/ATen/core/ATenGeneral.h
  /home/loser/libtorch/include/ATen/core/ATenOpList.h
  /home/loser/libtorch/include/ATen/core/ATen_fwd.h
@@ -26811,7 +26440,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/core/Formatting.h
  /home/loser/libtorch/include/ATen/core/Generator.h
  /home/loser/libtorch/include/ATen/core/GeneratorForPrivateuseone.h
- /home/loser/libtorch/include/ATen/core/GraphImplInterface.h
  /home/loser/libtorch/include/ATen/core/IListRef.h
  /home/loser/libtorch/include/ATen/core/IListRef_inl.h
  /home/loser/libtorch/include/ATen/core/LegacyTypeDispatch.h
@@ -26884,7 +26512,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/detail/MPSHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/MTIAHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/PrivateUse1HooksInterface.h
- /home/loser/libtorch/include/ATen/detail/XLAHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/XPUHooksInterface.h
  /home/loser/libtorch/include/ATen/ops/_adaptive_avg_pool2d.h
  /home/loser/libtorch/include/ATen/ops/_adaptive_avg_pool2d_backward.h
@@ -27051,9 +26678,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_native.h
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_ops.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward_native.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward_ops.h
@@ -27179,9 +26803,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_flash_attention_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_native.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace_native.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace_ops.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_ops.h
  /home/loser/libtorch/include/ATen/ops/_foobar.h
  /home/loser/libtorch/include/ATen/ops/_foobar_native.h
@@ -27216,9 +26837,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min.h
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min_ops.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone_native.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone_ops.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy_ops.h
@@ -27288,9 +26906,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_foreach_pow.h
  /home/loser/libtorch/include/ATen/ops/_foreach_pow_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_pow_ops.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum_native.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum_ops.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal_ops.h
@@ -27357,12 +26972,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper.h
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper_native.h
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper_ops.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward_ops.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_native.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_ops.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice_native.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice_ops.h
@@ -27384,9 +26993,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_native.h
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_ops.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm_native.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm_ops.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type_native.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type_ops.h
@@ -27632,18 +27238,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_pdist_forward.h
  /home/loser/libtorch/include/ATen/ops/_pdist_forward_native.h
  /home/loser/libtorch/include/ATen/ops/_pdist_forward_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform_ops.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory_native.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory_ops.h
@@ -27727,15 +27321,9 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm.h
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2_native.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2_ops.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2_native.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2_ops.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward_native.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward_ops.h
@@ -28018,14 +27606,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_meta.h
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_native.h
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_ops.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_meta.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_ops.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_meta.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_native.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_ops.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward_meta.h
@@ -28056,9 +27636,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight.h
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_native.h
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_ops.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss_native.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss_ops.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices_native.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices_ops.h
@@ -28095,8 +27672,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_for_cpu_ops.h
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros.h
- /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros_ops.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm_ops.h
@@ -28740,9 +28315,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/digamma_meta.h
  /home/loser/libtorch/include/ATen/ops/digamma_native.h
  /home/loser/libtorch/include/ATen/ops/digamma_ops.h
- /home/loser/libtorch/include/ATen/ops/dim.h
- /home/loser/libtorch/include/ATen/ops/dim_native.h
- /home/loser/libtorch/include/ATen/ops/dim_ops.h
  /home/loser/libtorch/include/ATen/ops/dist.h
  /home/loser/libtorch/include/ATen/ops/dist_native.h
  /home/loser/libtorch/include/ATen/ops/dist_ops.h
@@ -29082,9 +28654,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/ger.h
  /home/loser/libtorch/include/ATen/ops/ger_native.h
  /home/loser/libtorch/include/ATen/ops/ger_ops.h
- /home/loser/libtorch/include/ATen/ops/get_device.h
- /home/loser/libtorch/include/ATen/ops/get_device_native.h
- /home/loser/libtorch/include/ATen/ops/get_device_ops.h
  /home/loser/libtorch/include/ATen/ops/glu.h
  /home/loser/libtorch/include/ATen/ops/glu_backward.h
  /home/loser/libtorch/include/ATen/ops/glu_backward_jvp.h
@@ -29169,10 +28738,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/hardtanh_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/hardtanh_native.h
  /home/loser/libtorch/include/ATen/ops/hardtanh_ops.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_meta.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_native.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_ops.h
  /home/loser/libtorch/include/ATen/ops/heaviside.h
  /home/loser/libtorch/include/ATen/ops/heaviside_meta.h
  /home/loser/libtorch/include/ATen/ops/heaviside_native.h
@@ -29284,9 +28849,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/is_conj.h
  /home/loser/libtorch/include/ATen/ops/is_conj_native.h
  /home/loser/libtorch/include/ATen/ops/is_conj_ops.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous_native.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous_ops.h
  /home/loser/libtorch/include/ATen/ops/is_distributed.h
  /home/loser/libtorch/include/ATen/ops/is_distributed_native.h
  /home/loser/libtorch/include/ATen/ops/is_distributed_ops.h
@@ -29413,9 +28975,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/lift_fresh_ops.h
  /home/loser/libtorch/include/ATen/ops/lift_native.h
  /home/loser/libtorch/include/ATen/ops/lift_ops.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum_native.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum_ops.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky_ex.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky_ex_meta.h
@@ -29772,9 +29331,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose.h
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose_native.h
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose_ops.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss_native.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss_ops.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution_native.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution_ops.h
@@ -30028,9 +29584,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/nuclear_norm.h
  /home/loser/libtorch/include/ATen/ops/nuclear_norm_native.h
  /home/loser/libtorch/include/ATen/ops/nuclear_norm_ops.h
- /home/loser/libtorch/include/ATen/ops/numel.h
- /home/loser/libtorch/include/ATen/ops/numel_native.h
- /home/loser/libtorch/include/ATen/ops/numel_ops.h
  /home/loser/libtorch/include/ATen/ops/numpy_T.h
  /home/loser/libtorch/include/ATen/ops/numpy_T_native.h
  /home/loser/libtorch/include/ATen/ops/numpy_T_ops.h
@@ -30815,9 +30368,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/stft.h
  /home/loser/libtorch/include/ATen/ops/stft_native.h
  /home/loser/libtorch/include/ATen/ops/stft_ops.h
- /home/loser/libtorch/include/ATen/ops/storage_offset.h
- /home/loser/libtorch/include/ATen/ops/storage_offset_native.h
- /home/loser/libtorch/include/ATen/ops/storage_offset_ops.h
  /home/loser/libtorch/include/ATen/ops/stride.h
  /home/loser/libtorch/include/ATen/ops/stride_native.h
  /home/loser/libtorch/include/ATen/ops/stride_ops.h
@@ -30850,9 +30400,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_for_size_ops.h
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_native.h
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_ops.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous_native.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous_ops.h
  /home/loser/libtorch/include/ATen/ops/sym_numel.h
  /home/loser/libtorch/include/ATen/ops/sym_numel_native.h
  /home/loser/libtorch/include/ATen/ops/sym_numel_ops.h
@@ -31171,11 +30718,9 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/core/Allocator.h
  /home/loser/libtorch/include/c10/core/AutogradState.h
  /home/loser/libtorch/include/c10/core/Backend.h
- /home/loser/libtorch/include/c10/core/CachingDeviceAllocator.h
  /home/loser/libtorch/include/c10/core/CompileTimeFunctionPointer.h
  /home/loser/libtorch/include/c10/core/DefaultDtype.h
  /home/loser/libtorch/include/c10/core/Device.h
- /home/loser/libtorch/include/c10/core/DeviceCapability.h
  /home/loser/libtorch/include/c10/core/DeviceGuard.h
  /home/loser/libtorch/include/c10/core/DeviceType.h
  /home/loser/libtorch/include/c10/core/DispatchKey.h
@@ -31209,7 +30754,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/core/TensorOptions.h
  /home/loser/libtorch/include/c10/core/UndefinedTensorImpl.h
  /home/loser/libtorch/include/c10/core/WrapDimMinimal.h
- /home/loser/libtorch/include/c10/core/alignment.h
  /home/loser/libtorch/include/c10/core/impl/COW.h
  /home/loser/libtorch/include/c10/core/impl/COWDeleter.h
  /home/loser/libtorch/include/c10/core/impl/DeviceGuardImplInterface.h
@@ -31219,7 +30763,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/core/impl/InlineStreamGuard.h
  /home/loser/libtorch/include/c10/core/impl/LocalDispatchKeySet.h
  /home/loser/libtorch/include/c10/core/impl/PyInterpreter.h
- /home/loser/libtorch/include/c10/core/impl/PyInterpreterHooks.h
  /home/loser/libtorch/include/c10/core/impl/PyObjectSlot.h
  /home/loser/libtorch/include/c10/core/impl/PythonDispatcherTLS.h
  /home/loser/libtorch/include/c10/core/impl/SizesAndStrides.h
@@ -31227,12 +30770,14 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/core/impl/VirtualGuardImpl.h
  /home/loser/libtorch/include/c10/macros/Export.h
  /home/loser/libtorch/include/c10/macros/Macros.h
+ /home/loser/libtorch/include/c10/macros/cmake_macros.h
  /home/loser/libtorch/include/c10/util/AlignOf.h
- /home/loser/libtorch/include/c10/util/ApproximateClock.h
  /home/loser/libtorch/include/c10/util/ArrayRef.h
+ /home/loser/libtorch/include/c10/util/BFloat16-inl.h
  /home/loser/libtorch/include/c10/util/BFloat16.h
  /home/loser/libtorch/include/c10/util/Backtrace.h
  /home/loser/libtorch/include/c10/util/Bitset.h
+ /home/loser/libtorch/include/c10/util/C++17.h
  /home/loser/libtorch/include/c10/util/CallOnce.h
  /home/loser/libtorch/include/c10/util/ConstexprCrc.h
  /home/loser/libtorch/include/c10/util/Deprecated.h
@@ -31241,13 +30786,19 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/util/ExclusivelyOwned.h
  /home/loser/libtorch/include/c10/util/ExclusivelyOwnedTensorTraits.h
  /home/loser/libtorch/include/c10/util/Flags.h
- /home/loser/libtorch/include/c10/util/Float4_e2m1fn_x2.h
+ /home/loser/libtorch/include/c10/util/Float8_e4m3fn-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e4m3fn.h
+ /home/loser/libtorch/include/c10/util/Float8_e4m3fnuz-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e4m3fnuz.h
+ /home/loser/libtorch/include/c10/util/Float8_e5m2-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e5m2.h
+ /home/loser/libtorch/include/c10/util/Float8_e5m2fnuz-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e5m2fnuz.h
+ /home/loser/libtorch/include/c10/util/Float8_e8m0fnu-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e8m0fnu.h
+ /home/loser/libtorch/include/c10/util/Float8_fnuz_cvt.h
  /home/loser/libtorch/include/c10/util/FunctionRef.h
+ /home/loser/libtorch/include/c10/util/Half-inl.h
  /home/loser/libtorch/include/c10/util/Half.h
  /home/loser/libtorch/include/c10/util/IdWrapper.h
  /home/loser/libtorch/include/c10/util/Lazy.h
@@ -31280,11 +30831,11 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/c10/util/complex_utils.h
  /home/loser/libtorch/include/c10/util/env.h
  /home/loser/libtorch/include/c10/util/flat_hash_map.h
+ /home/loser/libtorch/include/c10/util/floating_point_utils.h
  /home/loser/libtorch/include/c10/util/hash.h
  /home/loser/libtorch/include/c10/util/intrusive_ptr.h
  /home/loser/libtorch/include/c10/util/irange.h
  /home/loser/libtorch/include/c10/util/llvmMathExtras.h
- /home/loser/libtorch/include/c10/util/logging_common.h
  /home/loser/libtorch/include/c10/util/logging_is_not_google_glog.h
  /home/loser/libtorch/include/c10/util/order_preserving_flat_hash_map.h
  /home/loser/libtorch/include/c10/util/overflows.h
@@ -31511,42 +31062,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /home/loser/libtorch/include/torch/csrc/utils/variadic.h
  /home/loser/libtorch/include/torch/custom_class.h
  /home/loser/libtorch/include/torch/custom_class_detail.h
- /home/loser/libtorch/include/torch/headeronly/core/DeviceType.h
- /home/loser/libtorch/include/torch/headeronly/core/Dispatch.h
- /home/loser/libtorch/include/torch/headeronly/core/Layout.h
- /home/loser/libtorch/include/torch/headeronly/core/MemoryFormat.h
- /home/loser/libtorch/include/torch/headeronly/core/ScalarType.h
- /home/loser/libtorch/include/torch/headeronly/core/TensorAccessor.h
- /home/loser/libtorch/include/torch/headeronly/core/enum_tag.h
- /home/loser/libtorch/include/torch/headeronly/macros/Export.h
- /home/loser/libtorch/include/torch/headeronly/macros/Macros.h
- /home/loser/libtorch/include/torch/headeronly/macros/cmake_macros.h
- /home/loser/libtorch/include/torch/headeronly/util/BFloat16.h
- /home/loser/libtorch/include/torch/headeronly/util/Deprecated.h
- /home/loser/libtorch/include/torch/headeronly/util/Exception.h
- /home/loser/libtorch/include/torch/headeronly/util/Float4_e2m1fn_x2.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e4m3fn.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e4m3fnuz.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e5m2.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e5m2fnuz.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e8m0fnu.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_fnuz_cvt.h
- /home/loser/libtorch/include/torch/headeronly/util/Half.h
- /home/loser/libtorch/include/torch/headeronly/util/HeaderOnlyArrayRef.h
- /home/loser/libtorch/include/torch/headeronly/util/Metaprogramming.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeList.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeSafeSignMath.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeTraits.h
- /home/loser/libtorch/include/torch/headeronly/util/bit_cast.h
- /home/loser/libtorch/include/torch/headeronly/util/bits.h
- /home/loser/libtorch/include/torch/headeronly/util/complex.h
- /home/loser/libtorch/include/torch/headeronly/util/floating_point_utils.h
- /home/loser/libtorch/include/torch/headeronly/util/qint32.h
- /home/loser/libtorch/include/torch/headeronly/util/qint8.h
- /home/loser/libtorch/include/torch/headeronly/util/quint2x4.h
- /home/loser/libtorch/include/torch/headeronly/util/quint4x2.h
- /home/loser/libtorch/include/torch/headeronly/util/quint8.h
- /home/loser/libtorch/include/torch/headeronly/version.h
  /home/loser/libtorch/include/torch/library.h
  /opt/ros/noetic/include/geometry_msgs/Twist.h
  /opt/ros/noetic/include/geometry_msgs/Vector3.h
@@ -33250,86 +32765,17 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/Sta
  /usr/include/x86_64-linux-gnu/sys/ucontext.h
  /usr/include/x86_64-linux-gnu/sys/uio.h
  /usr/include/x86_64-linux-gnu/sys/un.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/adxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/ammintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124fmapsintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124vnniwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bitalgintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512cdintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512dqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512erintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512fintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmavlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512pfintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2vlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmiintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmivlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlbwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vldqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnniintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnnivlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqvlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/bmi2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/bmiintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/cetintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/cldemoteintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clflushoptintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clwbintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clzerointrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/emmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/f16cintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/float.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fma4intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fmaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fxsrintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/gfniintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/ia32intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/immintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/limits.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/lwpintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/lzcntintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/mm3dnow.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/mm_malloc.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/mmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/movdirintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/mwaitxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pconfigintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pkuintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/popcntintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/prfchwintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/quadmath.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/rdseedintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/rtmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/sgxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/shaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/smmintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stddef.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdint.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/syslimits.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/tbmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/tmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/vaesintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/vpclmulqdqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/waitpkgintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/wbnoinvdintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/wmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/x86intrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/xmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xopintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavecintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveoptintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavesintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xtestintrin.h
  /usr/local/include/eigen3/Eigen/Cholesky
  /usr/local/include/eigen3/Eigen/Core
  /usr/local/include/eigen3/Eigen/Dense
@@ -39153,7 +38599,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/Version.h
  /home/loser/libtorch/include/ATen/WrapDimUtils.h
  /home/loser/libtorch/include/ATen/WrapDimUtilsMulti.h
- /home/loser/libtorch/include/ATen/accelerator/Graph.h
  /home/loser/libtorch/include/ATen/core/ATenGeneral.h
  /home/loser/libtorch/include/ATen/core/ATenOpList.h
  /home/loser/libtorch/include/ATen/core/ATen_fwd.h
@@ -39167,7 +38612,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/core/Formatting.h
  /home/loser/libtorch/include/ATen/core/Generator.h
  /home/loser/libtorch/include/ATen/core/GeneratorForPrivateuseone.h
- /home/loser/libtorch/include/ATen/core/GraphImplInterface.h
  /home/loser/libtorch/include/ATen/core/IListRef.h
  /home/loser/libtorch/include/ATen/core/IListRef_inl.h
  /home/loser/libtorch/include/ATen/core/LegacyTypeDispatch.h
@@ -39240,7 +38684,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/detail/MPSHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/MTIAHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/PrivateUse1HooksInterface.h
- /home/loser/libtorch/include/ATen/detail/XLAHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/XPUHooksInterface.h
  /home/loser/libtorch/include/ATen/ops/_adaptive_avg_pool2d.h
  /home/loser/libtorch/include/ATen/ops/_adaptive_avg_pool2d_backward.h
@@ -39407,9 +38850,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_native.h
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_ops.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward_native.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward_ops.h
@@ -39535,9 +38975,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/_flash_attention_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_native.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace_native.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace_ops.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_ops.h
  /home/loser/libtorch/include/ATen/ops/_foobar.h
  /home/loser/libtorch/include/ATen/ops/_foobar_native.h
@@ -39572,9 +39009,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min.h
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min_ops.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone_native.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone_ops.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy_ops.h
@@ -39644,9 +39078,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/_foreach_pow.h
  /home/loser/libtorch/include/ATen/ops/_foreach_pow_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_pow_ops.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum_native.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum_ops.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal_ops.h
@@ -39713,12 +39144,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper.h
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper_native.h
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper_ops.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward_ops.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_native.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_ops.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice_native.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice_ops.h
@@ -39740,9 +39165,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_native.h
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_ops.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm_native.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm_ops.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type_native.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type_ops.h
@@ -39988,18 +39410,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/_pdist_forward.h
  /home/loser/libtorch/include/ATen/ops/_pdist_forward_native.h
  /home/loser/libtorch/include/ATen/ops/_pdist_forward_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform_ops.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory_native.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory_ops.h
@@ -40083,15 +39493,9 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm.h
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2_native.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2_ops.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2_native.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2_ops.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward_native.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward_ops.h
@@ -40374,14 +39778,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_meta.h
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_native.h
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_ops.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_meta.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_ops.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_meta.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_native.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_ops.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward_meta.h
@@ -40412,9 +39808,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight.h
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_native.h
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_ops.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss_native.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss_ops.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices_native.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices_ops.h
@@ -40451,8 +39844,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_for_cpu_ops.h
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros.h
- /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros_ops.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm_ops.h
@@ -41096,9 +40487,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/digamma_meta.h
  /home/loser/libtorch/include/ATen/ops/digamma_native.h
  /home/loser/libtorch/include/ATen/ops/digamma_ops.h
- /home/loser/libtorch/include/ATen/ops/dim.h
- /home/loser/libtorch/include/ATen/ops/dim_native.h
- /home/loser/libtorch/include/ATen/ops/dim_ops.h
  /home/loser/libtorch/include/ATen/ops/dist.h
  /home/loser/libtorch/include/ATen/ops/dist_native.h
  /home/loser/libtorch/include/ATen/ops/dist_ops.h
@@ -41438,9 +40826,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/ger.h
  /home/loser/libtorch/include/ATen/ops/ger_native.h
  /home/loser/libtorch/include/ATen/ops/ger_ops.h
- /home/loser/libtorch/include/ATen/ops/get_device.h
- /home/loser/libtorch/include/ATen/ops/get_device_native.h
- /home/loser/libtorch/include/ATen/ops/get_device_ops.h
  /home/loser/libtorch/include/ATen/ops/glu.h
  /home/loser/libtorch/include/ATen/ops/glu_backward.h
  /home/loser/libtorch/include/ATen/ops/glu_backward_jvp.h
@@ -41525,10 +40910,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/hardtanh_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/hardtanh_native.h
  /home/loser/libtorch/include/ATen/ops/hardtanh_ops.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_meta.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_native.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_ops.h
  /home/loser/libtorch/include/ATen/ops/heaviside.h
  /home/loser/libtorch/include/ATen/ops/heaviside_meta.h
  /home/loser/libtorch/include/ATen/ops/heaviside_native.h
@@ -41640,9 +41021,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/is_conj.h
  /home/loser/libtorch/include/ATen/ops/is_conj_native.h
  /home/loser/libtorch/include/ATen/ops/is_conj_ops.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous_native.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous_ops.h
  /home/loser/libtorch/include/ATen/ops/is_distributed.h
  /home/loser/libtorch/include/ATen/ops/is_distributed_native.h
  /home/loser/libtorch/include/ATen/ops/is_distributed_ops.h
@@ -41769,9 +41147,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/lift_fresh_ops.h
  /home/loser/libtorch/include/ATen/ops/lift_native.h
  /home/loser/libtorch/include/ATen/ops/lift_ops.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum_native.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum_ops.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky_ex.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky_ex_meta.h
@@ -42128,9 +41503,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose.h
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose_native.h
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose_ops.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss_native.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss_ops.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution_native.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution_ops.h
@@ -42384,9 +41756,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/nuclear_norm.h
  /home/loser/libtorch/include/ATen/ops/nuclear_norm_native.h
  /home/loser/libtorch/include/ATen/ops/nuclear_norm_ops.h
- /home/loser/libtorch/include/ATen/ops/numel.h
- /home/loser/libtorch/include/ATen/ops/numel_native.h
- /home/loser/libtorch/include/ATen/ops/numel_ops.h
  /home/loser/libtorch/include/ATen/ops/numpy_T.h
  /home/loser/libtorch/include/ATen/ops/numpy_T_native.h
  /home/loser/libtorch/include/ATen/ops/numpy_T_ops.h
@@ -43171,9 +42540,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/stft.h
  /home/loser/libtorch/include/ATen/ops/stft_native.h
  /home/loser/libtorch/include/ATen/ops/stft_ops.h
- /home/loser/libtorch/include/ATen/ops/storage_offset.h
- /home/loser/libtorch/include/ATen/ops/storage_offset_native.h
- /home/loser/libtorch/include/ATen/ops/storage_offset_ops.h
  /home/loser/libtorch/include/ATen/ops/stride.h
  /home/loser/libtorch/include/ATen/ops/stride_native.h
  /home/loser/libtorch/include/ATen/ops/stride_ops.h
@@ -43206,9 +42572,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_for_size_ops.h
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_native.h
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_ops.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous_native.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous_ops.h
  /home/loser/libtorch/include/ATen/ops/sym_numel.h
  /home/loser/libtorch/include/ATen/ops/sym_numel_native.h
  /home/loser/libtorch/include/ATen/ops/sym_numel_ops.h
@@ -43527,11 +42890,9 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/c10/core/Allocator.h
  /home/loser/libtorch/include/c10/core/AutogradState.h
  /home/loser/libtorch/include/c10/core/Backend.h
- /home/loser/libtorch/include/c10/core/CachingDeviceAllocator.h
  /home/loser/libtorch/include/c10/core/CompileTimeFunctionPointer.h
  /home/loser/libtorch/include/c10/core/DefaultDtype.h
  /home/loser/libtorch/include/c10/core/Device.h
- /home/loser/libtorch/include/c10/core/DeviceCapability.h
  /home/loser/libtorch/include/c10/core/DeviceGuard.h
  /home/loser/libtorch/include/c10/core/DeviceType.h
  /home/loser/libtorch/include/c10/core/DispatchKey.h
@@ -43565,7 +42926,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/c10/core/TensorOptions.h
  /home/loser/libtorch/include/c10/core/UndefinedTensorImpl.h
  /home/loser/libtorch/include/c10/core/WrapDimMinimal.h
- /home/loser/libtorch/include/c10/core/alignment.h
  /home/loser/libtorch/include/c10/core/impl/COW.h
  /home/loser/libtorch/include/c10/core/impl/COWDeleter.h
  /home/loser/libtorch/include/c10/core/impl/DeviceGuardImplInterface.h
@@ -43575,7 +42935,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/c10/core/impl/InlineStreamGuard.h
  /home/loser/libtorch/include/c10/core/impl/LocalDispatchKeySet.h
  /home/loser/libtorch/include/c10/core/impl/PyInterpreter.h
- /home/loser/libtorch/include/c10/core/impl/PyInterpreterHooks.h
  /home/loser/libtorch/include/c10/core/impl/PyObjectSlot.h
  /home/loser/libtorch/include/c10/core/impl/PythonDispatcherTLS.h
  /home/loser/libtorch/include/c10/core/impl/SizesAndStrides.h
@@ -43583,12 +42942,14 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/c10/core/impl/VirtualGuardImpl.h
  /home/loser/libtorch/include/c10/macros/Export.h
  /home/loser/libtorch/include/c10/macros/Macros.h
+ /home/loser/libtorch/include/c10/macros/cmake_macros.h
  /home/loser/libtorch/include/c10/util/AlignOf.h
- /home/loser/libtorch/include/c10/util/ApproximateClock.h
  /home/loser/libtorch/include/c10/util/ArrayRef.h
+ /home/loser/libtorch/include/c10/util/BFloat16-inl.h
  /home/loser/libtorch/include/c10/util/BFloat16.h
  /home/loser/libtorch/include/c10/util/Backtrace.h
  /home/loser/libtorch/include/c10/util/Bitset.h
+ /home/loser/libtorch/include/c10/util/C++17.h
  /home/loser/libtorch/include/c10/util/CallOnce.h
  /home/loser/libtorch/include/c10/util/ConstexprCrc.h
  /home/loser/libtorch/include/c10/util/Deprecated.h
@@ -43598,13 +42959,19 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/c10/util/ExclusivelyOwnedTensorTraits.h
  /home/loser/libtorch/include/c10/util/FbcodeMaps.h
  /home/loser/libtorch/include/c10/util/Flags.h
- /home/loser/libtorch/include/c10/util/Float4_e2m1fn_x2.h
+ /home/loser/libtorch/include/c10/util/Float8_e4m3fn-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e4m3fn.h
+ /home/loser/libtorch/include/c10/util/Float8_e4m3fnuz-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e4m3fnuz.h
+ /home/loser/libtorch/include/c10/util/Float8_e5m2-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e5m2.h
+ /home/loser/libtorch/include/c10/util/Float8_e5m2fnuz-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e5m2fnuz.h
+ /home/loser/libtorch/include/c10/util/Float8_e8m0fnu-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e8m0fnu.h
+ /home/loser/libtorch/include/c10/util/Float8_fnuz_cvt.h
  /home/loser/libtorch/include/c10/util/FunctionRef.h
+ /home/loser/libtorch/include/c10/util/Half-inl.h
  /home/loser/libtorch/include/c10/util/Half.h
  /home/loser/libtorch/include/c10/util/IdWrapper.h
  /home/loser/libtorch/include/c10/util/Lazy.h
@@ -43637,11 +43004,11 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/c10/util/complex_utils.h
  /home/loser/libtorch/include/c10/util/env.h
  /home/loser/libtorch/include/c10/util/flat_hash_map.h
+ /home/loser/libtorch/include/c10/util/floating_point_utils.h
  /home/loser/libtorch/include/c10/util/hash.h
  /home/loser/libtorch/include/c10/util/intrusive_ptr.h
  /home/loser/libtorch/include/c10/util/irange.h
  /home/loser/libtorch/include/c10/util/llvmMathExtras.h
- /home/loser/libtorch/include/c10/util/logging_common.h
  /home/loser/libtorch/include/c10/util/logging_is_not_google_glog.h
  /home/loser/libtorch/include/c10/util/order_preserving_flat_hash_map.h
  /home/loser/libtorch/include/c10/util/overflows.h
@@ -43877,7 +43244,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/torch/csrc/jit/serialization/import.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/pickle.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/pickler.h
- /home/loser/libtorch/include/torch/csrc/jit/serialization/pickler_helper.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/unpickler.h
  /home/loser/libtorch/include/torch/csrc/profiler/api.h
  /home/loser/libtorch/include/torch/csrc/profiler/events.h
@@ -43890,42 +43256,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /home/loser/libtorch/include/torch/csrc/utils/variadic.h
  /home/loser/libtorch/include/torch/custom_class.h
  /home/loser/libtorch/include/torch/custom_class_detail.h
- /home/loser/libtorch/include/torch/headeronly/core/DeviceType.h
- /home/loser/libtorch/include/torch/headeronly/core/Dispatch.h
- /home/loser/libtorch/include/torch/headeronly/core/Layout.h
- /home/loser/libtorch/include/torch/headeronly/core/MemoryFormat.h
- /home/loser/libtorch/include/torch/headeronly/core/ScalarType.h
- /home/loser/libtorch/include/torch/headeronly/core/TensorAccessor.h
- /home/loser/libtorch/include/torch/headeronly/core/enum_tag.h
- /home/loser/libtorch/include/torch/headeronly/macros/Export.h
- /home/loser/libtorch/include/torch/headeronly/macros/Macros.h
- /home/loser/libtorch/include/torch/headeronly/macros/cmake_macros.h
- /home/loser/libtorch/include/torch/headeronly/util/BFloat16.h
- /home/loser/libtorch/include/torch/headeronly/util/Deprecated.h
- /home/loser/libtorch/include/torch/headeronly/util/Exception.h
- /home/loser/libtorch/include/torch/headeronly/util/Float4_e2m1fn_x2.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e4m3fn.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e4m3fnuz.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e5m2.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e5m2fnuz.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e8m0fnu.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_fnuz_cvt.h
- /home/loser/libtorch/include/torch/headeronly/util/Half.h
- /home/loser/libtorch/include/torch/headeronly/util/HeaderOnlyArrayRef.h
- /home/loser/libtorch/include/torch/headeronly/util/Metaprogramming.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeList.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeSafeSignMath.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeTraits.h
- /home/loser/libtorch/include/torch/headeronly/util/bit_cast.h
- /home/loser/libtorch/include/torch/headeronly/util/bits.h
- /home/loser/libtorch/include/torch/headeronly/util/complex.h
- /home/loser/libtorch/include/torch/headeronly/util/floating_point_utils.h
- /home/loser/libtorch/include/torch/headeronly/util/qint32.h
- /home/loser/libtorch/include/torch/headeronly/util/qint8.h
- /home/loser/libtorch/include/torch/headeronly/util/quint2x4.h
- /home/loser/libtorch/include/torch/headeronly/util/quint4x2.h
- /home/loser/libtorch/include/torch/headeronly/util/quint8.h
- /home/loser/libtorch/include/torch/headeronly/version.h
  /home/loser/libtorch/include/torch/library.h
  /home/loser/libtorch/include/torch/script.h
  /opt/ros/noetic/include/geometry_msgs/Twist.h
@@ -45630,86 +44960,17 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/control
  /usr/include/x86_64-linux-gnu/sys/ucontext.h
  /usr/include/x86_64-linux-gnu/sys/uio.h
  /usr/include/x86_64-linux-gnu/sys/un.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/adxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/ammintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124fmapsintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124vnniwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bitalgintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512cdintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512dqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512erintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512fintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmavlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512pfintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2vlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmiintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmivlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlbwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vldqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnniintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnnivlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqvlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/bmi2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/bmiintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/cetintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/cldemoteintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clflushoptintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clwbintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clzerointrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/emmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/f16cintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/float.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fma4intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fmaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fxsrintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/gfniintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/ia32intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/immintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/limits.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/lwpintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/lzcntintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/mm3dnow.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/mm_malloc.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/mmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/movdirintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/mwaitxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pconfigintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pkuintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/popcntintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/prfchwintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/quadmath.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/rdseedintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/rtmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/sgxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/shaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/smmintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stddef.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdint.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/syslimits.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/tbmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/tmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/vaesintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/vpclmulqdqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/waitpkgintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/wbnoinvdintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/wmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/x86intrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/xmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xopintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavecintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveoptintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavesintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xtestintrin.h
  /usr/local/include/eigen3/Eigen/Cholesky
  /usr/local/include/eigen3/Eigen/Core
  /usr/local/include/eigen3/Eigen/Dense
@@ -52323,7 +51584,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/Version.h
  /home/loser/libtorch/include/ATen/WrapDimUtils.h
  /home/loser/libtorch/include/ATen/WrapDimUtilsMulti.h
- /home/loser/libtorch/include/ATen/accelerator/Graph.h
  /home/loser/libtorch/include/ATen/core/ATenGeneral.h
  /home/loser/libtorch/include/ATen/core/ATenOpList.h
  /home/loser/libtorch/include/ATen/core/ATen_fwd.h
@@ -52337,7 +51597,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/core/Formatting.h
  /home/loser/libtorch/include/ATen/core/Generator.h
  /home/loser/libtorch/include/ATen/core/GeneratorForPrivateuseone.h
- /home/loser/libtorch/include/ATen/core/GraphImplInterface.h
  /home/loser/libtorch/include/ATen/core/IListRef.h
  /home/loser/libtorch/include/ATen/core/IListRef_inl.h
  /home/loser/libtorch/include/ATen/core/LegacyTypeDispatch.h
@@ -52410,7 +51669,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/detail/MPSHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/MTIAHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/PrivateUse1HooksInterface.h
- /home/loser/libtorch/include/ATen/detail/XLAHooksInterface.h
  /home/loser/libtorch/include/ATen/detail/XPUHooksInterface.h
  /home/loser/libtorch/include/ATen/ops/_adaptive_avg_pool2d.h
  /home/loser/libtorch/include/ATen/ops/_adaptive_avg_pool2d_backward.h
@@ -52577,9 +51835,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_native.h
  /home/loser/libtorch/include/ATen/ops/_ctc_loss_ops.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_cudnn_attention_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward_native.h
  /home/loser/libtorch/include/ATen/ops/_cudnn_attention_forward_ops.h
@@ -52705,9 +51960,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/_flash_attention_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_native.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace_native.h
- /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_no_dropout_inplace_ops.h
  /home/loser/libtorch/include/ATen/ops/_flash_attention_forward_ops.h
  /home/loser/libtorch/include/ATen/ops/_foobar.h
  /home/loser/libtorch/include/ATen/ops/_foobar_native.h
@@ -52742,9 +51994,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min.h
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_clamp_min_ops.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone_native.h
- /home/loser/libtorch/include/ATen/ops/_foreach_clone_ops.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_copy_ops.h
@@ -52814,9 +52063,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/_foreach_pow.h
  /home/loser/libtorch/include/ATen/ops/_foreach_pow_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_pow_ops.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum_native.h
- /home/loser/libtorch/include/ATen/ops/_foreach_powsum_ops.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal_native.h
  /home/loser/libtorch/include/ATen/ops/_foreach_reciprocal_ops.h
@@ -52883,12 +52129,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper.h
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper_native.h
  /home/loser/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper_ops.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_backward_ops.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_native.h
- /home/loser/libtorch/include/ATen/ops/_fused_rms_norm_ops.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice_native.h
  /home/loser/libtorch/include/ATen/ops/_fused_sdp_choice_ops.h
@@ -52910,9 +52150,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_native.h
  /home/loser/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_ops.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm_native.h
- /home/loser/libtorch/include/ATen/ops/_grouped_mm_ops.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type_native.h
  /home/loser/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type_ops.h
@@ -53158,18 +52395,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/_pdist_forward.h
  /home/loser/libtorch/include/ATen/ops/_pdist_forward_native.h
  /home/loser/libtorch/include/ATen/ops/_pdist_forward_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_fold_in_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_key_split_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_normal_ops.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform_native.h
- /home/loser/libtorch/include/ATen/ops/_philox_uniform_ops.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory_native.h
  /home/loser/libtorch/include/ATen/ops/_pin_memory_ops.h
@@ -53253,15 +52478,9 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm.h
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2_native.h
- /home/loser/libtorch/include/ATen/ops/_scaled_grouped_mm_v2_ops.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_scaled_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2_native.h
- /home/loser/libtorch/include/ATen/ops/_scaled_mm_v2_ops.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward_native.h
  /home/loser/libtorch/include/ATen/ops/_segment_reduce_backward_ops.h
@@ -53544,14 +52763,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_meta.h
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_native.h
  /home/loser/libtorch/include/ATen/ops/_upsample_bilinear2d_aa_ops.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_meta.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_native.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_backward_ops.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_meta.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_native.h
- /home/loser/libtorch/include/ATen/ops/_upsample_lanczos2d_aa_ops.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward.h
  /home/loser/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward_meta.h
@@ -53582,9 +52793,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight.h
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_native.h
  /home/loser/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_ops.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss_native.h
- /home/loser/libtorch/include/ATen/ops/_use_miopen_ctc_loss_ops.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices_native.h
  /home/loser/libtorch/include/ATen/ops/_validate_compressed_sparse_indices_ops.h
@@ -53621,8 +52829,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_for_cpu_ops.h
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_ops.h
- /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros.h
- /home/loser/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros_ops.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm_native.h
  /home/loser/libtorch/include/ATen/ops/_weight_int8pack_mm_ops.h
@@ -54266,9 +53472,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/digamma_meta.h
  /home/loser/libtorch/include/ATen/ops/digamma_native.h
  /home/loser/libtorch/include/ATen/ops/digamma_ops.h
- /home/loser/libtorch/include/ATen/ops/dim.h
- /home/loser/libtorch/include/ATen/ops/dim_native.h
- /home/loser/libtorch/include/ATen/ops/dim_ops.h
  /home/loser/libtorch/include/ATen/ops/dist.h
  /home/loser/libtorch/include/ATen/ops/dist_native.h
  /home/loser/libtorch/include/ATen/ops/dist_ops.h
@@ -54608,9 +53811,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/ger.h
  /home/loser/libtorch/include/ATen/ops/ger_native.h
  /home/loser/libtorch/include/ATen/ops/ger_ops.h
- /home/loser/libtorch/include/ATen/ops/get_device.h
- /home/loser/libtorch/include/ATen/ops/get_device_native.h
- /home/loser/libtorch/include/ATen/ops/get_device_ops.h
  /home/loser/libtorch/include/ATen/ops/glu.h
  /home/loser/libtorch/include/ATen/ops/glu_backward.h
  /home/loser/libtorch/include/ATen/ops/glu_backward_jvp.h
@@ -54695,10 +53895,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/hardtanh_backward_ops.h
  /home/loser/libtorch/include/ATen/ops/hardtanh_native.h
  /home/loser/libtorch/include/ATen/ops/hardtanh_ops.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_meta.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_native.h
- /home/loser/libtorch/include/ATen/ops/hash_tensor_ops.h
  /home/loser/libtorch/include/ATen/ops/heaviside.h
  /home/loser/libtorch/include/ATen/ops/heaviside_meta.h
  /home/loser/libtorch/include/ATen/ops/heaviside_native.h
@@ -54810,9 +54006,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/is_conj.h
  /home/loser/libtorch/include/ATen/ops/is_conj_native.h
  /home/loser/libtorch/include/ATen/ops/is_conj_ops.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous_native.h
- /home/loser/libtorch/include/ATen/ops/is_contiguous_ops.h
  /home/loser/libtorch/include/ATen/ops/is_distributed.h
  /home/loser/libtorch/include/ATen/ops/is_distributed_native.h
  /home/loser/libtorch/include/ATen/ops/is_distributed_ops.h
@@ -54939,9 +54132,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/lift_fresh_ops.h
  /home/loser/libtorch/include/ATen/ops/lift_native.h
  /home/loser/libtorch/include/ATen/ops/lift_ops.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum_native.h
- /home/loser/libtorch/include/ATen/ops/linalg__powsum_ops.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky_ex.h
  /home/loser/libtorch/include/ATen/ops/linalg_cholesky_ex_meta.h
@@ -55298,9 +54488,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose.h
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose_native.h
  /home/loser/libtorch/include/ATen/ops/miopen_convolution_transpose_ops.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss_native.h
- /home/loser/libtorch/include/ATen/ops/miopen_ctc_loss_ops.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution_native.h
  /home/loser/libtorch/include/ATen/ops/miopen_depthwise_convolution_ops.h
@@ -55554,9 +54741,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/nuclear_norm.h
  /home/loser/libtorch/include/ATen/ops/nuclear_norm_native.h
  /home/loser/libtorch/include/ATen/ops/nuclear_norm_ops.h
- /home/loser/libtorch/include/ATen/ops/numel.h
- /home/loser/libtorch/include/ATen/ops/numel_native.h
- /home/loser/libtorch/include/ATen/ops/numel_ops.h
  /home/loser/libtorch/include/ATen/ops/numpy_T.h
  /home/loser/libtorch/include/ATen/ops/numpy_T_native.h
  /home/loser/libtorch/include/ATen/ops/numpy_T_ops.h
@@ -56341,9 +55525,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/stft.h
  /home/loser/libtorch/include/ATen/ops/stft_native.h
  /home/loser/libtorch/include/ATen/ops/stft_ops.h
- /home/loser/libtorch/include/ATen/ops/storage_offset.h
- /home/loser/libtorch/include/ATen/ops/storage_offset_native.h
- /home/loser/libtorch/include/ATen/ops/storage_offset_ops.h
  /home/loser/libtorch/include/ATen/ops/stride.h
  /home/loser/libtorch/include/ATen/ops/stride_native.h
  /home/loser/libtorch/include/ATen/ops/stride_ops.h
@@ -56376,9 +55557,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_for_size_ops.h
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_native.h
  /home/loser/libtorch/include/ATen/ops/sym_constrain_range_ops.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous_native.h
- /home/loser/libtorch/include/ATen/ops/sym_is_contiguous_ops.h
  /home/loser/libtorch/include/ATen/ops/sym_numel.h
  /home/loser/libtorch/include/ATen/ops/sym_numel_native.h
  /home/loser/libtorch/include/ATen/ops/sym_numel_ops.h
@@ -56697,11 +55875,9 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/c10/core/Allocator.h
  /home/loser/libtorch/include/c10/core/AutogradState.h
  /home/loser/libtorch/include/c10/core/Backend.h
- /home/loser/libtorch/include/c10/core/CachingDeviceAllocator.h
  /home/loser/libtorch/include/c10/core/CompileTimeFunctionPointer.h
  /home/loser/libtorch/include/c10/core/DefaultDtype.h
  /home/loser/libtorch/include/c10/core/Device.h
- /home/loser/libtorch/include/c10/core/DeviceCapability.h
  /home/loser/libtorch/include/c10/core/DeviceGuard.h
  /home/loser/libtorch/include/c10/core/DeviceType.h
  /home/loser/libtorch/include/c10/core/DispatchKey.h
@@ -56735,7 +55911,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/c10/core/TensorOptions.h
  /home/loser/libtorch/include/c10/core/UndefinedTensorImpl.h
  /home/loser/libtorch/include/c10/core/WrapDimMinimal.h
- /home/loser/libtorch/include/c10/core/alignment.h
  /home/loser/libtorch/include/c10/core/impl/COW.h
  /home/loser/libtorch/include/c10/core/impl/COWDeleter.h
  /home/loser/libtorch/include/c10/core/impl/DeviceGuardImplInterface.h
@@ -56745,7 +55920,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/c10/core/impl/InlineStreamGuard.h
  /home/loser/libtorch/include/c10/core/impl/LocalDispatchKeySet.h
  /home/loser/libtorch/include/c10/core/impl/PyInterpreter.h
- /home/loser/libtorch/include/c10/core/impl/PyInterpreterHooks.h
  /home/loser/libtorch/include/c10/core/impl/PyObjectSlot.h
  /home/loser/libtorch/include/c10/core/impl/PythonDispatcherTLS.h
  /home/loser/libtorch/include/c10/core/impl/SizesAndStrides.h
@@ -56753,12 +55927,14 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/c10/core/impl/VirtualGuardImpl.h
  /home/loser/libtorch/include/c10/macros/Export.h
  /home/loser/libtorch/include/c10/macros/Macros.h
+ /home/loser/libtorch/include/c10/macros/cmake_macros.h
  /home/loser/libtorch/include/c10/util/AlignOf.h
- /home/loser/libtorch/include/c10/util/ApproximateClock.h
  /home/loser/libtorch/include/c10/util/ArrayRef.h
+ /home/loser/libtorch/include/c10/util/BFloat16-inl.h
  /home/loser/libtorch/include/c10/util/BFloat16.h
  /home/loser/libtorch/include/c10/util/Backtrace.h
  /home/loser/libtorch/include/c10/util/Bitset.h
+ /home/loser/libtorch/include/c10/util/C++17.h
  /home/loser/libtorch/include/c10/util/CallOnce.h
  /home/loser/libtorch/include/c10/util/ConstexprCrc.h
  /home/loser/libtorch/include/c10/util/Deprecated.h
@@ -56768,13 +55944,19 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/c10/util/ExclusivelyOwnedTensorTraits.h
  /home/loser/libtorch/include/c10/util/FbcodeMaps.h
  /home/loser/libtorch/include/c10/util/Flags.h
- /home/loser/libtorch/include/c10/util/Float4_e2m1fn_x2.h
+ /home/loser/libtorch/include/c10/util/Float8_e4m3fn-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e4m3fn.h
+ /home/loser/libtorch/include/c10/util/Float8_e4m3fnuz-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e4m3fnuz.h
+ /home/loser/libtorch/include/c10/util/Float8_e5m2-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e5m2.h
+ /home/loser/libtorch/include/c10/util/Float8_e5m2fnuz-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e5m2fnuz.h
+ /home/loser/libtorch/include/c10/util/Float8_e8m0fnu-inl.h
  /home/loser/libtorch/include/c10/util/Float8_e8m0fnu.h
+ /home/loser/libtorch/include/c10/util/Float8_fnuz_cvt.h
  /home/loser/libtorch/include/c10/util/FunctionRef.h
+ /home/loser/libtorch/include/c10/util/Half-inl.h
  /home/loser/libtorch/include/c10/util/Half.h
  /home/loser/libtorch/include/c10/util/IdWrapper.h
  /home/loser/libtorch/include/c10/util/Lazy.h
@@ -56807,11 +55989,11 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/c10/util/complex_utils.h
  /home/loser/libtorch/include/c10/util/env.h
  /home/loser/libtorch/include/c10/util/flat_hash_map.h
+ /home/loser/libtorch/include/c10/util/floating_point_utils.h
  /home/loser/libtorch/include/c10/util/hash.h
  /home/loser/libtorch/include/c10/util/intrusive_ptr.h
  /home/loser/libtorch/include/c10/util/irange.h
  /home/loser/libtorch/include/c10/util/llvmMathExtras.h
- /home/loser/libtorch/include/c10/util/logging_common.h
  /home/loser/libtorch/include/c10/util/logging_is_not_google_glog.h
  /home/loser/libtorch/include/c10/util/order_preserving_flat_hash_map.h
  /home/loser/libtorch/include/c10/util/overflows.h
@@ -57047,7 +56229,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/torch/csrc/jit/serialization/import.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/pickle.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/pickler.h
- /home/loser/libtorch/include/torch/csrc/jit/serialization/pickler_helper.h
  /home/loser/libtorch/include/torch/csrc/jit/serialization/unpickler.h
  /home/loser/libtorch/include/torch/csrc/profiler/api.h
  /home/loser/libtorch/include/torch/csrc/profiler/events.h
@@ -57060,42 +56241,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /home/loser/libtorch/include/torch/csrc/utils/variadic.h
  /home/loser/libtorch/include/torch/custom_class.h
  /home/loser/libtorch/include/torch/custom_class_detail.h
- /home/loser/libtorch/include/torch/headeronly/core/DeviceType.h
- /home/loser/libtorch/include/torch/headeronly/core/Dispatch.h
- /home/loser/libtorch/include/torch/headeronly/core/Layout.h
- /home/loser/libtorch/include/torch/headeronly/core/MemoryFormat.h
- /home/loser/libtorch/include/torch/headeronly/core/ScalarType.h
- /home/loser/libtorch/include/torch/headeronly/core/TensorAccessor.h
- /home/loser/libtorch/include/torch/headeronly/core/enum_tag.h
- /home/loser/libtorch/include/torch/headeronly/macros/Export.h
- /home/loser/libtorch/include/torch/headeronly/macros/Macros.h
- /home/loser/libtorch/include/torch/headeronly/macros/cmake_macros.h
- /home/loser/libtorch/include/torch/headeronly/util/BFloat16.h
- /home/loser/libtorch/include/torch/headeronly/util/Deprecated.h
- /home/loser/libtorch/include/torch/headeronly/util/Exception.h
- /home/loser/libtorch/include/torch/headeronly/util/Float4_e2m1fn_x2.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e4m3fn.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e4m3fnuz.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e5m2.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e5m2fnuz.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_e8m0fnu.h
- /home/loser/libtorch/include/torch/headeronly/util/Float8_fnuz_cvt.h
- /home/loser/libtorch/include/torch/headeronly/util/Half.h
- /home/loser/libtorch/include/torch/headeronly/util/HeaderOnlyArrayRef.h
- /home/loser/libtorch/include/torch/headeronly/util/Metaprogramming.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeList.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeSafeSignMath.h
- /home/loser/libtorch/include/torch/headeronly/util/TypeTraits.h
- /home/loser/libtorch/include/torch/headeronly/util/bit_cast.h
- /home/loser/libtorch/include/torch/headeronly/util/bits.h
- /home/loser/libtorch/include/torch/headeronly/util/complex.h
- /home/loser/libtorch/include/torch/headeronly/util/floating_point_utils.h
- /home/loser/libtorch/include/torch/headeronly/util/qint32.h
- /home/loser/libtorch/include/torch/headeronly/util/qint8.h
- /home/loser/libtorch/include/torch/headeronly/util/quint2x4.h
- /home/loser/libtorch/include/torch/headeronly/util/quint4x2.h
- /home/loser/libtorch/include/torch/headeronly/util/quint8.h
- /home/loser/libtorch/include/torch/headeronly/version.h
  /home/loser/libtorch/include/torch/library.h
  /home/loser/libtorch/include/torch/script.h
  /opt/ros/noetic/include/geometry_msgs/Point.h
@@ -58810,86 +57955,17 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/main.cp
  /usr/include/x86_64-linux-gnu/sys/ucontext.h
  /usr/include/x86_64-linux-gnu/sys/uio.h
  /usr/include/x86_64-linux-gnu/sys/un.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/adxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/ammintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124fmapsintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124vnniwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bitalgintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512cdintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512dqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512erintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512fintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmavlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512pfintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2vlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmiintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmivlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlbwintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vldqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnniintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnnivlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqvlintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/avxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/bmi2intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/bmiintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/cetintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/cldemoteintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clflushoptintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clwbintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/clzerointrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/emmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/f16cintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/float.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fma4intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fmaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/fxsrintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/gfniintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/ia32intrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/immintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/limits.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/lwpintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/lzcntintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/mm3dnow.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/mm_malloc.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/mmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/movdirintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/mwaitxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pconfigintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pkuintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/pmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/popcntintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/prfchwintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/quadmath.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/rdseedintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/rtmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/sgxintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/shaintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/smmintrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stddef.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdint.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/syslimits.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/tbmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/tmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/vaesintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/vpclmulqdqintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/waitpkgintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/wbnoinvdintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/wmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/x86intrin.h
  /usr/lib/gcc/x86_64-linux-gnu/9/include/xmmintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xopintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavecintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveoptintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavesintrin.h
- /usr/lib/gcc/x86_64-linux-gnu/9/include/xtestintrin.h
  /usr/local/include/eigen3/Eigen/Cholesky
  /usr/local/include/eigen3/Eigen/Core
  /usr/local/include/eigen3/Eigen/Dense

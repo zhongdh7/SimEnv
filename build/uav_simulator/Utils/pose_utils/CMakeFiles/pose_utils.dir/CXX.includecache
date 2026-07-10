@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/loser/SimEnv/src/uav_simulator/Utils/pose_utils/include/pose_utils.h
+iostream
+-
+armadillo
+/home/loser/SimEnv/src/uav_simulator/Utils/pose_utils/include/armadillo
+
+/home/loser/SimEnv/src/uav_simulator/Utils/pose_utils/src/pose_utils.cpp
+pose_utils.h
+/home/loser/SimEnv/src/uav_simulator/Utils/pose_utils/src/pose_utils.h
+

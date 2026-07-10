@@ -2,7 +2,6 @@ file(REMOVE_RECURSE
   "/home/loser/SimEnv/devel/lib/unitree_controller/unitree_move_kinetic"
   "/home/loser/SimEnv/devel/lib/unitree_controller/unitree_move_kinetic.pdb"
   "CMakeFiles/unitree_move_kinetic.dir/src/move_publisher.cpp.o"
-  "CMakeFiles/unitree_move_kinetic.dir/src/move_publisher.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.
