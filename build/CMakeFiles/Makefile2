@@ -63,6 +63,7 @@ all: uav_simulator/Utils/cmake_utils/all
 all: uav_simulator/map_generator/all
 all: uav_simulator/Utils/pose_utils/all
 all: building_obstacles/all
+all: slam_module/all
 all: building_generator_classic/all
 all: Mid360_imu_sim/all
 all: uav_simulator/Utils/odom_visualization/all
@@ -96,6 +97,7 @@ preinstall: uav_simulator/Utils/cmake_utils/preinstall
 preinstall: uav_simulator/map_generator/preinstall
 preinstall: uav_simulator/Utils/pose_utils/preinstall
 preinstall: building_obstacles/preinstall
+preinstall: slam_module/preinstall
 preinstall: building_generator_classic/preinstall
 preinstall: Mid360_imu_sim/preinstall
 preinstall: uav_simulator/Utils/odom_visualization/preinstall
@@ -134,6 +136,7 @@ clean: uav_simulator/Utils/cmake_utils/clean
 clean: uav_simulator/map_generator/clean
 clean: uav_simulator/Utils/pose_utils/clean
 clean: building_obstacles/clean
+clean: slam_module/clean
 clean: building_generator_classic/clean
 clean: Mid360_imu_sim/clean
 clean: uav_simulator/Utils/odom_visualization/clean
@@ -341,6 +344,24 @@ gtest/googletest/clean: gtest/googletest/CMakeFiles/gtest_main.dir/clean
 gtest/googletest/clean: gtest/googletest/CMakeFiles/gtest.dir/clean
 
 .PHONY : gtest/googletest/clean
+
+#=============================================================================
+# Directory level rules for directory slam_module
+
+# Recursive "all" directory target.
+slam_module/all:
+
+.PHONY : slam_module/all
+
+# Recursive "preinstall" directory target.
+slam_module/preinstall:
+
+.PHONY : slam_module/preinstall
+
+# Recursive "clean" directory target.
+slam_module/clean:
+
+.PHONY : slam_module/clean
 
 #=============================================================================
 # Directory level rules for directory uav_simulator/Utils/cmake_utils

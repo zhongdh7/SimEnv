@@ -222,6 +222,13 @@
 /home/loser/SimEnv/build/building_obstacles/CMakeFiles/std_srvs_generate_messages_cpp.dir
 /home/loser/SimEnv/build/building_obstacles/CMakeFiles/std_srvs_generate_messages_eus.dir
 /home/loser/SimEnv/build/building_obstacles/CMakeFiles/std_srvs_generate_messages_lisp.dir
+/home/loser/SimEnv/build/slam_module/CMakeFiles/install/strip.dir
+/home/loser/SimEnv/build/slam_module/CMakeFiles/install/local.dir
+/home/loser/SimEnv/build/slam_module/CMakeFiles/install.dir
+/home/loser/SimEnv/build/slam_module/CMakeFiles/list_install_components.dir
+/home/loser/SimEnv/build/slam_module/CMakeFiles/rebuild_cache.dir
+/home/loser/SimEnv/build/slam_module/CMakeFiles/edit_cache.dir
+/home/loser/SimEnv/build/slam_module/CMakeFiles/test.dir
 /home/loser/SimEnv/build/building_generator_classic/CMakeFiles/install/strip.dir
 /home/loser/SimEnv/build/building_generator_classic/CMakeFiles/run_tests_building_generator_classic.dir
 /home/loser/SimEnv/build/building_generator_classic/CMakeFiles/_run_tests_building_generator_classic.dir

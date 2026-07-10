@@ -1,0 +1,98 @@
+<launch>
+  <!-- Full simulation + Cartographer SLAM launch
+       Starts Gazebo simulation with Unitree A1, Livox Mid-360, IMU,
+       then launches Cartographer SLAM using /livox/Pointcloud2 and /livox/imu.
+
+       Usage:
+         source /opt/ros/noetic/setup.bash
+         source ~/SimEnv/devel/setup.bash
+         source ~/cartographer_ws/install_isolated/setup.bash
+         roslaunch slam_module sim_with_slam.launch
+
+       Or with custom parameters:
+         roslaunch slam_module sim_with_slam.launch gui:=true seed:=77
+  -->
+
+  <!-- ===== Simulation Parameters ===== -->
+  <arg name="gui" default="true"/>
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="seed" default=""/>
+  <arg name="floor_count" default="3"/>
+  <arg name="rooms_per_floor" default="4"/>
+  <arg name="building_width" default="20.0"/>
+  <arg name="building_length" default="36.0"/>
+  <arg name="danger_count" default="3:6"/>
+  <arg name="distractor_count" default="4:8"/>
+  <arg name="robot_x" default="0.0"/>
+  <arg name="robot_y" default="-3.2"/>
+  <arg name="robot_z" default="0.6"/>
+  <arg name="robot_yaw" default="1.5708"/>
+  <arg name="start_controller" default="false"/>
+  <arg name="start_building_control" default="true"/>
+
+  <!-- ===== SLAM Parameters ===== -->
+  <arg name="slam_resolution" default="0.05"/>
+  <arg name="configuration_directory" default="$(find slam_module)/config"/>
+  <arg name="configuration_basename" default="a1_livox_2d.lua"/>
+
+  <!-- ===== Global Settings ===== -->
+  <param name="use_sim_time" value="$(arg use_sim_time)"/>
+
+  <!-- ===== Step 1: Generate competition scene ===== -->
+  <node name="scene_generator" pkg="building_obstacles"
+      type="generate_competition_scene.py" output="screen"
+      args="--output-dir $(find slam_module)/../../generated_building
+            --results-dir $(find slam_module)/../../results
+            --floor-count $(arg floor_count)
+            --rooms-per-floor $(arg rooms_per_floor)
+            --width $(arg building_width)
+            --length $(arg building_length)
+            --danger-count $(arg danger_count)
+            --distractor-count $(arg distractor_count)
+            --robot-x $(arg robot_x)
+            --robot-y $(arg robot_y)
+            --robot-z $(arg robot_z)
+            --robot-yaw $(arg robot_yaw)"/>
+
+  <!-- ===== Step 2: Launch Gazebo simulation with sensors ===== -->
+  <include file="$(find unitree_guide)/launch/multi_floor_gazeboSim.launch">
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="user_debug" value="False"/>
+    <arg name="rname" value="a1"/>
+    <arg name="robot_x" value="$(arg robot_x)"/>
+    <arg name="robot_y" value="$(arg robot_y)"/>
+    <arg name="robot_z" value="$(arg robot_z)"/>
+    <arg name="robot_yaw" value="$(arg robot_yaw)"/>
+    <!-- Enable Livox and Livox IMU for SLAM -->
+    <arg name="enable_sensor_data" value="true"/>
+    <arg name="enable_livox" value="true"/>
+    <arg name="enable_livox_imu" value="true"/>
+    <arg name="enable_realsense" value="false"/>
+    <arg name="enable_front_camera" value="false"/>
+    <arg name="enable_ground_truth" value="true"/>
+    <arg name="enable_referee_odom" value="true"/>
+    <arg name="enable_pointcloud_converter" value="true"/>
+    <!-- Do NOT use ground truth odom for Pointcloud2 frame when doing SLAM,
+         let Cartographer estimate the odom frame itself.
+         Set to false so /livox/Pointcloud2 has frame_id=laser_livox -->
+    <arg name="pointcloud_use_ground_truth_odom" value="false"/>
+  </include>
+
+  <!-- ===== Step 3: Launch Cartographer SLAM ===== -->
+  <include file="$(find slam_module)/launch/cartographer_slam.launch">
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="configuration_directory" value="$(arg configuration_directory)"/>
+    <arg name="configuration_basename" value="$(arg configuration_basename)"/>
+    <arg name="resolution" value="$(arg slam_resolution)"/>
+  </include>
+
+  <!-- ===== Step 4: Building control (doors/elevator) ===== -->
+  <node if="$(arg start_building_control)" name="building_control"
+      pkg="building_generator_classic"
+      type="building_generator_classic_control" output="screen"
+      args="--door-config $(find slam_module)/../../generated_building/door_config.yaml
+            --elevator-config $(find slam_module)/../../generated_building/elevator_config.yaml"/>
+
+</launch>
