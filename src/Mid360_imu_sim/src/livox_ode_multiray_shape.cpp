@@ -17,6 +17,53 @@
 using namespace gazebo;
 using namespace physics;
 
+namespace
+{
+class LivoxAttachedOdeRayShape : public ODERayShape
+{
+public:
+    LivoxAttachedOdeRayShape(PhysicsEnginePtr _physicsEngine,
+                             dSpaceID _spaceId,
+                             LinkPtr _link)
+        : ODERayShape(_physicsEngine, _spaceId), link(_link)
+    {
+    }
+
+    void Update() override
+    {
+        this->globalStartPos =
+            this->link->WorldPose().CoordPositionAdd(this->relativeStartPos);
+        this->globalEndPos =
+            this->link->WorldPose().CoordPositionAdd(this->relativeEndPos);
+
+        ignition::math::Vector3d direction =
+            this->globalEndPos - this->globalStartPos;
+        if (ignition::math::equal(direction.Length(), 0.0))
+            return;
+
+        direction.Normalize();
+        dGeomRaySet(this->ODEGeomId(),
+                    this->globalStartPos.X(),
+                    this->globalStartPos.Y(),
+                    this->globalStartPos.Z(),
+                    direction.X(), direction.Y(), direction.Z());
+        dGeomRaySetLength(
+            this->ODEGeomId(),
+            this->globalStartPos.Distance(this->globalEndPos));
+    }
+
+private:
+    LinkPtr link;
+};
+
+ODECollision *CollisionFromGeom(dGeomID _geom)
+{
+    if (dGeomGetClass(_geom) == dGeomTransformClass)
+        _geom = dGeomTransformGetGeom(_geom);
+    return static_cast<ODECollision *>(dGeomGetData(_geom));
+}
+}
+
 //////////////////////////////////////////////////
 LivoxOdeMultiRayShape::LivoxOdeMultiRayShape(CollisionPtr _parent)
     : MultiRayShape(_parent)
@@ -33,12 +80,6 @@ LivoxOdeMultiRayShape::LivoxOdeMultiRayShape(CollisionPtr _parent)
     dGeomSetCategoryBits((dGeomID) this->raySpaceId, GZ_SENSOR_COLLIDE);
     dGeomSetCollideBits((dGeomID) this->raySpaceId, ~GZ_SENSOR_COLLIDE);
 
-    // These three lines may be unessecary
-    ODELinkPtr pLink =
-        boost::static_pointer_cast<ODELink>(this->collisionParent->GetLink());
-    pLink->SetSpaceId(this->raySpaceId);
-    boost::static_pointer_cast<ODECollision>(this->collisionParent)->SetSpaceId(
-        this->raySpaceId);
 }
 
 //////////////////////////////////////////////////
@@ -93,77 +134,38 @@ void LivoxOdeMultiRayShape::UpdateCallback(void *_data, dGeomID _o1, dGeomID _o2
     }
     else
     {
-        ODECollision *collision1 = NULL;
-        ODECollision *collision2 = NULL;
-
-        // Get pointers to the underlying collisions
-        if (dGeomGetClass(_o1) == dGeomTransformClass)
-        {
-            collision1 = static_cast<ODECollision*>(
-                dGeomGetData(dGeomTransformGetGeom(_o1)));
-        }
-        else
-            collision1 = static_cast<ODECollision*>(dGeomGetData(_o1));
-
-        if (dGeomGetClass(_o2) == dGeomTransformClass)
-        {
-            collision2 =
-                static_cast<ODECollision*>(dGeomGetData(dGeomTransformGetGeom(_o2)));
-        }
-        else
-        {
-            collision2 = static_cast<ODECollision*>(dGeomGetData(_o2));
-        }
-
-        GZ_ASSERT(collision1, "collision1 is null");
-        GZ_ASSERT(collision2, "collision2 is null");
-
-        ODECollision *rayCollision = NULL;
+        dGeomID rayId = NULL;
         ODECollision *hitCollision = NULL;
 
-        // Figure out which one is a ray; note that this assumes
-        // that the ODE dRayClass is used *soley* by the RayCollision.
-        if (dGeomGetClass(_o1) == dRayClass)
+        const bool firstIsRay = dGeomGetClass(_o1) == dRayClass;
+        const bool secondIsRay = dGeomGetClass(_o2) == dRayClass;
+        if (firstIsRay == secondIsRay)
+            return;
+
+        if (firstIsRay)
         {
-            rayCollision = static_cast<ODECollision*>(collision1);
-            hitCollision = static_cast<ODECollision*>(collision2);
+            rayId = _o1;
+            hitCollision = CollisionFromGeom(_o2);
             dGeomRaySetParams(_o1, 0, 0);
             dGeomRaySetClosestHit(_o1, 1);
         }
-        else if (dGeomGetClass(_o2) == dRayClass)
+        else
         {
-            GZ_ASSERT(rayCollision == NULL, "rayCollision is not null");
-            rayCollision = static_cast<ODECollision*>(collision2);
-            hitCollision = static_cast<ODECollision*>(collision1);
+            rayId = _o2;
+            hitCollision = CollisionFromGeom(_o1);
             dGeomRaySetParams(_o2, 0, 0);
             dGeomRaySetClosestHit(_o2, 1);
         }
 
-        // Check for ray/collision intersections
-        if (rayCollision && hitCollision)
+        RayShape *shape = static_cast<RayShape *>(dGeomGetData(rayId));
+        if (shape && hitCollision)
         {
             int n = dCollide(_o1, _o2, 1, &contact, sizeof(contact));
 
-            if (n > 0)
+            if (n > 0 && contact.depth < shape->GetLength())
             {
-                RayShapePtr shape = boost::static_pointer_cast<RayShape>(
-                    rayCollision->GetShape());
-                if (contact.depth < shape->GetLength())
-                {
-                    // gzerr << "LivoxOdeMultiRayShape UpdateCallback dSpaceCollide2 "
-                    //      << " depth[" << contact.depth << "]"
-                    //      << " position[" << contact.pos[0]
-                    //        << ", " << contact.pos[1]
-                    //        << ", " << contact.pos[2]
-                    //        << ", " << "]"
-                    //      << " ray[" << rayCollision->GetScopedName() << "]"
-                    //      << " pose[" << rayCollision->GetWorldPose() << "]"
-                    //      << " hit[" << hitCollision->GetScopedName() << "]"
-                    //      << " pose[" << hitCollision->GetWorldPose() << "]"
-                    //      << "\n";
-                    shape->SetLength(contact.depth);
-                    shape->SetRetro(hitCollision->GetLaserRetro());
-                }
+                shape->SetLength(contact.depth);
+                shape->SetRetro(hitCollision->GetLaserRetro());
             }
         }
     }
@@ -175,14 +177,12 @@ void LivoxOdeMultiRayShape::AddRay(const ignition::math::Vector3d &_start,
 {
     MultiRayShape::AddRay(_start, _end);
 
-    ODECollisionPtr odeCollision(new ODECollision(
-        this->collisionParent->GetLink()));
-    odeCollision->SetName("ode_ray_collision");
-    odeCollision->SetSpaceId(this->raySpaceId);
-
-    ODERayShapePtr ray(new ODERayShape(odeCollision));
-    odeCollision->SetShape(ray);
-
+    boost::shared_ptr<LivoxAttachedOdeRayShape> ray(
+        new LivoxAttachedOdeRayShape(
+            this->GetWorld()->Physics(),
+            this->raySpaceId,
+            this->collisionParent->GetLink()));
+    dGeomSetData(ray->ODEGeomId(), ray.get());
     ray->SetPoints(_start, _end);
     this->rays.push_back(ray);
 }

@@ -1988,17 +1988,134 @@ run_tests_building_generator_classic_nosetests/fast:
 .PHONY : run_tests_building_generator_classic_nosetests/fast
 
 #=============================================================================
-# Target rules for targets named livox_laser_simulation
+# Target rules for targets named _run_tests_competition_navigation_nosetests_test.test_full_map_logic.py
 
 # Build rule for target.
-livox_laser_simulation: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 livox_laser_simulation
-.PHONY : livox_laser_simulation
+_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_competition_navigation_nosetests_test.test_full_map_logic.py
+.PHONY : _run_tests_competition_navigation_nosetests_test.test_full_map_logic.py
 
 # fast build rule for target.
-livox_laser_simulation/fast:
-	$(MAKE) -f Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/build.make Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/build
-.PHONY : livox_laser_simulation/fast
+_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py/fast:
+	$(MAKE) -f competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/build.make competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/build
+.PHONY : _run_tests_competition_navigation_nosetests_test.test_full_map_logic.py/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_competition_navigation
+
+# Build rule for target.
+run_tests_competition_navigation: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_competition_navigation
+.PHONY : run_tests_competition_navigation
+
+# fast build rule for target.
+run_tests_competition_navigation/fast:
+	$(MAKE) -f competition_navigation/CMakeFiles/run_tests_competition_navigation.dir/build.make competition_navigation/CMakeFiles/run_tests_competition_navigation.dir/build
+.PHONY : run_tests_competition_navigation/fast
+
+#=============================================================================
+# Target rules for targets named _run_tests_competition_navigation_nosetests_test.test_corridor_graph.py
+
+# Build rule for target.
+_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_competition_navigation_nosetests_test.test_corridor_graph.py
+.PHONY : _run_tests_competition_navigation_nosetests_test.test_corridor_graph.py
+
+# fast build rule for target.
+_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py/fast:
+	$(MAKE) -f competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/build.make competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/build
+.PHONY : _run_tests_competition_navigation_nosetests_test.test_corridor_graph.py/fast
+
+#=============================================================================
+# Target rules for targets named hdplanner_inference
+
+# Build rule for target.
+hdplanner_inference: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 hdplanner_inference
+.PHONY : hdplanner_inference
+
+# fast build rule for target.
+hdplanner_inference/fast:
+	$(MAKE) -f competition_navigation/CMakeFiles/hdplanner_inference.dir/build.make competition_navigation/CMakeFiles/hdplanner_inference.dir/build
+.PHONY : hdplanner_inference/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_competition_navigation_nosetests
+
+# Build rule for target.
+run_tests_competition_navigation_nosetests: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_competition_navigation_nosetests
+.PHONY : run_tests_competition_navigation_nosetests
+
+# fast build rule for target.
+run_tests_competition_navigation_nosetests/fast:
+	$(MAKE) -f competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests.dir/build.make competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests.dir/build
+.PHONY : run_tests_competition_navigation_nosetests/fast
+
+#=============================================================================
+# Target rules for targets named _run_tests_competition_navigation_nosetests
+
+# Build rule for target.
+_run_tests_competition_navigation_nosetests: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_competition_navigation_nosetests
+.PHONY : _run_tests_competition_navigation_nosetests
+
+# fast build rule for target.
+_run_tests_competition_navigation_nosetests/fast:
+	$(MAKE) -f competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests.dir/build.make competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests.dir/build
+.PHONY : _run_tests_competition_navigation_nosetests/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_competition_navigation_nosetests_test.test_corridor_graph.py
+
+# Build rule for target.
+run_tests_competition_navigation_nosetests_test.test_corridor_graph.py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_competition_navigation_nosetests_test.test_corridor_graph.py
+.PHONY : run_tests_competition_navigation_nosetests_test.test_corridor_graph.py
+
+# fast build rule for target.
+run_tests_competition_navigation_nosetests_test.test_corridor_graph.py/fast:
+	$(MAKE) -f competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/build.make competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/build
+.PHONY : run_tests_competition_navigation_nosetests_test.test_corridor_graph.py/fast
+
+#=============================================================================
+# Target rules for targets named _run_tests_competition_navigation
+
+# Build rule for target.
+_run_tests_competition_navigation: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_competition_navigation
+.PHONY : _run_tests_competition_navigation
+
+# fast build rule for target.
+_run_tests_competition_navigation/fast:
+	$(MAKE) -f competition_navigation/CMakeFiles/_run_tests_competition_navigation.dir/build.make competition_navigation/CMakeFiles/_run_tests_competition_navigation.dir/build
+.PHONY : _run_tests_competition_navigation/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_competition_navigation_nosetests_test.test_full_map_logic.py
+
+# Build rule for target.
+run_tests_competition_navigation_nosetests_test.test_full_map_logic.py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_competition_navigation_nosetests_test.test_full_map_logic.py
+.PHONY : run_tests_competition_navigation_nosetests_test.test_full_map_logic.py
+
+# fast build rule for target.
+run_tests_competition_navigation_nosetests_test.test_full_map_logic.py/fast:
+	$(MAKE) -f competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/build.make competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/build
+.PHONY : run_tests_competition_navigation_nosetests_test.test_full_map_logic.py/fast
+
+#=============================================================================
+# Target rules for targets named clean_test_results_competition_navigation
+
+# Build rule for target.
+clean_test_results_competition_navigation: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 clean_test_results_competition_navigation
+.PHONY : clean_test_results_competition_navigation
+
+# fast build rule for target.
+clean_test_results_competition_navigation/fast:
+	$(MAKE) -f competition_navigation/CMakeFiles/clean_test_results_competition_navigation.dir/build.make competition_navigation/CMakeFiles/clean_test_results_competition_navigation.dir/build
+.PHONY : clean_test_results_competition_navigation/fast
 
 #=============================================================================
 # Target rules for targets named visualization_msgs_generate_messages_py
@@ -3171,6 +3288,45 @@ unitree_motor_ctrl_node/fast:
 .PHONY : unitree_motor_ctrl_node/fast
 
 #=============================================================================
+# Target rules for targets named simenv_gazebo_ros_imu_sensor
+
+# Build rule for target.
+simenv_gazebo_ros_imu_sensor: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 simenv_gazebo_ros_imu_sensor
+.PHONY : simenv_gazebo_ros_imu_sensor
+
+# fast build rule for target.
+simenv_gazebo_ros_imu_sensor/fast:
+	$(MAKE) -f Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/build.make Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/build
+.PHONY : simenv_gazebo_ros_imu_sensor/fast
+
+#=============================================================================
+# Target rules for targets named livox_laser_simulation
+
+# Build rule for target.
+livox_laser_simulation: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 livox_laser_simulation
+.PHONY : livox_laser_simulation
+
+# fast build rule for target.
+livox_laser_simulation/fast:
+	$(MAKE) -f Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/build.make Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/build
+.PHONY : livox_laser_simulation/fast
+
+#=============================================================================
+# Target rules for targets named gazebo_plugins_gencfg
+
+# Build rule for target.
+gazebo_plugins_gencfg: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 gazebo_plugins_gencfg
+.PHONY : gazebo_plugins_gencfg
+
+# fast build rule for target.
+gazebo_plugins_gencfg/fast:
+	$(MAKE) -f Mid360_imu_sim/CMakeFiles/gazebo_plugins_gencfg.dir/build.make Mid360_imu_sim/CMakeFiles/gazebo_plugins_gencfg.dir/build
+.PHONY : gazebo_plugins_gencfg/fast
+
+#=============================================================================
 # Target rules for targets named rviz_generate_messages_eus
 
 # Build rule for target.
@@ -3587,19 +3743,6 @@ unitree_guide_geneus/fast:
 .PHONY : unitree_guide_geneus/fast
 
 #=============================================================================
-# Target rules for targets named unitree_guide_genpy
-
-# Build rule for target.
-unitree_guide_genpy: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 unitree_guide_genpy
-.PHONY : unitree_guide_genpy
-
-# fast build rule for target.
-unitree_guide_genpy/fast:
-	$(MAKE) -f unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/build.make unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/build
-.PHONY : unitree_guide_genpy/fast
-
-#=============================================================================
 # Target rules for targets named unitree_guide_generate_messages
 
 # Build rule for target.
@@ -3624,6 +3767,19 @@ unitree_guide_generate_messages_lisp: cmake_check_build_system
 unitree_guide_generate_messages_lisp/fast:
 	$(MAKE) -f unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_generate_messages_lisp.dir/build.make unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_generate_messages_lisp.dir/build
 .PHONY : unitree_guide_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named unitree_guide_genpy
+
+# Build rule for target.
+unitree_guide_genpy: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 unitree_guide_genpy
+.PHONY : unitree_guide_genpy
+
+# fast build rule for target.
+unitree_guide_genpy/fast:
+	$(MAKE) -f unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/build.make unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/build
+.PHONY : unitree_guide_genpy/fast
 
 #=============================================================================
 # Target rules for targets named unitree_guide_genlisp
@@ -3895,7 +4051,16 @@ help:
 	@echo "... run_tests_building_generator_classic_nosetests_test"
 	@echo "... _run_tests_building_generator_classic_nosetests_test"
 	@echo "... run_tests_building_generator_classic_nosetests"
-	@echo "... livox_laser_simulation"
+	@echo "... _run_tests_competition_navigation_nosetests_test.test_full_map_logic.py"
+	@echo "... run_tests_competition_navigation"
+	@echo "... _run_tests_competition_navigation_nosetests_test.test_corridor_graph.py"
+	@echo "... hdplanner_inference"
+	@echo "... run_tests_competition_navigation_nosetests"
+	@echo "... _run_tests_competition_navigation_nosetests"
+	@echo "... run_tests_competition_navigation_nosetests_test.test_corridor_graph.py"
+	@echo "... _run_tests_competition_navigation"
+	@echo "... run_tests_competition_navigation_nosetests_test.test_full_map_logic.py"
+	@echo "... clean_test_results_competition_navigation"
 	@echo "... visualization_msgs_generate_messages_py"
 	@echo "... odom_visualization"
 	@echo "... visualization_msgs_generate_messages_nodejs"
@@ -3986,6 +4151,9 @@ help:
 	@echo "... control_via_keyboard"
 	@echo "... ros_example_walk"
 	@echo "... unitree_motor_ctrl_node"
+	@echo "... simenv_gazebo_ros_imu_sensor"
+	@echo "... livox_laser_simulation"
+	@echo "... gazebo_plugins_gencfg"
 	@echo "... rviz_generate_messages_eus"
 	@echo "... rviz_plugins"
 	@echo "... rviz_generate_messages_nodejs"
@@ -4018,9 +4186,9 @@ help:
 	@echo "... unitree_guide_gennodejs"
 	@echo "... unitree_guide_gencpp"
 	@echo "... unitree_guide_geneus"
-	@echo "... unitree_guide_genpy"
 	@echo "... unitree_guide_generate_messages"
 	@echo "... unitree_guide_generate_messages_lisp"
+	@echo "... unitree_guide_genpy"
 	@echo "... unitree_guide_genlisp"
 	@echo "... unitree_guide_generate_messages_nodejs"
 	@echo "... unitree_guide_generate_messages_py"

@@ -190,7 +190,6 @@ void LivoxPointsPlugin::OnNewLaserScans() {
         }
         if (scanPub && scanPub->HasConnections()) scanPub->Publish(laserMsg);
         rosPointPub.publish(scan_point);
-        ros::spinOnce();
     }
 }
 
@@ -422,7 +421,7 @@ void LivoxPointsPlugin::SendRosTf(const ignition::math::Pose3d &pose, const std:
 
 // void LivoxPointsPlugin::Load(gazebo::sensors::SensorPtr _parent, sdf::ElementPtr sdf) {
 //     std::vector<std::vector<double>> datas;
-//     std::string file_name = std::string(std::getenv("WORKSPACE_ROOT") ? std::getenv("WORKSPACE_ROOT") : ".") + "/src/livox_laser_simulation/scan_mode/mid360.csv";
+//     std::string file_name = "/home/amov/qrc_ws/src/livox_laser_simulation/scan_mode/mid360.csv";
 //     ROS_INFO_STREAM("load csv file name:" << file_name);
 //     if (!CsvReader::ReadCsvFile(file_name, datas)) {
 //         ROS_INFO_STREAM("cannot get csv file!" << file_name << "will return !");

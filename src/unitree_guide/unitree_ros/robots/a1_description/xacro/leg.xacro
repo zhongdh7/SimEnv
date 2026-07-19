@@ -147,7 +147,6 @@
             <parent link="${name}_calf"/>
             <child link="${name}_foot"/>
         </joint>
-
         <link name="${name}_foot">
             <visual>
                 <origin rpy="0 0 0" xyz="0 0 0"/>

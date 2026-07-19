@@ -68,39 +68,6 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
@@ -135,6 +102,39 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
 # The main all target
 all: cmake_check_build_system
 	cd /home/loser/SimEnv/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/loser/SimEnv/build/CMakeFiles /home/loser/SimEnv/build/Mid360_imu_sim/CMakeFiles/progress.marks
@@ -168,6 +168,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/rule:
+	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/rule
+.PHONY : Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/rule
+
+# Convenience name for target.
+simenv_gazebo_ros_imu_sensor: Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/rule
+
+.PHONY : simenv_gazebo_ros_imu_sensor
+
+# fast build rule for target.
+simenv_gazebo_ros_imu_sensor/fast:
+	cd /home/loser/SimEnv/build && $(MAKE) -f Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/build.make Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/build
+.PHONY : simenv_gazebo_ros_imu_sensor/fast
+
+# Convenience name for target.
 Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/rule:
 	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/rule
 .PHONY : Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/rule
@@ -181,6 +196,21 @@ livox_laser_simulation: Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/rul
 livox_laser_simulation/fast:
 	cd /home/loser/SimEnv/build && $(MAKE) -f Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/build.make Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/build
 .PHONY : livox_laser_simulation/fast
+
+# Convenience name for target.
+Mid360_imu_sim/CMakeFiles/gazebo_plugins_gencfg.dir/rule:
+	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 Mid360_imu_sim/CMakeFiles/gazebo_plugins_gencfg.dir/rule
+.PHONY : Mid360_imu_sim/CMakeFiles/gazebo_plugins_gencfg.dir/rule
+
+# Convenience name for target.
+gazebo_plugins_gencfg: Mid360_imu_sim/CMakeFiles/gazebo_plugins_gencfg.dir/rule
+
+.PHONY : gazebo_plugins_gencfg
+
+# fast build rule for target.
+gazebo_plugins_gencfg/fast:
+	cd /home/loser/SimEnv/build && $(MAKE) -f Mid360_imu_sim/CMakeFiles/gazebo_plugins_gencfg.dir/build.make Mid360_imu_sim/CMakeFiles/gazebo_plugins_gencfg.dir/build
+.PHONY : gazebo_plugins_gencfg/fast
 
 src/livox_ode_multiray_shape.o: src/livox_ode_multiray_shape.cpp.o
 
@@ -236,6 +266,33 @@ src/livox_points_plugin.cpp.s:
 	cd /home/loser/SimEnv/build && $(MAKE) -f Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/build.make Mid360_imu_sim/CMakeFiles/livox_laser_simulation.dir/src/livox_points_plugin.cpp.s
 .PHONY : src/livox_points_plugin.cpp.s
 
+src/simenv_gazebo_ros_imu_sensor.o: src/simenv_gazebo_ros_imu_sensor.cpp.o
+
+.PHONY : src/simenv_gazebo_ros_imu_sensor.o
+
+# target to build an object file
+src/simenv_gazebo_ros_imu_sensor.cpp.o:
+	cd /home/loser/SimEnv/build && $(MAKE) -f Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/build.make Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/src/simenv_gazebo_ros_imu_sensor.cpp.o
+.PHONY : src/simenv_gazebo_ros_imu_sensor.cpp.o
+
+src/simenv_gazebo_ros_imu_sensor.i: src/simenv_gazebo_ros_imu_sensor.cpp.i
+
+.PHONY : src/simenv_gazebo_ros_imu_sensor.i
+
+# target to preprocess a source file
+src/simenv_gazebo_ros_imu_sensor.cpp.i:
+	cd /home/loser/SimEnv/build && $(MAKE) -f Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/build.make Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/src/simenv_gazebo_ros_imu_sensor.cpp.i
+.PHONY : src/simenv_gazebo_ros_imu_sensor.cpp.i
+
+src/simenv_gazebo_ros_imu_sensor.s: src/simenv_gazebo_ros_imu_sensor.cpp.s
+
+.PHONY : src/simenv_gazebo_ros_imu_sensor.s
+
+# target to generate assembly for a file
+src/simenv_gazebo_ros_imu_sensor.cpp.s:
+	cd /home/loser/SimEnv/build && $(MAKE) -f Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/build.make Mid360_imu_sim/CMakeFiles/simenv_gazebo_ros_imu_sensor.dir/src/simenv_gazebo_ros_imu_sensor.cpp.s
+.PHONY : src/simenv_gazebo_ros_imu_sensor.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -243,19 +300,24 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/local"
+	@echo "... edit_cache"
+	@echo "... test"
+	@echo "... simenv_gazebo_ros_imu_sensor"
+	@echo "... install/strip"
+	@echo "... livox_laser_simulation"
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... edit_cache"
-	@echo "... test"
-	@echo "... install/strip"
-	@echo "... livox_laser_simulation"
+	@echo "... gazebo_plugins_gencfg"
 	@echo "... src/livox_ode_multiray_shape.o"
 	@echo "... src/livox_ode_multiray_shape.i"
 	@echo "... src/livox_ode_multiray_shape.s"
 	@echo "... src/livox_points_plugin.o"
 	@echo "... src/livox_points_plugin.i"
 	@echo "... src/livox_points_plugin.s"
+	@echo "... src/simenv_gazebo_ros_imu_sensor.o"
+	@echo "... src/simenv_gazebo_ros_imu_sensor.i"
+	@echo "... src/simenv_gazebo_ros_imu_sensor.s"
 .PHONY : help
 
 

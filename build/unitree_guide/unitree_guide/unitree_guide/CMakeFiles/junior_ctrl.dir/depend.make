@@ -4808,13 +4808,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /home/loser/libtorch/include/torch/extension.h
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /home/loser/libtorch/include/torch/library.h
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /home/loser/libtorch/include/torch/script.h
-unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/gazebo_msgs/ModelState.h
-unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/gazebo_msgs/SetModelConfiguration.h
-unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/gazebo_msgs/SetModelConfigurationRequest.h
-unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/gazebo_msgs/SetModelConfigurationResponse.h
-unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/gazebo_msgs/SetModelState.h
-unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/gazebo_msgs/SetModelStateRequest.h
-unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/gazebo_msgs/SetModelStateResponse.h
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/geometry_msgs/Point.h
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/geometry_msgs/PointStamped.h
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/geometry_msgs/Pose.h
@@ -4887,9 +4880,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/ros/wall_timer_options.h
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/rosconsole/macros_generated.h
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/std_msgs/Header.h
-unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/std_srvs/Empty.h
-unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/std_srvs/EmptyRequest.h
-unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/std_srvs/EmptyResponse.h
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/tf/LinearMath/Matrix3x3.h
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/tf/LinearMath/MinMax.h
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM.cpp.o: /opt/ros/noetic/include/tf/LinearMath/QuadWord.h

@@ -1,9 +1,12 @@
 from __future__ import annotations
 
-from types import SimpleNamespace
 import unittest
+from unittest.mock import Mock
 
-from building_generator_classic.control_server import _compose_world_pose, _pose_inside_elevator_car
+from building_generator_classic.control_server import (
+    _apply_initial_door_states,
+    _compose_world_pose,
+)
 from building_generator_classic.control_runtime import BuildingControlRuntime
 
 
@@ -15,7 +18,7 @@ class BuildingControlRuntimeTest(unittest.TestCase):
                     "id": "elevator_floor_0",
                     "kind": "elevator",
                     "initial_open": True,
-                    "motion_duration": 25.0,
+                    "motion_duration": 60.0,
                     "panel_poses": {
                         "left_closed": [0.0, -0.35, 0.0, 0.0, 0.0, 0.0],
                         "left_open": [0.0, -1.2, 0.0, 0.0, 0.0, 0.0],
@@ -24,33 +27,19 @@ class BuildingControlRuntimeTest(unittest.TestCase):
                     },
                 }
             ],
-            elevator_specs=[
-                {
-                    "id": "elevator_main",
-                    "current_floor": 0,
-                    "served_floors": [0, 1, 2],
-                    "car_size": [1.9, 2.1, 2.3],
-                    "floor_poses": {
-                        "0": [2.76, 2.6, 1.03, 0.0, 0.0, -1.5708],
-                        "1": [2.76, 2.6, 3.63, 0.0, 0.0, -1.5708],
-                        "2": [2.76, 2.6, 6.23, 0.0, 0.0, -1.5708],
-                    },
-                }
-            ],
+            elevator_specs=[{"id": "elevator_main", "current_floor": 0, "served_floors": [0, 1, 2]}],
         )
 
+        self.assertEqual(runtime.door_states(), {"elevator_floor_0": True})
         door_result = runtime.set_door_state("elevator_floor_0", False)
         elevator_result = runtime.call_elevator("elevator_main", 2, True)
 
+        self.assertEqual(runtime.door_states(), {"elevator_floor_0": False})
         self.assertEqual(door_result["state"], "closed")
-        self.assertEqual(door_result["motion_duration"], 25.0)
+        self.assertEqual(door_result["motion_duration"], 60.0)
         self.assertEqual(door_result["start_panel_poses"]["left_panel"], [0.0, -1.2, 0.0, 0.0, 0.0, 0.0])
         self.assertEqual(door_result["panel_poses"]["left_panel"], [0.0, -0.35, 0.0, 0.0, 0.0, 0.0])
         self.assertEqual(elevator_result["current_floor"], 2)
-        self.assertEqual(elevator_result["previous_floor"], 0)
-        self.assertEqual(elevator_result["previous_pose"], [2.76, 2.6, 1.03, 0.0, 0.0, -1.5708])
-        self.assertEqual(elevator_result["car_size"], [1.9, 2.1, 2.3])
-        self.assertEqual(elevator_result["target_door_id"], "elevator_floor_2")
         self.assertEqual(elevator_result["state"], "door_open")
 
     def test_compose_world_pose_rotates_local_offsets(self) -> None:
@@ -63,15 +52,41 @@ class BuildingControlRuntimeTest(unittest.TestCase):
         self.assertAlmostEqual(pose[1], 2.0, places=6)
         self.assertAlmostEqual(pose[2], 0.7, places=6)
 
-    def test_detects_robot_inside_elevator_car(self) -> None:
-        elevator_pose = [2.76, 2.6, 1.03, 0.0, 0.0, -1.5708]
-        car_size = [1.9, 2.1, 2.3]
+    def test_applies_configured_initial_open_panel_poses(self) -> None:
+        runtime = BuildingControlRuntime(
+            door_specs=[
+                {
+                    "id": "main_entrance",
+                    "kind": "main_entrance",
+                    "model_name": "dynamic_main_entrance",
+                    "initial_open": True,
+                    "pose": [0.0, 0.0, 1.2, 0.0, 0.0, 1.5707963267948966],
+                    "panel_poses": {
+                        "left_closed": [0.0, -0.5, 0.0, 0.0, 0.0, 0.0],
+                        "left_open": [0.0, -1.06, 0.0, 0.0, 0.0, 0.0],
+                        "right_closed": [0.0, 0.5, 0.0, 0.0, 0.0, 0.0],
+                        "right_open": [0.0, 1.06, 0.0, 0.0, 0.0, 0.0],
+                    },
+                }
+            ],
+            elevator_specs=[],
+        )
+        set_model_state = Mock()
+        set_link_state = Mock()
 
-        inside_pose = SimpleNamespace(position=SimpleNamespace(x=2.76, y=2.6, z=0.55))
-        outside_pose = SimpleNamespace(position=SimpleNamespace(x=2.76, y=5.4, z=0.55))
+        initialized = _apply_initial_door_states(
+            runtime, set_model_state, set_link_state
+        )
 
-        self.assertTrue(_pose_inside_elevator_car(inside_pose, elevator_pose, car_size))
-        self.assertFalse(_pose_inside_elevator_car(outside_pose, elevator_pose, car_size))
+        self.assertEqual(initialized, 1)
+        self.assertEqual(set_model_state.call_count, 1)
+        self.assertEqual(set_link_state.call_count, 2)
+        panel_x = sorted(
+            call.args[0].pose.position.x
+            for call in set_link_state.call_args_list
+        )
+        self.assertAlmostEqual(panel_x[0], -1.06, places=5)
+        self.assertAlmostEqual(panel_x[1], 1.06, places=5)
 
 
 if __name__ == "__main__":

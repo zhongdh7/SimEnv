@@ -5,7 +5,9 @@ project(livox_laser_simulation)
 add_compile_options(-std=c++17)
 
 find_package(catkin REQUIRED COMPONENTS
+  gazebo_plugins
   roscpp
+  sensor_msgs
   tf
 )
 
@@ -13,19 +15,13 @@ find_package(gazebo REQUIRED)
 include_directories(${GAZEBO_INCLUDE_DIRS})
 
 #To solve the error which gazebo does not handle the include file well, we must add this line.
-# Gazebo include path, auto-detected from GAZEBO_INCLUDE_DIRS or fallback to default
-if(DEFINED ENV{GAZEBO_VERSION})
-    set(GAZEBO_VER "$ENV{GAZEBO_VERSION}")
-else()
-    set(GAZEBO_VER "11")
-endif()
-include_directories(/usr/include/gazebo-${GAZEBO_VER}/gazebo)
+include_directories(/usr/include/gazebo-11/gazebo)
 
 link_directories(${GAZEBO_LIBRARY_DIRS})
 
 #This is designed for whose proto installed in system is not 2.6. We can install the version of proto in local dir
-#include_directories($ENV{PROTO_ROOT}/include/)  # Set PROTO_ROOT env var if using custom proto
-#link_directories($ENV{PROTO_ROOT}/lib/)  # Set PROTO_ROOT env var if using custom proto
+#include_directories(/home/lfc/proto/include/)
+#link_directories(/home/lfc/proto/lib/)
 
 include_directories(
          include
@@ -34,11 +30,19 @@ include_directories(
 
 catkin_package(
         INCLUDE_DIRS include
-        LIBRARIES livox_laser_simulation
-        CATKIN_DEPENDS tf
+        LIBRARIES livox_laser_simulation simenv_gazebo_ros_imu_sensor
+        CATKIN_DEPENDS gazebo_plugins roscpp sensor_msgs tf
 )
 
 add_library(livox_laser_simulation SHARED src/livox_points_plugin.cpp src/livox_ode_multiray_shape.cpp)
 target_link_libraries(livox_laser_simulation ${catkin_LIBRARIES} RayPlugin)
 
 target_link_libraries(livox_laser_simulation libprotobuf.so.9)
+
+add_library(simenv_gazebo_ros_imu_sensor SHARED src/simenv_gazebo_ros_imu_sensor.cpp)
+target_link_libraries(
+        simenv_gazebo_ros_imu_sensor
+        ${GAZEBO_LIBRARIES}
+        ${catkin_LIBRARIES}
+        ${Boost_LIBRARIES}
+)

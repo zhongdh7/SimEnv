@@ -303,21 +303,6 @@ unitree_guide_geneus/fast:
 .PHONY : unitree_guide_geneus/fast
 
 # Convenience name for target.
-unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/rule
-.PHONY : unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/rule
-
-# Convenience name for target.
-unitree_guide_genpy: unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/rule
-
-.PHONY : unitree_guide_genpy
-
-# fast build rule for target.
-unitree_guide_genpy/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/build.make unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/build
-.PHONY : unitree_guide_genpy/fast
-
-# Convenience name for target.
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_generate_messages.dir/rule:
 	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_generate_messages.dir/rule
 .PHONY : unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_generate_messages.dir/rule
@@ -346,6 +331,21 @@ unitree_guide_generate_messages_lisp: unitree_guide/unitree_guide/unitree_guide/
 unitree_guide_generate_messages_lisp/fast:
 	cd /home/loser/SimEnv/build && $(MAKE) -f unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_generate_messages_lisp.dir/build.make unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_generate_messages_lisp.dir/build
 .PHONY : unitree_guide_generate_messages_lisp/fast
+
+# Convenience name for target.
+unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/rule:
+	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/rule
+.PHONY : unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/rule
+
+# Convenience name for target.
+unitree_guide_genpy: unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/rule
+
+.PHONY : unitree_guide_genpy
+
+# fast build rule for target.
+unitree_guide_genpy/fast:
+	cd /home/loser/SimEnv/build && $(MAKE) -f unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/build.make unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genpy.dir/build
+.PHONY : unitree_guide_genpy/fast
 
 # Convenience name for target.
 unitree_guide/unitree_guide/unitree_guide/CMakeFiles/unitree_guide_genlisp.dir/rule:
@@ -1304,9 +1304,9 @@ help:
 	@echo "... unitree_guide_gennodejs"
 	@echo "... unitree_guide_gencpp"
 	@echo "... unitree_guide_geneus"
-	@echo "... unitree_guide_genpy"
 	@echo "... unitree_guide_generate_messages"
 	@echo "... unitree_guide_generate_messages_lisp"
+	@echo "... unitree_guide_genpy"
 	@echo "... unitree_guide_genlisp"
 	@echo "... unitree_guide_generate_messages_nodejs"
 	@echo "... install"

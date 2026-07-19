@@ -174,7 +174,6 @@ unitreeFootContactPlugin_EXTERNAL_OBJECTS =
 /home/loser/SimEnv/devel/lib/libunitreeFootContactPlugin.so: /usr/lib/x86_64-linux-gnu/libignition-fuel_tools4.so.4.9.1
 /home/loser/SimEnv/devel/lib/libunitreeFootContactPlugin.so: /usr/lib/x86_64-linux-gnu/libignition-msgs5.so.5.11.0
 /home/loser/SimEnv/devel/lib/libunitreeFootContactPlugin.so: /usr/lib/x86_64-linux-gnu/libignition-math6.so.6.15.1
-/home/loser/SimEnv/devel/lib/libunitreeFootContactPlugin.so: /usr/lib/x86_64-linux-gnu/libprotobuf.so
 /home/loser/SimEnv/devel/lib/libunitreeFootContactPlugin.so: /usr/lib/x86_64-linux-gnu/libignition-common3.so.3.17.0
 /home/loser/SimEnv/devel/lib/libunitreeFootContactPlugin.so: /usr/lib/x86_64-linux-gnu/libuuid.so
 /home/loser/SimEnv/devel/lib/libunitreeFootContactPlugin.so: /usr/lib/x86_64-linux-gnu/libuuid.so

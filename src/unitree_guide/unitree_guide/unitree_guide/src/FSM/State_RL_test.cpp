@@ -2,24 +2,7 @@
  Copyright (c) 2020-2023, Unitree Robotics.Co.Ltd. All rights reserved.
 ***********************************************************************/
 #include <iostream>
-#include <cmath>
 #include "FSM/State_RL_test.h"
-
-namespace {
-float finiteAxis(float value)
-{
-    if(!std::isfinite(value)){
-        return 0.0f;
-    }
-    if(value > 1.0f){
-        return 1.0f;
-    }
-    if(value < -1.0f){
-        return -1.0f;
-    }
-    return value;
-}
-}
 
 State_RL::State_RL(CtrlComponents *ctrlComp)
                 :FSMState(ctrlComp, FSMStateName::RL, "RL")
@@ -35,16 +18,6 @@ State_RL::State_RL(CtrlComponents *ctrlComp)
 
 
 void State_RL::enter(){
-    const bool keyboardMode = (_lowState->userCmd == UserCommand::RL_KEYBOARD);
-    _keyboardMode.store(keyboardMode);
-    if(keyboardMode){
-        _ctrlComp->ioInter->zeroCmdPanel();
-        _lowState->userValue.setZero();
-        std::cout << "[INFO] Entered RL keyboard mode. Use W/S, A/D, J/L, Space." << std::endl;
-    }else{
-        std::cout << "[INFO] Entered RL /cmd_vel mode." << std::endl;
-    }
-
      // if (real == false){
         for(int i=0; i<12; i++){
             _lowCmd->motorCmd[i].q = _lowState->motorState[i].q;
@@ -68,21 +41,23 @@ void State_RL::enter(){
     // }
     // else if(real == true)
     // {
+#ifdef COMPILE_WITH_REAL_ROBOT
         for(int i=0; i<12; i++){
             float c_joint = _ctrlComp->ioInterFreeDog->low_state.motorState_free_dog[i].q;
             std::vector<double> joint{c_joint, 0, 0, 80, 1};
             _ctrlComp->ioInterFreeDog->setCmd(i,joint);
         }
+#endif // COMPILE_WITH_REAL_ROBOT
     // }
     for (int i = 0; i < HISTORY_LEN; i++)
     {
         refresh_rl_obs();
     }
-    infer_thread_runnning = State_RL::RUNNING;
     infer_thread = new std::thread(&State_RL::infer_thread_callback,this);
+    infer_thread_runnning = State_RL::RUNNING;
     if (debug == true){
-        ampthreadRunning = State_RL::RUNNING;
         amp_obs_thread = new std::thread(&State_RL::save_amp_obs_thread,this);
+        ampthreadRunning = State_RL::RUNNING;
     }
 }
 
@@ -91,24 +66,23 @@ void State_RL::run(){
 
 void State_RL::exit(){
     _percent = 0;
-    ampthreadRunning = State_RL::STOP;
-    infer_thread_runnning = State_RL::STOP;
-    if(amp_obs_thread != nullptr){
-        if(amp_obs_thread->joinable()){
+    if (debug && amp_obs_thread != nullptr) {
+        ampthreadRunning = State_RL::STOP;
+        if (amp_obs_thread->joinable()) {
             amp_obs_thread->join();
         }
         delete amp_obs_thread;
         amp_obs_thread = nullptr;
-        std::cout << "amp_obs_thread退出!" << std::endl;
     }
-    if(infer_thread != nullptr){
-        if(infer_thread->joinable()){
+    infer_thread_runnning = State_RL::STOP;
+    if (infer_thread != nullptr) {
+        if (infer_thread->joinable()) {
             infer_thread->join();
         }
         delete infer_thread;
         infer_thread = nullptr;
-        std::cout << "infer_thread退出!" << std::endl;
     }
+    std::cout << "amp_obs_thread退出!" << std::endl;
     if (outfile.is_open()) {
         outfile.close();
         std::cout << "文件关闭成功!" << std::endl;
@@ -122,25 +96,8 @@ FSMStateName State_RL::checkChange(){
     else if(_lowState->userCmd == UserCommand::L2_A){
         return FSMStateName::FIXEDSTAND;
     }
-    else if(_lowState->userCmd == UserCommand::RL_KEYBOARD){
-        if(!_keyboardMode.exchange(true)){
-            _ctrlComp->ioInter->zeroCmdPanel();
-            _lowState->userValue.setZero();
-            std::cout << "[INFO] Switched RL command source to keyboard axes." << std::endl;
-        }
-        _last_cmd = static_cast<int>(_lowState->userCmd);
-        return FSMStateName::RL;
-    }
-    else if(_lowState->userCmd == UserCommand::RL){
-        if(_keyboardMode.exchange(false)){
-            std::cout << "[INFO] Switched RL command source to /cmd_vel." << std::endl;
-        }
-        _last_cmd = static_cast<int>(_lowState->userCmd);
-        return FSMStateName::RL;
-    }
     else if(_lowState->userCmd == UserCommand::L1_X){
-        if (_last_cmd==static_cast<int>(UserCommand::RL) ||
-            _last_cmd==static_cast<int>(UserCommand::RL_KEYBOARD))
+        if (_last_cmd==static_cast<int>(UserCommand::RL))
         {
             _cnt = (_cnt+1)%(sizeof(_targetPos_map) / sizeof(_targetPos_map[0]));
             if (real == false){
@@ -176,6 +133,12 @@ void State_RL::infer_thread_callback()
         // std::cout << "_start_time" << _start_time << std::endl;
         refresh_rl_obs();
         torch::Tensor flattened_obs = obs_history_tensor.view({1, HISTORY_LEN * 45});
+        if (!torch::isfinite(flattened_obs).all().item<bool>()) {
+            std::cerr << "[ERROR] RL observation contains NaN or Inf; replacing non-finite values with zero."
+                      << std::endl;
+            flattened_obs = torch::where(
+                torch::isfinite(flattened_obs), flattened_obs, torch::zeros_like(flattened_obs));
+        }
         if (debug == true)
         {
             const std::vector<int> sub_sizes = {3, 3, 3, 12, 12, 12};
@@ -186,7 +149,12 @@ void State_RL::infer_thread_callback()
         std::vector<torch::jit::IValue> inputs;
         inputs.push_back(flattened_obs);
         // std::cout << "flattened_obs: " << flattened_obs << std::endl;
-        actions_tensor = model.get_method("act_inference")(inputs).toTensor().to(torch::kCPU).squeeze();
+        actions_tensor = model.get_method("act_inference")(inputs).toTensor().detach().to(torch::kCPU).squeeze().contiguous();
+        if (!torch::isfinite(actions_tensor).all().item<bool>()) {
+            std::cerr << "[ERROR] RL action contains NaN or Inf; commanding the default stance."
+                      << std::endl;
+            actions_tensor = torch::zeros_like(actions_tensor);
+        }
         if (debug==true){
             torch::Tensor input_tensor = torch::arange(1, 226).view({1, 225}).to(torch::kFloat32).to(device); // 注意范围是 [start, end)
             std::vector<torch::jit::IValue> test;
@@ -245,7 +213,9 @@ void State_RL::save_amp_obs_thread()
                     std::cout << _targetPos_map[_cnt][j] << " ";
                     float t_joint = (1 - _percent)*_startPos[j] + _percent*_targetPos_map[_cnt][reindex[j]];
                     std::vector<double> joint{t_joint, 0, 0, 80, 1};
+#ifdef COMPILE_WITH_REAL_ROBOT
                     _ctrlComp->ioInterFreeDog->setCmd(j,joint);
+#endif // COMPILE_WITH_REAL_ROBOT
                 }
                 std::cout << std::endl;
             // }
@@ -260,20 +230,6 @@ void State_RL::save_amp_obs_thread()
         wait(_start_time, (long long)(infer_duration * 1000000));
     }
     ampthreadRunning = State_RL::OVER;
-}
-
-void State_RL::updateCommandTensor(){
-    if(_keyboardMode.load()){
-        _userValue = _lowState->userValue;
-        commands_tensor[0] = finiteAxis(_userValue.ly) * _keyboardVxScale;
-        commands_tensor[1] = -finiteAxis(_userValue.lx) * _keyboardVyScale;
-        commands_tensor[2] = -finiteAxis(_userValue.rx) * _keyboardWzScale;
-        return;
-    }
-
-    commands_tensor[0] = this->current_cmd_vel_.linear_x;
-    commands_tensor[1] = this->current_cmd_vel_.linear_y;
-    commands_tensor[2] = this->current_cmd_vel_.angular_z;
 }
 
 
@@ -297,7 +253,13 @@ void State_RL::refresh_rl_obs(){
         //订阅cmd_vel
         // this->Sub_=nh.subscribe<geometry_msgs::Twist>("/cmd_vel",1000,boost::bind(&FSMState::cmdVelCallback,this,_1));
 
-        updateCommandTensor();
+        // commands_tensor[0] = _ctrlComp->ioInter->axes[1];
+        // commands_tensor[1] = _ctrlComp->ioInter->axes[0];
+        // commands_tensor[2] = _ctrlComp->ioInter->axes[3]*3.14;
+
+        commands_tensor[0] = this->current_cmd_vel_.linear_x;
+        commands_tensor[1] = this->current_cmd_vel_.linear_y;
+        commands_tensor[2] = this->current_cmd_vel_.angular_z;
 
 
         // std::cout << _ctrlComp->ioInter->axes << std::endl;
@@ -464,10 +426,7 @@ void State_RL::open_amp_save_file()
     std::tm* currentTm = std::localtime(&cTime);
     // 构建文件名，格式为 systime + 年-月-日.txt
     std::ostringstream fileNameStream;
-    // 日志输出路径，通过环境变量 LOG_DIR 指定，默认为 /tmp/gazebo_log
-    const char* log_dir_env = std::getenv("LOG_DIR");
-    std::string log_dir = (log_dir_env != nullptr) ? std::string(log_dir_env) : "/tmp/gazebo_log";
-    fileNameStream << log_dir << "/" << angle_names[_cnt];
+    fileNameStream << "/home/chy/log/gazebo/" << angle_names[_cnt];
     std::string fileName = fileNameStream.str();
     // 以追加模式打开文件
     outfile = std::ofstream(fileName, std::ios::out | std::ios::app);
@@ -519,9 +478,9 @@ void State_RL::load_policy()
     // load model from check point
     std::cout << "cuda::is_available():" << torch::cuda::is_available() << std::endl;
     device= torch::kCPU;
-    // if (torch::cuda::is_available()){
-    //     device = torch::kCUDA;
-    // }
+    if (torch::cuda::is_available()){
+        device = torch::kCUDA;
+    }
     model = torch::jit::load(model_path);
     std::cout << "load model is successed!" << std::endl;
     model.to(device);

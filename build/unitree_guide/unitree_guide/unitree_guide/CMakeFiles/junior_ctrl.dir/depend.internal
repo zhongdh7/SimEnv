@@ -4809,13 +4809,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /home/loser/libtorch/include/torch/extension.h
  /home/loser/libtorch/include/torch/library.h
  /home/loser/libtorch/include/torch/script.h
- /opt/ros/noetic/include/gazebo_msgs/ModelState.h
- /opt/ros/noetic/include/gazebo_msgs/SetModelConfiguration.h
- /opt/ros/noetic/include/gazebo_msgs/SetModelConfigurationRequest.h
- /opt/ros/noetic/include/gazebo_msgs/SetModelConfigurationResponse.h
- /opt/ros/noetic/include/gazebo_msgs/SetModelState.h
- /opt/ros/noetic/include/gazebo_msgs/SetModelStateRequest.h
- /opt/ros/noetic/include/gazebo_msgs/SetModelStateResponse.h
  /opt/ros/noetic/include/geometry_msgs/Point.h
  /opt/ros/noetic/include/geometry_msgs/PointStamped.h
  /opt/ros/noetic/include/geometry_msgs/Pose.h
@@ -4888,9 +4881,6 @@ unitree_guide/unitree_guide/unitree_guide/CMakeFiles/junior_ctrl.dir/src/FSM/FSM
  /opt/ros/noetic/include/ros/wall_timer_options.h
  /opt/ros/noetic/include/rosconsole/macros_generated.h
  /opt/ros/noetic/include/std_msgs/Header.h
- /opt/ros/noetic/include/std_srvs/Empty.h
- /opt/ros/noetic/include/std_srvs/EmptyRequest.h
- /opt/ros/noetic/include/std_srvs/EmptyResponse.h
  /opt/ros/noetic/include/tf/LinearMath/Matrix3x3.h
  /opt/ros/noetic/include/tf/LinearMath/MinMax.h
  /opt/ros/noetic/include/tf/LinearMath/QuadWord.h

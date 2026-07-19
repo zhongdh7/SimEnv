@@ -6,12 +6,8 @@
 #include <csignal>
 #include <sched.h>
 #include <cerrno>
-#include <algorithm>
-#include <cctype>
 #include <cmath>
 #include <cstdlib>
-#include <cstring>
-#include <string>
 
 #include "control/ControlFrame.h"
 #include "control/CtrlComponents.h"
@@ -39,42 +35,12 @@ void ShutDown(int sig)
 
 void setProcessScheduler()
 {
-    const char *envValue = std::getenv("UNITREE_ENABLE_REALTIME");
-    std::string realtimeMode = envValue == nullptr ? "auto" : envValue;
-    std::transform(
-        realtimeMode.begin(), realtimeMode.end(), realtimeMode.begin(),
-        [](unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
-
-    bool enableRealtime = false;
-    if(realtimeMode == "auto" || realtimeMode.empty()){
-        enableRealtime = geteuid() == 0;
-    }else if(realtimeMode == "1" || realtimeMode == "true" || realtimeMode == "yes" || realtimeMode == "on"){
-        enableRealtime = true;
-    }else if(realtimeMode == "0" || realtimeMode == "false" || realtimeMode == "no" || realtimeMode == "off"){
-        enableRealtime = false;
-    }else{
-        std::cout << "[WARNING] Invalid UNITREE_ENABLE_REALTIME='" << envValue
-                  << "', using auto mode." << std::endl;
-        enableRealtime = geteuid() == 0;
-    }
-
-    if(!enableRealtime){
-        std::cout << "[INFO] Realtime scheduler disabled. Set UNITREE_ENABLE_REALTIME=1 to request SCHED_FIFO." << std::endl;
-        return;
-    }
-
     pid_t pid = getpid();
     sched_param param;
     param.sched_priority = sched_get_priority_max(SCHED_FIFO);
     if (sched_setscheduler(pid, SCHED_FIFO, &param) == -1)
     {
-        std::cout << "[WARNING] Could not enable SCHED_FIFO scheduler: "
-                  << std::strerror(errno)
-                  << ". Controller will continue with the normal scheduler." << std::endl;
-    }
-    else
-    {
-        std::cout << "[INFO] SCHED_FIFO realtime scheduler enabled." << std::endl;
+        std::cout << "[ERROR] Function setProcessScheduler failed." << std::endl;
     }
 }
 
@@ -122,8 +88,10 @@ int main(int argc, char **argv)
     ioInter = new IOSDK();
     ctrlPlat = CtrlPlatform::REALROBOT;
 #endif // COMPILE_WITH_REAL_ROBOT
-    IOFREEDOGSDK *ioInter_freedog;
+    IOFREEDOGSDK *ioInter_freedog = nullptr;
+#ifdef COMPILE_WITH_REAL_ROBOT
     ioInter_freedog = new IOFREEDOGSDK();
+#endif // COMPILE_WITH_REAL_ROBOT
     CtrlComponents *ctrlComp = new CtrlComponents(ioInter,ioInter_freedog);
     ctrlComp->ctrlPlatform = ctrlPlat;
     ctrlComp->dt = readControllerDt();
@@ -146,13 +114,15 @@ int main(int argc, char **argv)
 
     ctrlComp->geneObj();
 
-    ControlFrame ctrlFrame(ctrlComp);
-
     signal(SIGINT, ShutDown);
 
-    while (running)
+    // Destroy the FSM before its CtrlComponents dependency is released.
     {
-        ctrlFrame.run();
+        ControlFrame ctrlFrame(ctrlComp);
+        while (running)
+        {
+            ctrlFrame.run();
+        }
     }
 
     delete ctrlComp;
