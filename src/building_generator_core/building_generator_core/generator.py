@@ -321,6 +321,9 @@ def _build_furniture(
     bounds: Rect2D,
     elevation: float,
 ) -> list[FurnitureSpec]:
+    import os
+    if os.environ.get("NO_FURNITURE", "0") == "1":
+        return []
     x_center, y_center = bounds.center
     base_z = elevation + 0.45
     x_span = max(bounds.width - 1.6, 1.2)
