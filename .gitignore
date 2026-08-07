@@ -64,8 +64,8 @@ Thumbs.db
 # ===========================================
 # Generated Files (simulation output)
 # ===========================================
-generated_building/
-results/
+# generated_building/
+# results/
 
 # ===========================================
 # Backups
