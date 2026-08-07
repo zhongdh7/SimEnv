@@ -98,7 +98,7 @@ CATKIN_SKIP_TESTING:BOOL=OFF
 CATKIN_SYMLINK_INSTALL:BOOL=OFF
 
 //List of ';' separated packages to build
-CATKIN_WHITELIST_PACKAGES:STRING=unitree_guide;unitree_legged_msgs
+CATKIN_WHITELIST_PACKAGES:STRING=explore_full
 
 //Path to a file.
 CCD_INCLUDE_DIRS:PATH=/usr/include
@@ -1381,7 +1381,7 @@ _gtest_INCLUDES:FILEPATH=/usr/include/gtest/gtest.h
 _gtest_SOURCES:FILEPATH=/usr/src/gtest/src/gtest.cc
 
 //Path to a file.
-_path_name:FILEPATH=/home/loser/SimEnv/src/competition_navigation/test/test_corridor_graph.py
+_path_name:FILEPATH=/home/loser/SimEnv/src/explore_full/test/test_corridor_graph.py
 
 //Value Computed by CMake
 a1_description_BINARY_DIR:STATIC=/home/loser/SimEnv/build/unitree_guide/unitree_ros/robots/a1_description
@@ -1530,6 +1530,12 @@ cpp_common_DIR:PATH=/opt/ros/noetic/share/cpp_common/cmake
 //The directory containing a CMake configuration file for dynamic_reconfigure.
 dynamic_reconfigure_DIR:PATH=/opt/ros/noetic/share/dynamic_reconfigure/cmake
 
+//Value Computed by CMake
+explore_full_BINARY_DIR:STATIC=/home/loser/SimEnv/build/explore_full
+
+//Value Computed by CMake
+explore_full_SOURCE_DIR:STATIC=/home/loser/SimEnv/src/explore_full
+
 //The directory containing a CMake configuration file for flann.
 flann_DIR:PATH=flann_DIR-NOTFOUND
 
@@ -1670,7 +1676,7 @@ kineto_LIBRARY:FILEPATH=/home/loser/libtorch/lib/libkineto.a
 laser_geometry_DIR:PATH=/opt/ros/noetic/share/laser_geometry/cmake
 
 //Path to a library.
-lib:FILEPATH=/usr/lib/liborocos-kdl.so
+lib:FILEPATH=/opt/ros/noetic/lib/libtf2.so
 
 //Value Computed by CMake
 livox_laser_simulation_BINARY_DIR:STATIC=/home/loser/SimEnv/build/Mid360_imu_sim
@@ -2369,7 +2375,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=5
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

@@ -1,6 +1,6 @@
 {
   "schema": "competition_danger_truth_v1",
-  "seed": 1869256371,
+  "seed": 501554872,
   "building": {
     "model_name": "generated_building",
     "floor_count": 3,
@@ -27,8 +27,8 @@
       "id": 1,
       "model_name": "danger_red_sphere_00",
       "position": [
-        5.263,
-        33.136,
+        7.829,
+        27.35,
         5.35
       ],
       "floor_index": 2,
@@ -39,11 +39,26 @@
       "radius": 0.15
     },
     {
-      "id": 2,
+      "id": 3,
       "model_name": "danger_red_sphere_01",
       "position": [
-        -3.078,
-        24.136,
+        4.052,
+        9.689,
+        5.35
+      ],
+      "floor_index": 2,
+      "room_id": "floor_2_room_1",
+      "color": "red",
+      "shape": "sphere",
+      "is_danger": true,
+      "radius": 0.15
+    },
+    {
+      "id": 4,
+      "model_name": "danger_red_sphere_02",
+      "position": [
+        -8.014,
+        34.523,
         0.15
       ],
       "floor_index": 0,
@@ -55,29 +70,44 @@
     },
     {
       "id": 5,
-      "model_name": "danger_red_sphere_02",
+      "model_name": "danger_red_sphere_03",
       "position": [
-        8.167,
-        19.139,
+        -8.052,
+        15.881,
         2.75
       ],
       "floor_index": 1,
-      "room_id": "floor_1_room_1",
+      "room_id": "floor_1_room_0",
       "color": "red",
       "shape": "sphere",
       "is_danger": true,
       "radius": 0.15
     },
     {
-      "id": 8,
-      "model_name": "danger_red_sphere_03",
+      "id": 6,
+      "model_name": "danger_red_sphere_04",
       "position": [
-        6.97,
-        16.159,
+        -8.293,
+        32.746,
         2.75
       ],
       "floor_index": 1,
-      "room_id": "floor_1_room_1",
+      "room_id": "floor_1_room_2",
+      "color": "red",
+      "shape": "sphere",
+      "is_danger": true,
+      "radius": 0.15
+    },
+    {
+      "id": 9,
+      "model_name": "danger_red_sphere_05",
+      "position": [
+        -8.377,
+        14.441,
+        0.15
+      ],
+      "floor_index": 0,
+      "room_id": "floor_0_room_0",
       "color": "red",
       "shape": "sphere",
       "is_danger": true,
@@ -87,78 +117,10 @@
   "distraction_sources": [
     {
       "id": 0,
-      "model_name": "distractor_green_sphere_00",
+      "model_name": "distractor_red_box_00",
       "position": [
-        4.527,
-        30.406,
-        0.15
-      ],
-      "floor_index": 0,
-      "room_id": "floor_0_room_3",
-      "color": "green",
-      "shape": "sphere",
-      "is_danger": false,
-      "radius": 0.15
-    },
-    {
-      "id": 3,
-      "model_name": "distractor_red_box_01",
-      "position": [
-        -4.237,
-        33.931,
-        5.35
-      ],
-      "floor_index": 2,
-      "room_id": "floor_2_room_2",
-      "color": "red",
-      "shape": "box",
-      "is_danger": false,
-      "size": [
-        0.3,
-        0.3,
-        0.3
-      ]
-    },
-    {
-      "id": 4,
-      "model_name": "distractor_green_sphere_02",
-      "position": [
-        6.699,
-        32.92,
-        2.75
-      ],
-      "floor_index": 1,
-      "room_id": "floor_1_room_3",
-      "color": "green",
-      "shape": "sphere",
-      "is_danger": false,
-      "radius": 0.15
-    },
-    {
-      "id": 6,
-      "model_name": "distractor_red_box_03",
-      "position": [
-        -5.671,
-        35.16,
-        2.75
-      ],
-      "floor_index": 1,
-      "room_id": "floor_1_room_2",
-      "color": "red",
-      "shape": "box",
-      "is_danger": false,
-      "size": [
-        0.3,
-        0.3,
-        0.3
-      ]
-    },
-    {
-      "id": 7,
-      "model_name": "distractor_red_box_04",
-      "position": [
-        -6.261,
-        9.353,
+        -5.802,
+        11.412,
         5.35
       ],
       "floor_index": 2,
@@ -173,26 +135,41 @@
       ]
     },
     {
-      "id": 9,
-      "model_name": "distractor_green_sphere_05",
+      "id": 2,
+      "model_name": "distractor_green_sphere_01",
       "position": [
-        8.362,
-        16.749,
-        2.75
+        -5.509,
+        34.723,
+        5.35
       ],
-      "floor_index": 1,
-      "room_id": "floor_1_room_1",
+      "floor_index": 2,
+      "room_id": "floor_2_room_2",
       "color": "green",
       "shape": "sphere",
       "is_danger": false,
       "radius": 0.15
     },
     {
-      "id": 10,
-      "model_name": "distractor_green_sphere_06",
+      "id": 7,
+      "model_name": "distractor_green_sphere_02",
       "position": [
-        -6.219,
-        25.304,
+        -5.441,
+        9.935,
+        5.35
+      ],
+      "floor_index": 2,
+      "room_id": "floor_2_room_0",
+      "color": "green",
+      "shape": "sphere",
+      "is_danger": false,
+      "radius": 0.15
+    },
+    {
+      "id": 8,
+      "model_name": "distractor_green_sphere_03",
+      "position": [
+        -3.226,
+        30.007,
         5.35
       ],
       "floor_index": 2,
