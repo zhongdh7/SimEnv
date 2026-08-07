@@ -31,17 +31,17 @@ class PointCloudToLaserScan:
         self.sin_p = math.sin(self.pitch)
 
         # ---- Ground filter (two modes) ----
-        # Flat (tilt < max_tilt): aggressive margin detects 0.30m obstacles
-        #   threshold = -0.31 + 0.25 = -0.06
-        #   0.30m obstacle top bz ≈ -0.01 → above -0.06 → DETECTED
+        # Flat (tilt < max_tilt): low margin captures 0.15m-radius obstacles
+        #   threshold = -0.31 + 0.12 = -0.19
+        #   0.30m obstacle top bz≈-0.01, center bz≈-0.16 → both > -0.19 → DETECTED
         # Tilted (tilt > max_tilt): conservative margin prevents false ground
         #   threshold = -0.31 + 0.40 = +0.09
         #   Only 0.40m+ obstacles detected; ground/stair surfaces safely ignored
         self.ground_z = rospy.get_param("~ground_z", -0.31)
-        self.ground_margin = rospy.get_param("~ground_margin", 0.25)
+        self.ground_margin = rospy.get_param("~ground_margin", 0.12)
         self.ground_margin_tilted = rospy.get_param("~ground_margin_tilted", 0.40)
         self.ceiling_z = rospy.get_param("~ceiling_z", 2.0)
-        self.max_v_angle = rospy.get_param("~max_v_angle", 0.44)  # ~25 deg
+        self.max_v_angle = rospy.get_param("~max_v_angle", 0.70)  # ~40 deg
 
         # ---- Tilt + blind cone ----
         # When base tilt > max_tilt, two protections activate:
@@ -224,10 +224,6 @@ class PointCloudToLaserScan:
             eff = math.degrees(self.blind_cone_half * ratio)
             blind_str = " BLIND(±%.0f° marg=%.2f, %d dropped)" % (
                 eff, effective_margin, blind_dropped)
-        tilt_str = ""
-        if tilt is not None:
-            tilt_str = " tilt=%.1f° pitch=%.1f°" % (
-                math.degrees(tilt), math.degrees(pitch))
         tilt_str = ""
         if tilt is not None:
             tilt_str = " tilt=%.1f° pitch=%.1f°" % (

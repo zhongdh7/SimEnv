@@ -22,15 +22,15 @@
     <param name="laser_z" value="0.08"/>
     <param name="laser_pitch" value="0.785"/>
     <!-- Ground filter: obstacle = bz > ground_z + ground_margin                     -->
-    <!--   threshold = -0.31 + 0.25 = -0.06 (base frame)                             -->
-    <!--   0.30m obstacle top bz ≈ -0.01 → well above -0.06 → DETECTED               -->
+    <!--   threshold = -0.31 + 0.12 = -0.19 (base frame)                             -->
+    <!--   0.15m sphere center bz≈-0.16 > -0.19 → DETECTED (was missed at -0.06)     -->
     <param name="ground_z" value="-0.31"/>
-    <param name="ground_margin" value="0.25"/>
+    <param name="ground_margin" value="0.2"/>
     <param name="ground_margin_tilted" value="0.40"/>
     <!-- ceiling_z: filter points above robot reach (base=0, robot top ~0.40) -->
     <param name="ceiling_z" value="0.50"/>
-    <!-- max_v_angle: drop rays with vertical angle > 25 deg (overhead, ceiling) -->
-    <param name="max_v_angle" value="0.44"/>
+    <!-- max_v_angle: drop rays with vertical angle > 40 deg (was 25 deg) -->
+    <param name="max_v_angle" value="0.70"/>
     <!-- Tilt protection: when tilt > 5.7° -->
     <!--   1. Forward blind cone (proportional: 0°→±60°) — drop ground returns  -->
     <!--   2. All rays switch to ground_margin_tilted (0.40) — stair-tolerant   -->
@@ -174,7 +174,7 @@
 
     <!-- Control loop frequency -->
     <param name="controller_frequency" value="20.0"/>
-    <param name="controller_patience" value="5.0"/>
+    <param name="controller_patience" value="3.0"/>
     <param name="planner_frequency" value="0.5"/>
     <param name="planner_patience" value="8.0"/>
 

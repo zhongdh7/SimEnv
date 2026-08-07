@@ -21,10 +21,10 @@
     <param name="laser_z" value="0.08"/>
     <param name="laser_pitch" value="0.785"/>
     <param name="ground_z" value="-0.31"/>
-    <param name="ground_margin" value="0.25"/>
+    <param name="ground_margin" value="0.2"/>
     <param name="ground_margin_tilted" value="0.40"/>
     <param name="ceiling_z" value="0.50"/>
-    <param name="max_v_angle" value="0.44"/>
+    <param name="max_v_angle" value="0.70"/>
     <param name="max_tilt" value="0.10"/>
     <param name="blind_cone_half" value="1.047"/>
     <param name="blind_cone_ramp" value="0.175"/>
