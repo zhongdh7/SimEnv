@@ -58,40 +58,44 @@
     <param name="odom_alpha2" value="0.5"/>
     <param name="odom_alpha3" value="0.6"/>
     <param name="odom_alpha4" value="0.4"/>
-    <param name="odom_alpha5" value="0.4"/>
+    <param name="odom_alpha5" value="0.6"/>
 
     <!-- ============================================================ -->
-    <!-- Laser model: tight matching → fast correction after rotation  -->
+    <!-- Laser model: relaxed for sparse tilted-Livox scan              -->
+    <!--   z_rand=0.08 → tolerate beams that hit nothing (sparse scan) -->
+    <!--   sigma_hit=0.08 → wider hit tolerance during body oscillation-->
+    <!--   likelihood_max_dist=2.5 → broader search radius              -->
     <!-- ============================================================ -->
     <param name="laser_model_type" value="likelihood_field"/>
-    <param name="laser_likelihood_max_dist" value="2.0"/>
-    <param name="laser_z_hit" value="0.92"/>
+    <param name="laser_likelihood_max_dist" value="2.5"/>
+    <param name="laser_z_hit" value="0.88"/>
     <param name="laser_z_short" value="0.04"/>
     <param name="laser_z_max" value="0.02"/>
-    <param name="laser_z_rand" value="0.02"/>
-    <param name="laser_sigma_hit" value="0.05"/>
+    <param name="laser_z_rand" value="0.08"/>
+    <param name="laser_sigma_hit" value="0.08"/>
     <param name="laser_lambda_short" value="0.05"/>
 
     <!-- ============================================================ -->
     <!-- Particle filter: update more often during rotation             -->
-    <!--   update_min_a=0.05: run filter every ~3° of rotation →       -->
-    <!--   laser corrections applied frequently, drift contained        -->
+    <!--   update_min_a=0.03: run filter every ~1.7° of rotation →     -->
+    <!--   laser corrections applied more frequently                    -->
+    <!--   min_particles=1000: larger cloud for rotation stability      -->
+    <!--   resample_interval=1: resample every update                   -->
     <!-- ============================================================ -->
-    <param name="min_particles" value="500"/>
+    <param name="min_particles" value="1000"/>
     <param name="max_particles" value="5000"/>
-    <param name="kld_err" value="0.02"/>
+    <param name="kld_err" value="0.015"/>
     <param name="kld_z" value="0.99"/>
-    <param name="resample_interval" value="2"/>
+    <param name="resample_interval" value="1"/>
     <param name="selective_resampling" value="true"/>
     <param name="update_min_d" value="0.2"/>
-    <param name="update_min_a" value="0.05"/>
+    <param name="update_min_a" value="0.03"/>
 
     <!-- ============================================================ -->
-    <!-- Recovery: slow/fast random pose injection                      -->
-    <!--   Helps recover from kidnapping or severe odometry drift       -->
+    <!-- Recovery: faster random particle injection for rotation drift  -->
     <!-- ============================================================ -->
-    <param name="recovery_alpha_slow" value="0.001"/>
-    <param name="recovery_alpha_fast" value="0.1"/>
+    <param name="recovery_alpha_slow" value="0.002"/>
+    <param name="recovery_alpha_fast" value="0.15"/>
 
     <!-- ============================================================ -->
     <!-- Frame configuration                                            -->
@@ -99,7 +103,7 @@
     <param name="odom_frame_id" value="odom"/>
     <param name="base_frame_id" value="base"/>
     <param name="global_frame_id" value="map"/>
-    <param name="transform_tolerance" value="0.5"/>
+    <param name="transform_tolerance" value="1.0"/>
 
     <!-- ============================================================ -->
     <!-- Laser settings: use all 360 beams for dense sampling         -->
