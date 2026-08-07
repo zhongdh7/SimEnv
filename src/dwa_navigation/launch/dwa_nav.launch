@@ -54,55 +54,56 @@
 
     <!-- ============================================================ -->
     <!-- Odometry model: differential drive                             -->
-    <!--   alpha1=0.8 → heavy rotational distrust (~72° σ at 90° turn)  -->
-    <!--     Quadruped feet slip but NOT completely random; laser can   -->
-    <!--     still converge particles within this spread.               -->
-    <!--   alpha3=0.8 → more translational noise (foot slip forward)    -->
+    <!--   alpha1=0.5 → moderate rotational noise (σ=45° at 90° turn)   -->
+    <!--     Quadruped rotation is noisy but NOT random; tighter noise   -->
+    <!--     keeps particles from exploding during turns.                -->
+    <!--   alpha4=0.6 → translation drift during rotation (foot slip)    -->
     <!-- ============================================================ -->
     <param name="odom_model_type" value="diff"/>
-    <param name="odom_alpha1" value="0.8"/>
+    <param name="odom_alpha1" value="0.5"/>
     <param name="odom_alpha2" value="0.5"/>
     <param name="odom_alpha3" value="0.8"/>
-    <param name="odom_alpha4" value="0.4"/>
+    <param name="odom_alpha4" value="0.6"/>
     <param name="odom_alpha5" value="0.6"/>
 
     <!-- ============================================================ -->
-    <!-- Laser model: tighter matching for rotation convergence         -->
-    <!--   z_rand=0.04 → less random tolerance (was 0.08: too forgiving)-->
-    <!--   z_hit=0.92  → trust laser hits more strongly                 -->
-    <!--   sigma_hit=0.06 → moderate hit tolerance                      -->
-    <!--   likelihood_max_dist=2.0 → tighter search (was 2.5: too wide) -->
+    <!-- Laser model: tight matching for fast rotation convergence       -->
+    <!--   z_rand=0.02 → minimal random tolerance                        -->
+    <!--   z_hit=0.92  → laser hits dominate weighting                   -->
+    <!--   sigma_hit=0.05 → tight hit tolerance                          -->
+    <!--   likelihood_max_dist=1.5 → narrow search (was 2.5→2.0→1.5)    -->
     <!-- ============================================================ -->
     <param name="laser_model_type" value="likelihood_field"/>
-    <param name="laser_likelihood_max_dist" value="2.0"/>
+    <param name="laser_likelihood_max_dist" value="1.5"/>
     <param name="laser_z_hit" value="0.92"/>
     <param name="laser_z_short" value="0.04"/>
     <param name="laser_z_max" value="0.02"/>
     <param name="laser_z_rand" value="0.02"/>
-    <param name="laser_sigma_hit" value="0.06"/>
+    <param name="laser_sigma_hit" value="0.05"/>
     <param name="laser_lambda_short" value="0.05"/>
 
     <!-- ============================================================ -->
-    <!-- Particle filter: update more often during rotation             -->
-    <!--   update_min_a=0.02: run filter every ~1.15° of rotation →     -->
-    <!--   laser corrections applied 45% more frequently                -->
-    <!--   min_particles=1500: larger cloud for rotation stability      -->
-    <!--   resample_interval=1: resample every update                   -->
+    <!-- Particle filter: high-frequency correction for rotation         -->
+    <!--   update_min_a=0.015: filter update every ~0.86° of rotation    -->
+    <!--     (was 0.03→0.02→0.015) → ~233 corrections per 200°/s turn   -->
+    <!--   update_min_d=0.15: also update more often during translation  -->
+    <!--   min_particles=2000, max=10000: larger clouds for stability    -->
+    <!--   kld_err=0.01: tighter error → more particles on average       -->
     <!-- ============================================================ -->
-    <param name="min_particles" value="1500"/>
-    <param name="max_particles" value="5000"/>
-    <param name="kld_err" value="0.015"/>
+    <param name="min_particles" value="2000"/>
+    <param name="max_particles" value="10000"/>
+    <param name="kld_err" value="0.01"/>
     <param name="kld_z" value="0.99"/>
     <param name="resample_interval" value="1"/>
     <param name="selective_resampling" value="true"/>
-    <param name="update_min_d" value="0.2"/>
-    <param name="update_min_a" value="0.02"/>
+    <param name="update_min_d" value="0.15"/>
+    <param name="update_min_a" value="0.015"/>
 
     <!-- ============================================================ -->
-    <!-- Recovery: faster random particle injection for rotation drift  -->
+    <!-- Recovery: faster random injection when pose lost               -->
     <!-- ============================================================ -->
-    <param name="recovery_alpha_slow" value="0.005"/>
-    <param name="recovery_alpha_fast" value="0.15"/>
+    <param name="recovery_alpha_slow" value="0.01"/>
+    <param name="recovery_alpha_fast" value="0.25"/>
 
     <!-- ============================================================ -->
     <!-- Frame configuration                                            -->
