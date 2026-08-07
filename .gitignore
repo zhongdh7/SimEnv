@@ -1,0 +1,88 @@
+# ===========================================
+# Build Artifacts (catkin/ROS)
+# ===========================================
+build/
+devel/
+install/
+
+# CMake generated
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+CTestCustom.cmake
+CTestConfiguration.ini
+Makefile
+catkin_generated/
+catkin_make.cache
+CATKIN_IGNORE
+
+# ===========================================
+# Python
+# ===========================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+*.egg
+
+# ===========================================
+# Compiled / Linked Libraries
+# ===========================================
+*.o
+*.so
+*.a
+*.dylib
+*.dll
+
+# ===========================================
+# Logs
+# ===========================================
+logs/
+*.log
+*.pid
+
+# ===========================================
+# IDE / Editor
+# ===========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+\#*\#
+.\#*
+
+# ===========================================
+# OS Generated
+# ===========================================
+.DS_Store
+Thumbs.db
+.directory
+
+# ===========================================
+# Generated Files (simulation output)
+# ===========================================
+generated_building/
+results/
+
+# ===========================================
+# Backups
+# ===========================================
+.explorer-v1-backups/
+
+# ===========================================
+# ROS Specific
+# ===========================================
+*.bag
+*.active
+*.sdf.bak
+
+# ===========================================
+# Misc
+# ===========================================
+.codeartsdoer/
+gtest/
+test_results/
+GTEST_BUILD/

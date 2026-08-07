@@ -1,0 +1,28 @@
+# Shared costmap parameters for both global and local costmaps
+#   inflation_radius: max distance costs are propagated from obstacles
+#   cost_scaling_factor: how fast cost decays (lower = slower decay = wider gradient)
+#   cost = 252 * exp(-factor * (distance - robot_radius))
+#
+#   With robot_radius=0.2, inflation=0.8, factor=10:
+#     d=0.2m: cost=252 (LETHAL)     — red zone
+#     d=0.3m: cost=93                — orange
+#     d=0.4m: cost=34                — yellow
+#     d=0.5m: cost=13                — light blue
+#     d=0.6m: cost=4.6               — faint blue
+#     d=0.8m: cost≈0                 — clear
+robot_radius: 0.2
+inflation_radius: 0.8
+cost_scaling_factor: 20
+obstacle_range: 8.0
+raytrace_range: 15.0
+
+observation_sources: base_lidar
+
+base_lidar:
+  data_type: LaserScan
+  topic: /scan_laser
+  sensor_frame: base
+  marking: true
+  clearing: true
+  inf_is_valid: true
+  expected_update_rate: 10.0

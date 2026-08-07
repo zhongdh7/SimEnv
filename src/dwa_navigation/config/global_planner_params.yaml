@@ -1,0 +1,8 @@
+GlobalPlanner:
+  use_dijkstra: false
+  use_grid_path: true
+  old_navfn_behavior: false
+  allow_unknown: true
+  default_tolerance: 0.1
+  outline_map: true
+  orientation_mode: 0
