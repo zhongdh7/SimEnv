@@ -21,17 +21,22 @@
     <param name="laser_x" value="0.2"/>
     <param name="laser_z" value="0.08"/>
     <param name="laser_pitch" value="0.785"/>
-    <!-- Ground removal: compare point height to expected floor -->
-    <!--   Obstacle threshold = -0.31 + 0.35 = 0.04m (base frame)                -->
-    <!--   NOTE: 0.30m-tall obstacles filtered; hardware limit (robot clearance)  -->
+    <!-- Ground filter: obstacle = bz > ground_z + ground_margin                     -->
+    <!--   threshold = -0.31 + 0.25 = -0.06 (base frame)                             -->
+    <!--   0.30m obstacle top bz ≈ -0.01 → well above -0.06 → DETECTED               -->
     <param name="ground_z" value="-0.31"/>
-    <param name="ground_margin" value="0.35"/>
-    <!-- max_obstacle_height: filter points above robot reach -->
-    <!--   base=0, robot top ~0.40. Value 0.50 excludes overhead platforms -->
+    <param name="ground_margin" value="0.25"/>
+    <param name="ground_margin_tilted" value="0.40"/>
+    <!-- ceiling_z: filter points above robot reach (base=0, robot top ~0.40) -->
     <param name="ceiling_z" value="0.50"/>
-    <!-- max_v_angle: drop rays with vertical angle > 25 deg -->
-    <!--   Filters overhead ceiling, hollow stair gaps         -->
+    <!-- max_v_angle: drop rays with vertical angle > 25 deg (overhead, ceiling) -->
     <param name="max_v_angle" value="0.44"/>
+    <!-- Tilt protection: when tilt > 5.7° -->
+    <!--   1. Forward blind cone (proportional: 0°→±60°) — drop ground returns  -->
+    <!--   2. All rays switch to ground_margin_tilted (0.40) — stair-tolerant   -->
+    <param name="max_tilt" value="0.10"/>
+    <param name="blind_cone_half" value="1.047"/>
+    <param name="blind_cone_ramp" value="0.175"/>
     <!-- Scan parameters -->
     <param name="angle_min" value="-3.14159"/>
     <param name="angle_max" value="3.14159"/>
