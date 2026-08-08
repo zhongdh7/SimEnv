@@ -53,65 +53,60 @@
     <remap from="scan" to="/scan_laser"/>
 
     <!-- ============================================================ -->
-    <!-- Odometry model: differential drive                             -->
-    <!--   alpha1=0.5 → moderate rotational noise (σ=45° at 90° turn)   -->
-    <!--     Quadruped rotation is noisy but NOT random; tighter noise   -->
-    <!--     keeps particles from exploding during turns.                -->
-    <!--   alpha4=0.6 → translation drift during rotation (foot slip)    -->
+    <!-- Odometry model — anti-rotation-drift: spread during turns     -->
+    <!--   alpha1=0.4: moderate yaw noise → covers foot-slip rotation   -->
+    <!--   alpha4=0.4: moderate slip → covers lateral drift in turns    -->
+    <!--   alpha3=0.15: low XY noise → trust straight-line odometry     -->
     <!-- ============================================================ -->
     <param name="odom_model_type" value="diff"/>
-    <param name="odom_alpha1" value="0.5"/>
-    <param name="odom_alpha2" value="0.5"/>
-    <param name="odom_alpha3" value="0.8"/>
-    <param name="odom_alpha4" value="0.6"/>
-    <param name="odom_alpha5" value="0.6"/>
+    <param name="odom_alpha1" value="0.4"/>
+    <param name="odom_alpha2" value="0.2"/>
+    <param name="odom_alpha3" value="0.15"/>
+    <param name="odom_alpha4" value="0.4"/>
+    <param name="odom_alpha5" value="0.15"/>
 
     <!-- ============================================================ -->
-    <!-- Laser model: tight matching for fast rotation convergence       -->
-    <!--   z_rand=0.02 → minimal random tolerance                        -->
-    <!--   z_hit=0.92  → laser hits dominate weighting                   -->
-    <!--   sigma_hit=0.05 → tight hit tolerance                          -->
-    <!--   likelihood_max_dist=1.5 → narrow search (was 2.5→2.0→1.5)    -->
+    <!-- Laser model — strong correction after rotation                -->
+    <!--   z_hit=0.92, z_rand=0.02: laser-driven with some tolerance    -->
+    <!--   sigma_hit=0.10: sharp enough to pull particles after turn    -->
     <!-- ============================================================ -->
     <param name="laser_model_type" value="likelihood_field"/>
-    <param name="laser_likelihood_max_dist" value="1.5"/>
+    <param name="laser_likelihood_max_dist" value="2.0"/>
     <param name="laser_z_hit" value="0.92"/>
-    <param name="laser_z_short" value="0.04"/>
-    <param name="laser_z_max" value="0.02"/>
+    <param name="laser_z_short" value="0.03"/>
+    <param name="laser_z_max" value="0.03"/>
     <param name="laser_z_rand" value="0.02"/>
-    <param name="laser_sigma_hit" value="0.05"/>
-    <param name="laser_lambda_short" value="0.05"/>
+    <param name="laser_sigma_hit" value="0.10"/>
+    <param name="laser_lambda_short" value="0.1"/>
 
     <!-- ============================================================ -->
-    <!-- Particle filter: high-frequency correction for rotation         -->
-    <!--   update_min_a=0.015: filter update every ~0.86° of rotation    -->
-    <!--     (was 0.03→0.02→0.015) → ~233 corrections per 200°/s turn   -->
-    <!--   update_min_d=0.15: also update more often during translation  -->
-    <!--   min_particles=2000, max=10000: larger clouds for stability    -->
-    <!--   kld_err=0.01: tighter error → more particles on average       -->
+    <!-- Particle filter — anti-rotation: dense cloud, frequent update -->
+    <!--   min=3000, max=15000: more particles during turn uncertainty  -->
+    <!--   update_min_a=0.05: every ~2.9° → frequent correction in turn -->
+    <!--   selective_resampling=false: always resample → faster recovery -->
     <!-- ============================================================ -->
-    <param name="min_particles" value="2000"/>
-    <param name="max_particles" value="10000"/>
+    <param name="min_particles" value="3000"/>
+    <param name="max_particles" value="15000"/>
     <param name="kld_err" value="0.01"/>
     <param name="kld_z" value="0.99"/>
     <param name="resample_interval" value="1"/>
-    <param name="selective_resampling" value="true"/>
+    <param name="selective_resampling" value="false"/>
     <param name="update_min_d" value="0.15"/>
-    <param name="update_min_a" value="0.015"/>
+    <param name="update_min_a" value="0.05"/>
 
     <!-- ============================================================ -->
-    <!-- Recovery: faster random injection when pose lost               -->
+    <!-- Recovery — moderate injection to re-anchor after rotation      -->
     <!-- ============================================================ -->
-    <param name="recovery_alpha_slow" value="0.01"/>
-    <param name="recovery_alpha_fast" value="0.25"/>
+    <param name="recovery_alpha_slow" value="0.005"/>
+    <param name="recovery_alpha_fast" value="0.05"/>
 
     <!-- ============================================================ -->
-    <!-- Frame configuration                                            -->
+    <!-- Frame configuration — tight TF sync for scan matching          -->
     <!-- ============================================================ -->
     <param name="odom_frame_id" value="odom"/>
     <param name="base_frame_id" value="base"/>
     <param name="global_frame_id" value="map"/>
-    <param name="transform_tolerance" value="1.0"/>
+    <param name="transform_tolerance" value="0.2"/>
 
     <!-- ============================================================ -->
     <!-- Laser settings: use all 360 beams for dense sampling         -->
@@ -172,11 +167,13 @@
     <!-- Rotate recovery: coarse step → less rotation needed -->
     <param name="rotate_recovery/sim_granularity" value="0.05"/>
 
-    <!-- Control loop frequency -->
-    <param name="controller_frequency" value="20.0"/>
+    <!-- Control loop frequency — high-speed (4 m/s) requires fast replanning    -->
+    <!--   planner_freq=3.0 Hz → new global plan every 1.33 m (was 0.5 Hz→8m) -->
+    <!--   controller_freq=30 Hz → smoother vel commands at high speed          -->
+    <param name="controller_frequency" value="30.0"/>
     <param name="controller_patience" value="3.0"/>
-    <param name="planner_frequency" value="0.5"/>
-    <param name="planner_patience" value="8.0"/>
+    <param name="planner_frequency" value="3.0"/>
+    <param name="planner_patience" value="5.0"/>
 
     <!-- Make plan available for RViz -->
     <param name="make_plan_clear_obstacles" value="true"/>

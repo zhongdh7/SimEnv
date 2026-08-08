@@ -1,19 +1,16 @@
 # Shared costmap parameters for both global and local costmaps
-#   inflation_radius: max distance costs are propagated from obstacles
+#   footprint: exact robot polygon (Unitree A1 body ~0.5m × 0.3m)
+#   inflation_radius: max distance costs are propagated from footprint edge
 #   cost_scaling_factor: how fast cost decays (lower = slower decay = wider gradient)
-#   cost = 252 * exp(-factor * (distance - robot_radius))
+#   cost = 252 * exp(-factor * distance_from_footprint)
 #
-#   With robot_radius=0.2, inflation=0.5, factor=10:
-#     d=0.25m: cost=153               — high cost (near lethal)
-#     d=0.30m: cost=93                — orange
-#     d=0.40m: cost=34                — yellow (DWA starts avoiding)
-#     d=0.50m: cost≈0                 — clear
-#
-#   Wider gradient (factor=10, was 20) + moderate inflation (0.5m, was 0.8m)
-#   prevents robot from getting stuck near obstacles.
-robot_radius: 0.2
-inflation_radius: 0.5
-cost_scaling_factor: 10
+#   Footprint 0.50×0.30 rectangle + inflation 0.30:
+#     In front of robot: lethal zone extends 0.25+0.30=0.55m (safe for length)
+#     To sides of robot: lethal zone extends 0.15+0.30=0.45m (was 0.50m with circle)
+#     → 0.05m MORE clearance on each side for narrow passages
+footprint: [[-0.25, -0.15], [-0.25, 0.15], [0.25, 0.15], [0.25, -0.15]]
+inflation_radius: 0.8
+cost_scaling_factor: 25
 obstacle_range: 8.0
 raytrace_range: 15.0
 

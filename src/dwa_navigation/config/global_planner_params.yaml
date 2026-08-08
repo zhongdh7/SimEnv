@@ -1,6 +1,8 @@
 GlobalPlanner:
-  use_dijkstra: false
-  use_grid_path: true
+  # Dijkstra → optimal path, no corner-cutting (A* is greedy)
+  use_dijkstra: true
+  # Gradient path → smooth, dense waypoints (grid path is blocky/sparse)
+  use_grid_path: false
   old_navfn_behavior: false
   allow_unknown: true
   default_tolerance: 0.1
