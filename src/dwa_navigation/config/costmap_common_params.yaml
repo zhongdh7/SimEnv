@@ -9,8 +9,8 @@
 #     To sides of robot: lethal zone extends 0.15+0.30=0.45m (was 0.50m with circle)
 #     → 0.05m MORE clearance on each side for narrow passages
 footprint: [[-0.25, -0.15], [-0.25, 0.15], [0.25, 0.15], [0.25, -0.15]]
-inflation_radius: 0.8
-cost_scaling_factor: 25
+inflation_radius: 1.4
+cost_scaling_factor: 10
 obstacle_range: 8.0
 raytrace_range: 15.0
 
