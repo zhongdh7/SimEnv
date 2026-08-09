@@ -1,0 +1,18 @@
+<launch>
+  <!-- ============================================================ -->
+  <!-- Stair Climber — standalone test launch                        -->
+  <!-- Listens on /stair_climb/goal, publishes /cmd_vel when active -->
+  <!-- ============================================================ -->
+
+  <arg name="layout_metadata_path"
+       default="/home/loser/SimEnv/generated_building/layout_metadata.json"/>
+  <arg name="floor_height" default="2.6"/>
+  <arg name="floor_count" default="3"/>
+
+  <node pkg="merge_explore" type="stair_climber.py"
+        name="stair_climber" output="screen" required="true">
+    <param name="layout_metadata_path" value="$(arg layout_metadata_path)"/>
+    <param name="floor_height" value="$(arg floor_height)"/>
+    <param name="floor_count" value="$(arg floor_count)"/>
+  </node>
+</launch>

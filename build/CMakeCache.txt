@@ -98,7 +98,7 @@ CATKIN_SKIP_TESTING:BOOL=OFF
 CATKIN_SYMLINK_INSTALL:BOOL=OFF
 
 //List of ';' separated packages to build
-CATKIN_WHITELIST_PACKAGES:STRING=explore_full
+CATKIN_WHITELIST_PACKAGES:STRING=merge_explore
 
 //Path to a file.
 CCD_INCLUDE_DIRS:PATH=/usr/include
@@ -1710,6 +1710,12 @@ map_generator_SOURCE_DIR:STATIC=/home/loser/SimEnv/src/uav_simulator/map_generat
 
 //The directory containing a CMake configuration file for map_msgs.
 map_msgs_DIR:PATH=/opt/ros/noetic/share/map_msgs/cmake
+
+//Value Computed by CMake
+merge_explore_BINARY_DIR:STATIC=/home/loser/SimEnv/build/merge_explore
+
+//Value Computed by CMake
+merge_explore_SOURCE_DIR:STATIC=/home/loser/SimEnv/src/merge_explore
 
 //The directory containing a CMake configuration file for message_filters.
 message_filters_DIR:PATH=/opt/ros/noetic/share/message_filters/cmake
@@ -3688,8 +3694,6 @@ _Python_Development_REASON_FAILURE:INTERNAL=
 _Python_EXECUTABLE-ADVANCED:INTERNAL=1
 //Python Properties
 _Python_INTERPRETER_PROPERTIES:INTERNAL=Python;3;8;10;64;32;<none>;cpython-38-x86_64-linux-gnu;abi3;/usr/lib/python3.8;/usr/lib/python3.8;/usr/lib/python3/dist-packages;/usr/lib/python3/dist-packages
-//ADVANCED property for variable: _Python_INTERPRETER_SIGNATURE
-_Python_INTERPRETER_SIGNATURE-ADVANCED:INTERNAL=1
 _Python_INTERPRETER_SIGNATURE:INTERNAL=60fbcba4d3ec42cb22d9b25de2c7c03a
 //NumPy reason failure
 _Python_NumPy_REASON_FAILURE:INTERNAL=

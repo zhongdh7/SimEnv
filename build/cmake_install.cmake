@@ -146,7 +146,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/loser/SimEnv/build/gtest/cmake_install.cmake")
-  include("/home/loser/SimEnv/build/explore_full/cmake_install.cmake")
+  include("/home/loser/SimEnv/build/merge_explore/cmake_install.cmake")
 
 endif()
 
