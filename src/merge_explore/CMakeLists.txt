@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   nav_msgs
   sensor_msgs
   tf
+  actionlib
+  move_base_msgs
 )
 
 catkin_package()
@@ -19,6 +21,8 @@ include_directories(
 # Python scripts
 catkin_install_python(PROGRAMS
   scripts/stair_climber.py
+  scripts/multi_floor_explorer.py
+  scripts/test_floor2_explore.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
