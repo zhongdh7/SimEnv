@@ -16,11 +16,12 @@ import math
 
 import rospy
 import actionlib
-from geometry_msgs.msg import Quaternion
+from geometry_msgs.msg import PoseWithCovarianceStamped, Quaternion
 from nav_msgs.msg import OccupancyGrid, Odometry
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from actionlib_msgs.msg import GoalStatus
 from std_msgs.msg import String
+from std_srvs.srv import Empty
 from tf.transformations import quaternion_from_euler
 
 
@@ -155,6 +156,7 @@ class MultiFloorExplorer:
         rospy.Subscriber("/stair_climb/result", String, self._stair_result_cb)
         rospy.Subscriber("/stair_climb/status", String, self._stair_status_cb)
         self._stair_goal_pub = rospy.Publisher("/stair_climb/goal", String, queue_size=1)
+        self._initpose_pub = rospy.Publisher("/initialpose", PoseWithCovarianceStamped, queue_size=1)
 
         # --- parameters ---
         self.goal_timeout = rospy.get_param("~goal_timeout", GOAL_TIMEOUT)
@@ -396,6 +398,57 @@ class MultiFloorExplorer:
 
         return success
 
+    def reinit_amcl(self):
+        """Reinitialize AMCL at the current odometry pose after stair climbing.
+
+        During 3D stair motion, AMCL particles diverge because the stair
+        pointcloud does not match the 2D static map.  Publishing a fresh
+        initial pose with large covariance lets AMCL re-converge.
+        """
+        if self.pose is None:
+            rospy.logwarn("No odometry pose available for AMCL reinit")
+            return
+
+        x, y, z, yaw = self.pose
+        rospy.loginfo("Reinitializing AMCL at (%.2f, %.2f, yaw=%.2f, floor=%d)",
+                      x, y, yaw, self.current_floor)
+
+        init_pose = PoseWithCovarianceStamped()
+        init_pose.header.frame_id = "map"
+        init_pose.header.stamp = rospy.Time.now()
+        init_pose.pose.pose.position.x = x
+        init_pose.pose.pose.position.y = y
+        init_pose.pose.pose.position.z = 0.0
+
+        q = quaternion_from_euler(0, 0, yaw)
+        init_pose.pose.pose.orientation = Quaternion(*q)
+
+        # Large covariance so AMCL re-converges from laser scans
+        init_pose.pose.covariance = [0.0] * 36
+        init_pose.pose.covariance[0] = 0.5     # x  std ~0.71 m
+        init_pose.pose.covariance[7] = 0.5     # y  std ~0.71 m
+        init_pose.pose.covariance[35] = 0.3    # yaw std ~0.55 rad
+
+        # Publish several times to help AMCL settle
+        for i in range(5):
+            init_pose.header.stamp = rospy.Time.now()
+            self._initpose_pub.publish(init_pose)
+            rospy.sleep(0.2)
+
+        # Give AMCL time to converge
+        rospy.sleep(1.5)
+
+        # Also clear costmaps to remove stale obstacle data from stairs
+        try:
+            rospy.wait_for_service("/move_base/clear_costmaps", 3.0)
+            clear = rospy.ServiceProxy("/move_base/clear_costmaps", Empty)
+            clear()
+            rospy.loginfo("Costmaps cleared")
+        except (rospy.ROSException, rospy.ServiceException) as e:
+            rospy.logwarn("Could not clear costmaps: %s", e)
+
+        rospy.loginfo("AMCL reinitialization complete")
+
     # ------------------------------------------------------------------
     # Navigation helpers
     # ------------------------------------------------------------------
@@ -461,6 +514,7 @@ class MultiFloorExplorer:
             rospy.loginfo("========== TRANSITION: floor 0 → 1 ==========")
             self.navigate_to_stair_entry("up")
             if self.climb_stairs("up"):
+                self.reinit_amcl()  # fix AMCL after 3D stair motion
                 # Navigate from stair exit to first corridor waypoint
                 self.send_goal(
                     FLOOR_START_WP[0], FLOOR_START_WP[1], FLOOR_START_WP[2],
@@ -476,6 +530,7 @@ class MultiFloorExplorer:
             rospy.loginfo("========== TRANSITION: floor 1 → 2 ==========")
             self.navigate_to_stair_entry("up")
             if self.climb_stairs("up"):
+                self.reinit_amcl()  # fix AMCL after 3D stair motion
                 self.send_goal(
                     FLOOR_START_WP[0], FLOOR_START_WP[1], FLOOR_START_WP[2],
                     label="F2-entry"
@@ -496,6 +551,7 @@ class MultiFloorExplorer:
                 if not self.climb_stairs("down"):
                     rospy.logerr("stair climb down failed at floor %d", self.current_floor)
                     break
+                self.reinit_amcl()  # fix AMCL after 3D stair motion
 
             # Final return to home
             if self.current_floor == 0:

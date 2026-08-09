@@ -13,11 +13,12 @@ import math
 
 import rospy
 import actionlib
-from geometry_msgs.msg import Quaternion
+from geometry_msgs.msg import PoseWithCovarianceStamped, Quaternion
 from nav_msgs.msg import OccupancyGrid, Odometry
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from actionlib_msgs.msg import GoalStatus
 from std_msgs.msg import String
+from std_srvs.srv import Empty
 from tf.transformations import quaternion_from_euler
 
 
@@ -101,6 +102,7 @@ class TestFloor2Explorer:
         rospy.Subscriber("/stair_climb/result", String, self._stair_result_cb)
         rospy.Subscriber("/stair_climb/status", String, self._stair_status_cb)
         self._stair_goal_pub = rospy.Publisher("/stair_climb/goal", String, queue_size=1)
+        self._initpose_pub = rospy.Publisher("/initialpose", PoseWithCovarianceStamped, queue_size=1)
 
         self._sent = 0
         self._ok = 0
@@ -269,6 +271,62 @@ class TestFloor2Explorer:
         return success
 
     # ------------------------------------------------------------------
+    # AMCL reinitialization
+    # ------------------------------------------------------------------
+
+    def reinit_amcl(self):
+        """Reinitialize AMCL at the current odometry pose after stair climbing.
+
+        During 3D stair motion, AMCL particles diverge because the stair
+        pointcloud does not match the 2D static map.  Publishing a fresh
+        initial pose with large covariance lets AMCL re-converge using the
+        laser scans on the new floor.
+        """
+        if self.pose is None:
+            rospy.logwarn("No odometry pose available for AMCL reinit")
+            return
+
+        x, y, z, yaw = self.pose
+        rospy.loginfo("Reinitializing AMCL at (%.2f, %.2f, yaw=%.2f, floor=%d)",
+                      x, y, yaw, self.current_floor)
+
+        init_pose = PoseWithCovarianceStamped()
+        init_pose.header.frame_id = "map"
+        init_pose.header.stamp = rospy.Time.now()
+        init_pose.pose.pose.position.x = x
+        init_pose.pose.pose.position.y = y
+        init_pose.pose.pose.position.z = 0.0
+
+        q = quaternion_from_euler(0, 0, yaw)
+        init_pose.pose.pose.orientation = Quaternion(*q)
+
+        # Large covariance so AMCL re-converges from laser scans
+        init_pose.pose.covariance = [0.0] * 36
+        init_pose.pose.covariance[0] = 0.5     # x  std ~0.71 m
+        init_pose.pose.covariance[7] = 0.5     # y  std ~0.71 m
+        init_pose.pose.covariance[35] = 0.3    # yaw std ~0.55 rad
+
+        # Publish several times to help AMCL settle
+        for i in range(5):
+            init_pose.header.stamp = rospy.Time.now()
+            self._initpose_pub.publish(init_pose)
+            rospy.sleep(0.2)
+
+        # Give AMCL time to converge
+        rospy.sleep(1.5)
+
+        # Also clear costmaps to remove stale obstacle data from stairs
+        try:
+            rospy.wait_for_service("/move_base/clear_costmaps", 3.0)
+            clear = rospy.ServiceProxy("/move_base/clear_costmaps", Empty)
+            clear()
+            rospy.loginfo("Costmaps cleared")
+        except (rospy.ROSException, rospy.ServiceException) as e:
+            rospy.logwarn("Could not clear costmaps: %s", e)
+
+        rospy.loginfo("AMCL reinitialization complete")
+
+    # ------------------------------------------------------------------
     # Main
     # ------------------------------------------------------------------
 
@@ -301,6 +359,13 @@ class TestFloor2Explorer:
             return
         rospy.loginfo("current floor after climb: %d (z=%.3f)",
                       self.current_floor, self.pose[2] if self.pose else -999)
+
+        # ---- Step 3.5: reinitialize AMCL on new floor ----
+        # Essential: AMCL loses localization during 3D stair motion.
+        # Without this the local costmap freezes after climbing.
+        rospy.loginfo("")
+        rospy.loginfo("========== STEP 3.5: reinitialize AMCL on floor 1 ==========")
+        self.reinit_amcl()
 
         # ---- Step 4: enter corridor on floor 1 ----
         rospy.loginfo("")
