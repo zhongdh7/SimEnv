@@ -42,15 +42,17 @@ FLOOR_WAYPOINTS = [
     ( 2.784, 28.069,  0.000),
     ( 8.394, 33.405, -2.587),
     ( 8.596, 22.847,  2.582),
+    ( 8.549, 22.720,  2.323),
     ( 3.102, 27.996,  3.114),
     ( 0.440, 28.162, -3.131),
     ( 0.050,  1.997, -1.489),
-    (-2.844,  1.615,  2.937),
+    (-2.835,  1.801, -3.072),
 ]
 
 # ---- stair geometry ----
 ENTRANCE_WP      = ( 0.000,  2.000,  1.571)   # just inside main entrance
-STAIR_UP_ENTRY   = (-2.844,  1.615,  2.937)
+PRE_STAIR_WP     = (-0.293,  2.215, -1.531)   # lobby staging point
+STAIR_UP_ENTRY   = (-2.835,  1.801, -3.072)   # unified stair approach
 FLOOR_START_WP   = ( 0.256, 14.641,  1.565)
 
 # ---- tunable ----
@@ -345,9 +347,15 @@ class TestFloor2Explorer:
         self.send_goal(ENTRANCE_WP[0], ENTRANCE_WP[1], ENTRANCE_WP[2],
                        label="enter_gate")
 
-        # ---- Step 2: navigate to stair entry ----
+        # ---- Step 2: navigate to pre-stair staging point ----
         rospy.loginfo("")
-        rospy.loginfo("========== STEP 2: approach stair entry ==========")
+        rospy.loginfo("========== STEP 2: pre-stair staging ==========")
+        self.send_goal(PRE_STAIR_WP[0], PRE_STAIR_WP[1], PRE_STAIR_WP[2],
+                       label="pre_stair_staging")
+
+        # ---- Step 2.5: navigate to stair entry ----
+        rospy.loginfo("")
+        rospy.loginfo("========== STEP 2.5: approach stair entry ==========")
         self.send_goal(STAIR_UP_ENTRY[0], STAIR_UP_ENTRY[1], STAIR_UP_ENTRY[2],
                        label="stair_approach")
 

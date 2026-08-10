@@ -64,23 +64,20 @@ FLOOR_WAYPOINTS = [
     ( 2.784, 28.069,  0.000),
     ( 8.394, 33.405, -2.587),
     ( 8.596, 22.847,  2.582),
+    ( 8.549, 22.720,  2.323),
 
     # === Back to corridor & return ===
     ( 3.102, 27.996,  3.114),
     ( 0.440, 28.162, -3.131),
     ( 0.050,  1.997, -1.489),
-    (-2.844,  1.615,  2.937),
+    (-2.835,  1.801, -3.072),
 ]
 
-# ---- stair approach positions (computed from layout_metadata stair_bounds) ----
-# bounds: x=[-4.85, -1.65], y=[0.85, 6.85]  → width=3.2
-# x_left  = -4.85 + 0.26*3.2 = -4.018
-# x_right = -1.65 - 0.26*3.2 = -2.482
-# y_entry =  0.85 + 0.65     =  1.5
-STAIR_UP_ENTRY   = (-2.844,  1.615,  2.937)  # approach facing stairs
-STAIR_DOWN_ENTRY = (-2.482,  1.50,  3.1416)  # approach facing west into stairs
-# After climbing up, robot exits near:  (-0.05, 1.5)
-# After climbing down, robot exits near: (-0.05, 1.5)
+# ---- stair approach positions ----
+# Before stair climb, navigate: staging point → stair entry → climb
+PRE_STAIR_WP     = (-0.293,  2.215, -1.531)  # lobby staging point
+STAIR_ENTRY       = (-2.835,  1.801, -3.072)  # unified stair approach (up & down)
+# After climbing, robot exits near:  (-0.05, 1.5)
 STAIR_EXIT = (-0.05, 1.50)
 
 # First waypoint after entering a new floor — corridor entrance
@@ -178,8 +175,8 @@ class MultiFloorExplorer:
                 metadata = json.load(fh)
         except Exception as exc:
             rospy.logwarn("layout metadata unavailable (%s) — using defaults", exc)
-            self.stair_up_entry = STAIR_UP_ENTRY
-            self.stair_down_entry = STAIR_DOWN_ENTRY
+            self.stair_up_entry = STAIR_ENTRY
+            self.stair_down_entry = STAIR_ENTRY
             self.stair_exit = STAIR_EXIT
             return
 
@@ -193,15 +190,15 @@ class MultiFloorExplorer:
                 x_exit  = float(bounds["x_max"]) + 0.50 * width
                 y_entry = float(bounds["y_min"]) + 0.65
 
-                self.stair_up_entry   = (x_left,  y_entry,  0.0)
-                self.stair_down_entry = (x_right, y_entry,  3.1416)
+                self.stair_up_entry   = STAIR_ENTRY
+                self.stair_down_entry = STAIR_ENTRY
                 self.stair_exit       = (x_exit,  y_entry + 0.50)
                 rospy.loginfo("stair geometry loaded: up_entry=%s down_entry=%s exit=%s",
                               self.stair_up_entry, self.stair_down_entry, self.stair_exit)
                 return
 
-        self.stair_up_entry = STAIR_UP_ENTRY
-        self.stair_down_entry = STAIR_DOWN_ENTRY
+        self.stair_up_entry = STAIR_ENTRY
+        self.stair_down_entry = STAIR_ENTRY
         self.stair_exit = STAIR_EXIT
 
     # ------------------------------------------------------------------
@@ -454,17 +451,21 @@ class MultiFloorExplorer:
     # ------------------------------------------------------------------
 
     def navigate_to_stair_entry(self, direction):
-        """Use move_base to approach the stair entry position."""
-        if direction == "up":
-            entry = self.stair_up_entry
-            label = "stair_approach_up"
-        else:
-            entry = self.stair_down_entry
-            label = "stair_approach_down"
+        """Navigate to stair entry via lobby staging point.
 
+        Two-step approach: first reach the lobby staging point,
+        then approach the stair entry for precise alignment.
+        """
+        rospy.loginfo("navigating to pre-stair staging point: (%.2f, %.2f)",
+                      PRE_STAIR_WP[0], PRE_STAIR_WP[1])
+        self.send_goal(PRE_STAIR_WP[0], PRE_STAIR_WP[1], PRE_STAIR_WP[2],
+                       label="pre_stair_staging")
+
+        entry = self.stair_up_entry if direction == "up" else self.stair_down_entry
         rospy.loginfo("navigating to stair %s entry: (%.2f, %.2f)",
                       direction, entry[0], entry[1])
-        return self.send_goal(entry[0], entry[1], entry[2], label=label)
+        return self.send_goal(entry[0], entry[1], entry[2],
+                             label="stair_approach_%s" % direction)
 
     # ------------------------------------------------------------------
     # Floor execution
