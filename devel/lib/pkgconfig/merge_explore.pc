@@ -1,0 +1,8 @@
+prefix=/home/loser/SimEnv/devel
+
+Name: merge_explore
+Description: Description of merge_explore
+Version: 0.1.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

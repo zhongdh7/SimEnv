@@ -1,0 +1,8 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/run_tests_explore_full_nosetests_test.test_full_map_logic.py"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang )
+  include(CMakeFiles/run_tests_explore_full_nosetests_test.test_full_map_logic.py.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
