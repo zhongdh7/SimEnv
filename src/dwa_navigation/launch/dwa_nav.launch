@@ -158,14 +158,11 @@
     <!-- Recovery behaviors (only 1 rotate — less AMCL drift) -->
     <rosparam param="recovery_behaviors">
       - {name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery}
-      - {name: rotate_recovery, type: rotate_recovery/RotateRecovery}
       - {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}
     </rosparam>
 
     <param name="conservative_reset/reset_distance" value="0.0"/>
     <param name="aggressive_reset/reset_distance" value="0.0"/>
-    <!-- Rotate recovery: coarse step → less rotation needed -->
-    <param name="rotate_recovery/sim_granularity" value="0.05"/>
 
     <!-- Control loop frequency — high-speed (4 m/s) requires fast replanning    -->
     <!--   planner_freq=3.0 Hz → new global plan every 1.33 m (was 0.5 Hz→8m) -->

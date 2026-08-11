@@ -51,7 +51,6 @@ FLOOR_WAYPOINTS = [
 
 # ---- stair geometry ----
 ENTRANCE_WP      = ( 0.000,  2.000,  1.571)   # just inside main entrance
-PRE_STAIR_WP     = (-0.293,  2.215, -1.531)   # lobby staging point
 STAIR_UP_ENTRY   = (-2.835,  1.801, -3.072)   # unified stair approach
 FLOOR_START_WP   = ( 0.256, 14.641,  1.565)
 
@@ -155,6 +154,22 @@ class TestFloor2Explorer:
                     return False
         return True
 
+    def _is_in_inflation(self, x, y):
+        if self._costmap is None:
+            return False
+        info = self._costmap_info
+        mx = int((x - info.origin.position.x) / info.resolution)
+        my = int((y - info.origin.position.y) / info.resolution)
+        if not (0 <= mx < info.width and 0 <= my < info.height):
+            return False
+        cr = max(1, int(0.3 / info.resolution))
+        for dx in range(-cr, cr + 1):
+            for dy in range(-cr, cr + 1):
+                cost = self._cell_cost(mx + dx, my + dy)
+                if 0 < cost < 100:
+                    return True
+        return False
+
     def _world_coord(self, mx, my):
         info = self._costmap_info
         wx = info.origin.position.x + (mx + 0.5) * info.resolution
@@ -205,18 +220,22 @@ class TestFloor2Explorer:
 
     def send_goal(self, x, y, yaw, label="", max_retries=3):
         self._sent += 1
+        prefix = "  %s: " % label if label else ""
         excluded = set()
         for attempt in range(max_retries):
             if rospy.is_shutdown():
                 return False
             ax, ay = self._adjust_goal(x, y, exclude=excluded)
+            if self._is_in_inflation(ax, ay):
+                rospy.logwarn("%sGOAL %02d in inflation zone — skipping",
+                              prefix, self._sent)
+                return False
             info = self._costmap_info
             if info is not None:
                 mx = int((ax - info.origin.position.x) / info.resolution)
                 my = int((ay - info.origin.position.y) / info.resolution)
                 excluded.add((mx, my))
             goal = self._make_goal(ax, ay, yaw)
-            prefix = "  %s: " % label if label else ""
             rospy.loginfo("%sGOAL %02d → (%.2f, %.2f, yaw=%.2f)",
                           prefix, self._sent, ax, ay, yaw)
             self.ac.send_goal(goal)
@@ -224,7 +243,7 @@ class TestFloor2Explorer:
             if not finished:
                 rospy.logwarn("%sGOAL %02d TIMED OUT", prefix, self._sent)
                 self.ac.cancel_goal()
-                continue
+                return False  # skip to next waypoint immediately
             state = self.ac.get_state()
             if state == GoalStatus.SUCCEEDED:
                 self._ok += 1
@@ -347,15 +366,9 @@ class TestFloor2Explorer:
         self.send_goal(ENTRANCE_WP[0], ENTRANCE_WP[1], ENTRANCE_WP[2],
                        label="enter_gate")
 
-        # ---- Step 2: navigate to pre-stair staging point ----
+        # ---- Step 2: navigate to stair entry ----
         rospy.loginfo("")
-        rospy.loginfo("========== STEP 2: pre-stair staging ==========")
-        self.send_goal(PRE_STAIR_WP[0], PRE_STAIR_WP[1], PRE_STAIR_WP[2],
-                       label="pre_stair_staging")
-
-        # ---- Step 2.5: navigate to stair entry ----
-        rospy.loginfo("")
-        rospy.loginfo("========== STEP 2.5: approach stair entry ==========")
+        rospy.loginfo("========== STEP 2: approach stair entry ==========")
         self.send_goal(STAIR_UP_ENTRY[0], STAIR_UP_ENTRY[1], STAIR_UP_ENTRY[2],
                        label="stair_approach")
 

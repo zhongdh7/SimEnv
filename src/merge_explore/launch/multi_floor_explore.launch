@@ -102,12 +102,10 @@
               command="load"/>
     <rosparam param="recovery_behaviors">
       - {name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery}
-      - {name: rotate_recovery, type: rotate_recovery/RotateRecovery}
       - {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}
     </rosparam>
     <param name="conservative_reset/reset_distance" value="0.0"/>
     <param name="aggressive_reset/reset_distance" value="0.0"/>
-    <param name="rotate_recovery/sim_granularity" value="0.05"/>
     <param name="controller_frequency" value="30.0"/>
     <param name="controller_patience" value="3.0"/>
     <param name="planner_frequency" value="3.0"/>
