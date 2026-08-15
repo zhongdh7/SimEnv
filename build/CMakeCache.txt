@@ -1536,6 +1536,12 @@ explore_full_BINARY_DIR:STATIC=/home/loser/SimEnv/build/explore_full
 //Value Computed by CMake
 explore_full_SOURCE_DIR:STATIC=/home/loser/SimEnv/src/explore_full
 
+//Value Computed by CMake
+fastlio_slam_merge_BINARY_DIR:STATIC=/home/loser/SimEnv/build/fastlio_slam_merge
+
+//Value Computed by CMake
+fastlio_slam_merge_SOURCE_DIR:STATIC=/home/loser/SimEnv/src/fastlio_slam_merge
+
 //The directory containing a CMake configuration file for flann.
 flann_DIR:PATH=flann_DIR-NOTFOUND
 

@@ -1,0 +1,43 @@
+<launch>
+<!-- FAST-LIO SLAM for SimEnv Gazebo simulation.
+
+     Uses MARSIM lidar type (4) with SimEnv topics:
+       - /livox/Pointcloud2_local (relayed from /scan by pointcloud_converter)
+       - /trunk_imu
+
+     The fast_lio package must be available on the ROS package path.  Since
+     FAST-LIO lives in its own workspace, source it in addition to SimEnv:
+       source ~/ws_livox/devel/setup.bash
+-->
+
+    <arg name="rviz" default="false" />
+    <arg name="target_frame" default="odom" />
+
+    <rosparam command="load" file="$(find fastlio_slam_merge)/config/fastlio_sim.yaml" />
+
+    <param name="feature_extract_enable" type="bool" value="0"/>
+    <param name="point_filter_num" type="int" value="3"/>
+    <param name="max_iteration" type="int" value="3" />
+    <param name="filter_size_surf" type="double" value="0.2" />
+    <param name="filter_size_map" type="double" value="0.3" />
+    <param name="cube_side_length" type="double" value="1000" />
+    <param name="runtime_pos_log_enable" type="bool" value="0" />
+
+    <!-- Relay /scan (PointCloud) to /livox/Pointcloud2_local (PointCloud2) -->
+    <node pkg="fastlio_slam_merge" type="pointcloud_converter.py"
+          name="pointcloud_converter" output="screen" />
+
+    <node pkg="fast_lio" type="fastlio_mapping" name="laserMapping"
+          output="screen" />
+
+    <node pkg="fastlio_slam_merge" type="frame_republisher.py"
+          name="frame_republisher" output="screen">
+        <param name="target_frame" value="$(arg target_frame)" />
+    </node>
+
+    <group if="$(arg rviz)">
+        <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz"
+              args="-d $(find fastlio_slam_merge)/rviz/slam.rviz" />
+    </group>
+
+</launch>

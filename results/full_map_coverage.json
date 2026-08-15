@@ -2,13 +2,13 @@
   "floors": [
     {
       "floor": 0,
-      "known_ratio": 0.8557692307692307,
+      "known_ratio": 0.6369147157190636,
       "passed": true
     },
     {
       "floor": 1,
-      "known_ratio": 0.6931438127090301,
-      "passed": true
+      "known_ratio": 0.0,
+      "passed": false
     },
     {
       "floor": 2,
@@ -23,56 +23,23 @@
   "room_tasks": [
     {
       "blocked": false,
-      "completed": true,
-      "coverage": 0.886,
-      "entered": true,
+      "completed": false,
+      "coverage": 0.0,
+      "entered": false,
       "floor": 0,
-      "interior_observation": true,
+      "interior_observation": false,
       "node_id": 2,
       "side": "L",
       "y": 14.45
-    },
-    {
-      "blocked": false,
-      "completed": true,
-      "coverage": 0.851,
-      "entered": true,
-      "floor": 0,
-      "interior_observation": true,
-      "node_id": 3,
-      "side": "R",
-      "y": 14.45
-    },
-    {
-      "blocked": false,
-      "completed": true,
-      "coverage": 0.883,
-      "entered": true,
-      "floor": 0,
-      "interior_observation": true,
-      "node_id": 5,
-      "side": "L",
-      "y": 28.45
-    },
-    {
-      "blocked": false,
-      "completed": true,
-      "coverage": 0.804,
-      "entered": true,
-      "floor": 0,
-      "interior_observation": true,
-      "node_id": 6,
-      "side": "R",
-      "y": 28.45
     },
     {
       "blocked": false,
       "completed": false,
       "coverage": 0.0,
       "entered": false,
-      "floor": 1,
+      "floor": 0,
       "interior_observation": false,
-      "node_id": 2,
+      "node_id": 3,
       "side": "R",
       "y": 14.45
     },
@@ -81,30 +48,19 @@
       "completed": false,
       "coverage": 0.0,
       "entered": false,
-      "floor": 1,
+      "floor": 0,
       "interior_observation": false,
-      "node_id": 3,
-      "side": "L",
-      "y": 14.45
-    },
-    {
-      "blocked": false,
-      "completed": true,
-      "coverage": 0.881,
-      "entered": true,
-      "floor": 1,
-      "interior_observation": true,
       "node_id": 5,
       "side": "L",
       "y": 28.45
     },
     {
       "blocked": false,
-      "completed": true,
-      "coverage": 0.84,
-      "entered": true,
-      "floor": 1,
-      "interior_observation": true,
+      "completed": false,
+      "coverage": 0.0,
+      "entered": false,
+      "floor": 0,
+      "interior_observation": false,
       "node_id": 6,
       "side": "R",
       "y": 28.45
@@ -113,50 +69,50 @@
   "rooms": [
     {
       "blocked": false,
-      "completed": true,
-      "entered": true,
+      "completed": false,
+      "entered": false,
       "floor": 0,
       "id": "floor_0_room_0",
-      "interior_observation": true,
-      "known_ratio": 0.9200940070505288,
-      "passed": true,
-      "task_coverage": 0.886,
+      "interior_observation": false,
+      "known_ratio": 0.6498237367802585,
+      "passed": false,
+      "task_coverage": 0.0,
       "task_found": true
     },
     {
       "blocked": false,
-      "completed": true,
-      "entered": true,
+      "completed": false,
+      "entered": false,
       "floor": 0,
       "id": "floor_0_room_1",
-      "interior_observation": true,
-      "known_ratio": 0.9565217391304348,
-      "passed": true,
-      "task_coverage": 0.851,
+      "interior_observation": false,
+      "known_ratio": 0.5898942420681551,
+      "passed": false,
+      "task_coverage": 0.0,
       "task_found": true
     },
     {
       "blocked": false,
-      "completed": true,
-      "entered": true,
+      "completed": false,
+      "entered": false,
       "floor": 0,
       "id": "floor_0_room_2",
-      "interior_observation": true,
-      "known_ratio": 0.917743830787309,
-      "passed": true,
-      "task_coverage": 0.883,
+      "interior_observation": false,
+      "known_ratio": 0.6110458284371327,
+      "passed": false,
+      "task_coverage": 0.0,
       "task_found": true
     },
     {
       "blocked": false,
-      "completed": true,
-      "entered": true,
+      "completed": false,
+      "entered": false,
       "floor": 0,
       "id": "floor_0_room_3",
-      "interior_observation": true,
-      "known_ratio": 0.8613396004700352,
-      "passed": true,
-      "task_coverage": 0.804,
+      "interior_observation": false,
+      "known_ratio": 0.5969447708578144,
+      "passed": false,
+      "task_coverage": 0.0,
       "task_found": true
     },
     {
@@ -166,10 +122,10 @@
       "floor": 1,
       "id": "floor_1_room_0",
       "interior_observation": false,
-      "known_ratio": 0.6897767332549941,
+      "known_ratio": 0.0,
       "passed": false,
       "task_coverage": 0.0,
-      "task_found": true
+      "task_found": false
     },
     {
       "blocked": false,
@@ -178,34 +134,34 @@
       "floor": 1,
       "id": "floor_1_room_1",
       "interior_observation": false,
-      "known_ratio": 0.6227967097532315,
+      "known_ratio": 0.0,
       "passed": false,
       "task_coverage": 0.0,
-      "task_found": true
+      "task_found": false
     },
     {
       "blocked": false,
-      "completed": true,
-      "entered": true,
+      "completed": false,
+      "entered": false,
       "floor": 1,
       "id": "floor_1_room_2",
-      "interior_observation": true,
-      "known_ratio": 0.9130434782608695,
-      "passed": true,
-      "task_coverage": 0.881,
-      "task_found": true
+      "interior_observation": false,
+      "known_ratio": 0.0,
+      "passed": false,
+      "task_coverage": 0.0,
+      "task_found": false
     },
     {
       "blocked": false,
-      "completed": true,
-      "entered": true,
+      "completed": false,
+      "entered": false,
       "floor": 1,
       "id": "floor_1_room_3",
-      "interior_observation": true,
-      "known_ratio": 0.8989424206815512,
-      "passed": true,
-      "task_coverage": 0.84,
-      "task_found": true
+      "interior_observation": false,
+      "known_ratio": 0.0,
+      "passed": false,
+      "task_coverage": 0.0,
+      "task_found": false
     },
     {
       "blocked": false,
@@ -256,5 +212,5 @@
       "task_found": false
     }
   ],
-  "status": "dfs_corridor_segment id=1 mode=explore active=True policy=torchscript_checkpoint_loaded inferences=0 floor=1/3 full_map=False complete=1,0,0 coverage=0.862,0.701,0.000 frontiers=0,0,0 graph_rooms=4,4,0 distance=97.4,61.5,0.0 pose=(0.3745974879844644, 25.023391078764217, 2.914055135955391, -1.506136085039761) home=(-0.007076076937282457, -3.169589075522732, 0.31259279992443123, 1.6245324789574815) path=4/15 room_tasks=0:2:L:14.45:1:1:1:0:0.886,0:3:R:14.45:1:1:1:0:0.851,0:5:L:28.45:1:1:1:0:0.883,0:6:R:28.45:1:1:1:0:0.804,1:2:R:14.45:0:0:0:0:0.000,1:3:L:14.45:0:0:0:0:0.000,1:5:L:28.45:1:1:1:0:0.881,1:6:R:28.45:1:1:1:0:0.840"
+  "status": "dfs_corridor_segment id=4 mode=explore active=True policy=torchscript_checkpoint_loaded inferences=0 floor=0/3 full_map=False complete=0,0,0 coverage=0.623,0.000,0.000 frontiers=0,0,0 graph_rooms=4,0,0 distance=40.7,0.0,0.0 pose=(-0.08968518898468923, 32.95511135777016, 0.3225705443309183, -1.2916152888743535) home=(-0.005244431456753574, -3.1988771320537994, 0.310692621970937, 1.5714128179901197) path=4/8 room_tasks=0:2:L:14.45:0:0:0:0:0.000,0:3:R:14.45:0:0:0:0:0.000,0:5:L:28.45:0:0:0:0:0.000,0:6:R:28.45:0:0:0:0:0.000"
 }
