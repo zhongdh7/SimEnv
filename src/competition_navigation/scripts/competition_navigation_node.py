@@ -431,8 +431,8 @@ class CompetitionNavigation(object):
         )
 
         cells = int(round(self.map_size_m / self.cell_size))
-        if cells < 80 or cells > 600:
-            raise ValueError("map_size_m must produce 80..600 cells")
+        if cells < 80 or cells > 2000:
+            raise ValueError("map_size_m must produce 80..2000 cells")
         self.map_cells = cells
         self.floor_beliefs = [
             np.full((cells, cells), UNKNOWN, dtype=np.uint8)

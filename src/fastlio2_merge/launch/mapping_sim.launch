@@ -1,8 +1,8 @@
 <launch>
 <!-- FAST-LIO2 SLAM for SimEnv Gazebo simulation (direct registration, no feature
-     extraction).  This is the loop-closure-ready successor to fastlio_slam_merge's
-     FAST-LIO v1.  Step 1 of the two-step plan runs official FAST-LIO2 unmodified;
-     loop closure (ScanContext + GTSAM) is added afterward.
+     extraction).  This is the successor to fastlio_slam_merge's FAST-LIO v1.
+     Runs official FAST-LIO2 unmodified; the accumulated cloud is saved as
+     exploration evidence (localization moves to AMCL, see competition_navigation).
 
      Uses MARSIM lidar type (4) with SimEnv topics:
        - /livox/Pointcloud2_local (relayed from /scan by pointcloud_converter)

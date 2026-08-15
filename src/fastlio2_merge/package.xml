@@ -2,10 +2,10 @@
 <package format="2">
   <name>fastlio2_merge</name>
   <version>0.0.0</version>
-  <description>Integrate FAST-LIO2 LiDAR-inertial odometry (direct registration,
-    optional ScanContext + GTSAM loop closure) with the competition navigation
-    stack; relays the /scan point cloud, republishes odometry, and saves a
-    drift-free accumulated cloud to PCD anchored to ground-truth TF.</description>
+  <description>Integrate FAST-LIO2 LiDAR-inertial odometry (direct registration)
+    with the competition navigation stack; relays the /scan point cloud,
+    republishes odometry, and saves a drift-free accumulated cloud to PCD
+    anchored to ground-truth TF.</description>
 
   <maintainer email="loser@todo.todo">loser</maintainer>
   <license>BSD</license>

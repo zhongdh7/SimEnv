@@ -4,10 +4,12 @@
   <arg name="odom_topic" default="/Odometry_gazebo" />
   <arg name="map_frame" default="odom" />
   <!-- 2-D grid resolution in metres.  Smaller = finer published map.  0.4 was
-       the original; 0.2 doubles the resolution.  The obstacle inflation in
-       competition_navigation_node.py is distance-based, so the planner keeps
-       the same physical clearance regardless of this value. -->
-  <arg name="cell_size" default="0.2" />
+       the original; 0.2 doubled it; 0.05 gives 4x finer detail (1600 cells on
+       the 80 m map, requires the node's 600-cell cap raised to 2000).  The
+       obstacle inflation in competition_navigation_node.py is distance-based,
+       so the planner keeps the same physical clearance regardless of this
+       value. -->
+  <arg name="cell_size" default="0.05" />
   <arg name="require_hdplanner" default="true" />
   <arg name="model_path" default="/home/uf/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
   <arg name="library_path" default="$(env HOME)/SimEnv/devel/lib/libhdplanner_inference.so" />
