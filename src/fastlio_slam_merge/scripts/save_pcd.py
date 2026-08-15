@@ -45,6 +45,12 @@ class PcdSaver(object):
             self.status_topic, self.pcd_dir,
         )
 
+        # FAST-LIO's native node dumps the accumulated map when it is
+        # interrupted (SIGINT -> save PCD after the main loop exits).  Mirror
+        # that behaviour: on Ctrl-C, or any other ROS shutdown, save whatever
+        # cloud has accumulated so far even if full-map completion never fired.
+        rospy.on_shutdown(self._on_shutdown)
+
     def _cloud_callback(self, msg):
         self._latest_cloud = msg
 
@@ -59,12 +65,23 @@ class PcdSaver(object):
         self._save(self._latest_cloud)
         self._saved = True
 
-    def _save(self, cloud):
+    def _on_shutdown(self):
+        """Save the accumulated cloud on Ctrl-C / ROS shutdown."""
+        if self._saved:
+            return
+        if self._latest_cloud is None:
+            rospy.logwarn("shutdown before any cloud was received; nothing to save")
+            return
+        self._save(self._latest_cloud, interrupted=True)
+        self._saved = True
+
+    def _save(self, cloud, interrupted=False):
         os.makedirs(self.pcd_dir, exist_ok=True)
         stamp = cloud.header.stamp.to_sec()
         if stamp <= 0.0:
             stamp = rospy.get_time()
-        path = os.path.join(self.pcd_dir, "full_map_%.3f.pcd" % stamp)
+        suffix = "_interrupted" if interrupted else ""
+        path = os.path.join(self.pcd_dir, "full_map_%.3f%s.pcd" % (stamp, suffix))
         self._write_ascii_pcd(cloud, path)
         rospy.loginfo("saved accumulated cloud to %s", path)
 
