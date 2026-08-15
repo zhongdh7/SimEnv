@@ -11,7 +11,6 @@ from __future__ import print_function
 
 import ctypes
 import heapq
-import json
 import math
 import os
 import threading
@@ -36,6 +35,48 @@ FREE = 255
 OCCUPIED = 1
 
 
+# The v1 competition scene fixes these infrastructure values.  The scene
+# seed changes room contents and obstacle placement, not the navigation
+# geometry used by this node.
+DEFAULT_FLOOR_COUNT = 3
+DEFAULT_ROOMS_PER_FLOOR = 4
+DEFAULT_FLOOR_HEIGHT = 2.6
+DEFAULT_SCAN_MIN_RANGE = 2.0
+DEFAULT_SCAN_SELF_FILTER_ENABLED = True
+DEFAULT_SCAN_SELF_FILTER_FRONT = 0.75
+DEFAULT_SCAN_SELF_FILTER_REAR = 0.60
+DEFAULT_SCAN_SELF_FILTER_LEFT = 0.55
+DEFAULT_SCAN_SELF_FILTER_RIGHT = 0.55
+DEFAULT_FOOTPRINT_BOUNDS = {
+    "x_min": -10.0,
+    "x_max": 10.0,
+    "y_min": 0.0,
+    "y_max": 36.0,
+}
+DEFAULT_LOBBY_BOUNDS = {
+    "x_min": -10.0,
+    "x_max": 10.0,
+    "y_min": 0.0,
+    "y_max": 7.85,
+}
+DEFAULT_CORRIDOR_BOUNDS = {
+    "x_min": -1.1,
+    "x_max": 1.1,
+    "y_min": 7.85,
+    "y_max": 35.91,
+}
+DEFAULT_STAIR_BOUNDS = {
+    "x_min": -4.85,
+    "x_max": -1.65,
+    "y_min": 0.85,
+    "y_max": 6.85,
+}
+DEFAULT_ELEVATOR_BOUNDS = {
+    "x_min": 1.65,
+    "x_max": 4.05,
+    "y_min": 1.25,
+    "y_max": 3.95,
+}
 def clamp(value, lower, upper):
     return max(lower, min(upper, value))
 
@@ -221,6 +262,42 @@ class CompetitionNavigation(object):
         self.control_period = float(rospy.get_param("~control_period", 0.1))
         self.scan_stride = max(1, int(rospy.get_param("~scan_stride", 8)))
         self.max_scan_points = max(100, int(rospy.get_param("~max_scan_points", 1800)))
+        self.scan_min_range = max(
+            0.0, float(rospy.get_param("~scan_min_range", DEFAULT_SCAN_MIN_RANGE))
+        )
+        self.scan_max_range = max(
+            self.scan_min_range + 0.5,
+            float(rospy.get_param("~scan_max_range", 22.0)),
+        )
+        self.scan_self_filter_enabled = bool(
+            rospy.get_param(
+                "~scan_self_filter_enabled", DEFAULT_SCAN_SELF_FILTER_ENABLED
+            )
+        )
+        self.scan_self_filter_front = max(
+            0.0,
+            float(rospy.get_param(
+                "~scan_self_filter_front", DEFAULT_SCAN_SELF_FILTER_FRONT
+            )),
+        )
+        self.scan_self_filter_rear = max(
+            0.0,
+            float(rospy.get_param(
+                "~scan_self_filter_rear", DEFAULT_SCAN_SELF_FILTER_REAR
+            )),
+        )
+        self.scan_self_filter_left = max(
+            0.0,
+            float(rospy.get_param(
+                "~scan_self_filter_left", DEFAULT_SCAN_SELF_FILTER_LEFT
+            )),
+        )
+        self.scan_self_filter_right = max(
+            0.0,
+            float(rospy.get_param(
+                "~scan_self_filter_right", DEFAULT_SCAN_SELF_FILTER_RIGHT
+            )),
+        )
         self.map_progress_cell_batch = max(
             1, int(rospy.get_param("~map_progress_cell_batch", 8))
         )
@@ -232,12 +309,12 @@ class CompetitionNavigation(object):
         self.auto_start = bool(rospy.get_param("~auto_start", False))
         self.auto_return_after_sec = float(rospy.get_param("~auto_return_after_sec", 0.0))
         self.require_hdplanner = bool(rospy.get_param("~require_hdplanner", True))
-        self.layout_metadata_path = rospy.get_param(
-            "~layout_metadata_path",
-            "/home/uf/SimEnv/generated_building/layout_metadata.json",
+        self.floor_count = max(
+            1, int(rospy.get_param("~floor_count", DEFAULT_FLOOR_COUNT))
         )
-        self.floor_count = max(1, int(rospy.get_param("~floor_count", 3)))
-        self.floor_height = float(rospy.get_param("~floor_height", 2.6))
+        self.floor_height = float(
+            rospy.get_param("~floor_height", DEFAULT_FLOOR_HEIGHT)
+        )
         self.min_floor_coverage = float(rospy.get_param("~min_floor_coverage", 0.45))
         self.completion_min_floor_coverage = max(
             self.min_floor_coverage,
@@ -255,19 +332,95 @@ class CompetitionNavigation(object):
         self.no_frontier_cycles_required = max(
             2, int(rospy.get_param("~no_frontier_cycles_required", 6))
         )
-        self.stair_speed = float(rospy.get_param("~stair_speed", 0.40))
+        self.stair_speed = max(
+            0.05, float(rospy.get_param("~stair_speed", 0.80))
+        )
+        self.stair_landing_speed = max(
+            0.0, float(rospy.get_param("~stair_landing_speed", 0.40))
+        )
+        self.stair_yaw_rate = max(
+            0.05, float(rospy.get_param("~stair_yaw_rate", 1.0))
+        )
+        self.stair_flat_use_max_linear = bool(
+            rospy.get_param("~stair_flat_use_max_linear", True)
+        )
+        self.stair_lookahead = max(
+            0.05, float(rospy.get_param("~stair_lookahead", 0.30))
+        )
+        self.stair_brake_distance = max(
+            self.stair_lookahead,
+            float(rospy.get_param("~stair_brake_distance", 0.35)),
+        )
+        self.stair_lateral_limit = max(
+            0.03, float(rospy.get_param("~stair_lateral_limit", 0.08))
+        )
+        self.stair_cruise_heading_tolerance = float(
+            rospy.get_param("~stair_cruise_heading_tolerance", 0.70)
+        )
+        self.stair_cruise_lateral_tolerance = float(
+            rospy.get_param("~stair_cruise_lateral_tolerance", 0.22)
+        )
+        self.stair_turn_heading_threshold = float(
+            rospy.get_param("~stair_turn_heading_threshold", 0.60)
+        )
         self.min_room_coverage = max(
             0.50, float(rospy.get_param("~min_room_coverage", 0.70))
         )
         self.room_task_timeout = max(
             30.0, float(rospy.get_param("~room_task_timeout", 120.0))
         )
-        self.stair_bounds = None
-        self.corridor_bounds = None
+        # Room-local exploration is deliberately independent from HDPlanner.
+        # These parameters keep the first implementation easy to tune in roslaunch.
+        self.room_frontier_min_cluster_cells = max(
+            1, int(rospy.get_param("~room_frontier_min_cluster_cells", 3))
+        )
+        self.room_candidates_per_cluster = max(
+            1, int(rospy.get_param("~room_candidates_per_cluster", 2))
+        )
+        self.room_candidate_limit = max(
+            1, int(rospy.get_param("~room_candidate_limit", 10))
+        )
+        self.room_information_range = max(
+            self.cell_size,
+            float(rospy.get_param("~room_information_range", 6.0)),
+        )
+        self.room_information_angle_step_deg = clamp(
+            float(rospy.get_param("~room_information_angle_step_deg", 10.0)),
+            2.0,
+            45.0,
+        )
+        self.room_path_cost_weight = max(
+            0.0, float(rospy.get_param("~room_path_cost_weight", 0.45))
+        )
+        self.room_return_cost_weight = max(
+            0.0, float(rospy.get_param("~room_return_cost_weight", 0.20))
+        )
+        self.room_obstacle_cost_weight = max(
+            0.0, float(rospy.get_param("~room_obstacle_cost_weight", 0.80))
+        )
+        self.room_target_blacklist_radius = max(
+            0.0,
+            float(rospy.get_param("~room_target_blacklist_radius", 0.80)),
+        )
+        self.room_entry_confirmation_cycles = max(
+            1, int(rospy.get_param("~room_entry_confirmation_cycles", 2))
+        )
+        self.room_entry_allow_unknown_wall = bool(
+            rospy.get_param("~room_entry_allow_unknown_wall", True)
+        )
+        rooms_per_floor = max(
+            1,
+            int(rospy.get_param("~rooms_per_floor", DEFAULT_ROOMS_PER_FLOOR)),
+        )
+        self.stair_bounds = dict(DEFAULT_STAIR_BOUNDS)
+        self.corridor_bounds = dict(DEFAULT_CORRIDOR_BOUNDS)
+        # Populated from observed room_entry nodes in the lidar/odometry map.
         self.room_door_ys = []
-        self.expected_room_count = []
-        self.footprint_bounds = None
-        self._load_layout_configuration()
+        self.room_entry_observations = [dict() for _ in range(self.floor_count)]
+        self.expected_room_count = [rooms_per_floor for _ in range(self.floor_count)]
+        self.footprint_bounds = dict(DEFAULT_FOOTPRINT_BOUNDS)
+        self.lobby_bounds = dict(DEFAULT_LOBBY_BOUNDS)
+        self.elevator_bounds = dict(DEFAULT_ELEVATOR_BOUNDS)
         self.model_path = rospy.get_param(
             "~model_path",
             "/home/uf/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt",
@@ -373,63 +526,6 @@ class CompetitionNavigation(object):
         self.publish_zero()
         self.policy.close()
 
-    def _load_layout_configuration(self):
-        """Load only building infrastructure, never room or danger-source truth."""
-        try:
-            with open(self.layout_metadata_path, "r") as stream:
-                metadata = json.load(stream)
-            floors = metadata.get("floors", [])
-            if floors:
-                self.floor_count = len(floors)
-                self.expected_room_count = [
-                    len(floor.get("rooms", [])) for floor in floors
-                ]
-                self.stair_bounds = dict(floors[0].get("stair_bounds", {}))
-                self.corridor_bounds = dict(
-                    floors[0].get("corridor_bounds", {})
-                )
-                self.room_door_ys = sorted(
-                    float(room["door_pose"][1])
-                    for room in floors[0].get("rooms", [])
-                    if len(room.get("door_pose", [])) >= 2
-                )
-                self.lobby_bounds = dict(floors[0].get("lobby_bounds", {}))
-                self.elevator_bounds = dict(
-                    floors[0].get("elevator_bounds", {})
-                )
-            self.floor_height = float(metadata.get("floor_height", self.floor_height))
-            footprint = metadata.get("footprint", {})
-            entrance = metadata.get("entrance_pose", [0.0, 0.0])
-            width = float(footprint.get("width", 0.0))
-            length = float(footprint.get("length", 0.0))
-            if width > 0.0 and length > 0.0:
-                entrance_x = float(entrance[0])
-                entrance_y = float(entrance[1])
-                self.footprint_bounds = {
-                    "x_min": entrance_x - width / 2.0,
-                    "x_max": entrance_x + width / 2.0,
-                    "y_min": entrance_y,
-                    "y_max": entrance_y + length,
-                }
-            rospy.loginfo(
-                "loaded competition infrastructure: floors=%d height=%.2f footprint=%s stair=%s",
-                self.floor_count,
-                self.floor_height,
-                self.footprint_bounds,
-                self.stair_bounds,
-            )
-        except Exception as exc:
-            rospy.logwarn(
-                "layout metadata unavailable (%s); using configured floor defaults", exc
-            )
-        if self.floor_count > 1 and not self.stair_bounds:
-            self.stair_bounds = {
-                "x_min": -4.85,
-                "x_max": -1.65,
-                "y_min": 0.85,
-                "y_max": 6.85,
-            }
-
     def _reset_graph_state(self):
         self.floor_graphs = [CorridorGraph(merge_distance=0.5)
                              for _ in range(self.floor_count)]
@@ -445,6 +541,11 @@ class CompetitionNavigation(object):
         self.active_room_entered = False
         self.active_room_started = rospy.Time(0)
         self.active_room_no_frontier_cycles = 0
+        self.active_room_target_cell = None
+        self.active_room_frontier_blacklist = set()
+        self.last_room_plan = None
+        self.room_door_ys_by_floor = [[] for _ in range(self.floor_count)]
+        self.room_entry_observations = [dict() for _ in range(self.floor_count)]
 
     def _graph_root(self, floor_index):
         graph = self.floor_graphs[floor_index]
@@ -482,8 +583,14 @@ class CompetitionNavigation(object):
                 opening = False
                 if (wall_cell is not None and room_cell is not None and
                         corridor_cell is not None):
+                    wall_value = belief[wall_cell[1], wall_cell[0]]
+                    wall_open = (
+                        wall_value == FREE or
+                        (self.room_entry_allow_unknown_wall and
+                         wall_value == UNKNOWN)
+                    )
                     opening = (
-                        belief[wall_cell[1], wall_cell[0]] == FREE and
+                        wall_open and
                         belief[room_cell[1], room_cell[0]] == FREE and
                         belief[corridor_cell[1], corridor_cell[0]] == FREE
                     )
@@ -508,13 +615,43 @@ class CompetitionNavigation(object):
                     start = None
         return candidates
 
+    def _confirmed_room_entry_candidates(self, candidates, floor_index):
+        """Require a door opening to persist across planning observations."""
+        if floor_index >= len(self.room_entry_observations):
+            return []
+        previous = self.room_entry_observations[floor_index]
+        current = {}
+        confirmed = []
+        for candidate in candidates:
+            key = (
+                candidate["side"],
+                int(round(float(candidate["y"]) / max(self.cell_size, 0.1))),
+            )
+            count = min(
+                self.room_entry_confirmation_cycles,
+                int(previous.get(key, 0)) + 1,
+            )
+            current[key] = count
+            if count >= self.room_entry_confirmation_cycles:
+                confirmed_candidate = dict(candidate)
+                confirmed_candidate["confidence"] = min(
+                    1.0,
+                    max(float(candidate.get("confidence", 0.0)),
+                        float(count) / 4.0),
+                )
+                confirmed.append(confirmed_candidate)
+        self.room_entry_observations[floor_index] = current
+        return confirmed
+
     def _update_floor_graph(self, belief, floor_index):
         """Record observed corridor anchors and side-room entry nodes."""
         if floor_index >= len(self.floor_graphs):
             return
         graph = self.floor_graphs[floor_index]
         root_id = self._graph_root(floor_index)
-        candidates = self._room_entry_candidates(belief)
+        candidates = self._confirmed_room_entry_candidates(
+            self._room_entry_candidates(belief), floor_index
+        )
         for candidate in candidates:
             # A corridor position is shared by both side rooms.  Keeping one
             # anchor per longitudinal position makes the corridor a chain,
@@ -569,6 +706,28 @@ class CompetitionNavigation(object):
             corridor_nodes.append(end_id)
         for start_id, end_id in zip(corridor_nodes, corridor_nodes[1:]):
             graph.add_edge(start_id, end_id)
+        self._refresh_room_door_ys(floor_index)
+
+    def _refresh_room_door_ys(self, floor_index):
+        """Derive door y coordinates from lidar-observed room_entry nodes."""
+        if floor_index >= len(self.floor_graphs):
+            return []
+        graph = self.floor_graphs[floor_index]
+        observed_ys = sorted({
+            float(node.y)
+            for node in graph.nodes.values()
+            if (node.node_type == "room_entry" and
+                node.floor == floor_index and
+                math.isfinite(float(node.y)))
+        })
+        door_ys = []
+        for observed_y in observed_ys:
+            if not door_ys or abs(observed_y - door_ys[-1]) > 0.75:
+                door_ys.append(observed_y)
+        self.room_door_ys_by_floor[floor_index] = door_ys
+        if floor_index == getattr(self, "current_floor", floor_index):
+            self.room_door_ys = list(door_ys)
+        return door_ys
 
     def _prepare_graph_dfs(self, floor_index):
         """Build a stable DFS event order from the discovered corridor end."""
@@ -729,29 +888,54 @@ class CompetitionNavigation(object):
             return 0.0
         return self._coverage_in_world_bounds(belief, bounds)
 
-    def _room_frontier_path(self, belief, pose, node):
-        """Return a known-free path to a frontier inside one room."""
-        bounds = self._room_bounds(node)
-        if bounds is None:
-            return []
-        room_mask = self._room_mask(bounds)
-        frontier = self._frontier_mask(belief) & room_mask
-        traversable = self._known_free_mask(belief) & room_mask
-        start = self._cell((pose[0], pose[1]))
+    @staticmethod
+    def _frontier_clusters(frontier_mask):
+        """Return 8-connected frontier components as lists of (x, y) cells."""
+        height, width = frontier_mask.shape
+        visited = np.zeros_like(frontier_mask, dtype=bool)
+        clusters = []
+        for seed_y, seed_x in np.argwhere(frontier_mask):
+            if visited[seed_y, seed_x]:
+                continue
+            queue = deque([(int(seed_x), int(seed_y))])
+            visited[seed_y, seed_x] = True
+            cluster = []
+            while queue:
+                cell_x, cell_y = queue.popleft()
+                cluster.append((cell_x, cell_y))
+                for dx, dy in (
+                        (-1, -1), (0, -1), (1, -1),
+                        (-1, 0),           (1, 0),
+                        (-1, 1),  (0, 1),  (1, 1)):
+                    next_x, next_y = cell_x + dx, cell_y + dy
+                    if (0 <= next_x < width and 0 <= next_y < height and
+                            frontier_mask[next_y, next_x] and
+                            not visited[next_y, next_x]):
+                        visited[next_y, next_x] = True
+                        queue.append((next_x, next_y))
+            clusters.append(cluster)
+        return clusters
+
+    @staticmethod
+    def _distance_tree(traversable, start):
+        """Build one BFS tree reused by all room candidates."""
+        height, width = traversable.shape
+        distance = np.full((height, width), -1, dtype=np.int32)
+        parent_x = np.full((height, width), -1, dtype=np.int16)
+        parent_y = np.full((height, width), -1, dtype=np.int16)
         if start is None:
-            return []
-        traversable[start[1], start[0]] = True
-        distance = np.full(traversable.shape, -1, dtype=np.int32)
-        parent_x = np.full(traversable.shape, -1, dtype=np.int16)
-        parent_y = np.full(traversable.shape, -1, dtype=np.int16)
+            return distance, parent_x, parent_y
+        start_x, start_y = start
+        if not (0 <= start_x < width and 0 <= start_y < height):
+            return distance, parent_x, parent_y
         queue = deque([start])
-        distance[start[1], start[0]] = 0
+        distance[start_y, start_x] = 0
         while queue:
             cell_x, cell_y = queue.popleft()
             next_distance = distance[cell_y, cell_x] + 1
             for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
                 next_x, next_y = cell_x + dx, cell_y + dy
-                if (not self._inside(next_x, next_y) or
+                if (not (0 <= next_x < width and 0 <= next_y < height) or
                         not traversable[next_y, next_x] or
                         distance[next_y, next_x] >= 0):
                     continue
@@ -759,23 +943,179 @@ class CompetitionNavigation(object):
                 parent_x[next_y, next_x] = cell_x
                 parent_y[next_y, next_x] = cell_y
                 queue.append((next_x, next_y))
-        candidates = np.argwhere(frontier & (distance >= 2))
-        if candidates.size == 0:
+        return distance, parent_x, parent_y
+
+    @staticmethod
+    def _sample_cluster_cells(cluster, count):
+        """Choose spatially separated representatives from one frontier cluster."""
+        if not cluster or count <= 0:
             return []
-        unknown = belief == UNKNOWN
+        center_x = sum(cell[0] for cell in cluster) / float(len(cluster))
+        center_y = sum(cell[1] for cell in cluster) / float(len(cluster))
+        first = min(
+            cluster,
+            key=lambda cell: ((cell[0] - center_x) ** 2 +
+                              (cell[1] - center_y) ** 2),
+        )
+        selected = [first]
+        remaining = set(cluster)
+        remaining.discard(first)
+        while remaining and len(selected) < count:
+            next_cell = max(
+                remaining,
+                key=lambda cell: min(
+                    (cell[0] - chosen[0]) ** 2 +
+                    (cell[1] - chosen[1]) ** 2
+                    for chosen in selected
+                ),
+            )
+            selected.append(next_cell)
+            remaining.remove(next_cell)
+        return selected
+
+    def _room_information_gain(self, belief, room_mask, candidate):
+        """Count unique unknown cells visible from a candidate by 2-D ray casting."""
+        max_cells = max(
+            1, int(math.ceil(self.room_information_range / self.cell_size))
+        )
+        ray_count = max(
+            8,
+            int(math.ceil(360.0 / self.room_information_angle_step_deg)),
+        )
+        visible_unknown = set()
+        cell_x, cell_y = candidate
+        for ray_index in range(ray_count):
+            angle = 2.0 * math.pi * ray_index / float(ray_count)
+            end_x = cell_x + int(round(max_cells * math.cos(angle)))
+            end_y = cell_y + int(round(max_cells * math.sin(angle)))
+            for ray_x, ray_y in bresenham(cell_x, cell_y, end_x, end_y):
+                if not self._inside(ray_x, ray_y) or not room_mask[ray_y, ray_x]:
+                    break
+                value = belief[ray_y, ray_x]
+                if value == OCCUPIED:
+                    break
+                if value == UNKNOWN:
+                    visible_unknown.add((ray_x, ray_y))
+        return len(visible_unknown)
+
+    def _blacklist_reached_room_target(self, pose):
+        """Avoid selecting the same observation point after its path completes."""
+        target = self.active_room_target_cell
+        if target is None:
+            return
+        target_world = (
+            self.map_origin_x + target[0] * self.cell_size,
+            self.map_origin_y + target[1] * self.cell_size,
+        )
+        if math.hypot(pose[0] - target_world[0], pose[1] - target_world[1]) > 0.90:
+            return
+        radius = int(math.ceil(
+            self.room_target_blacklist_radius / self.cell_size
+        ))
+        for offset_y in range(-radius, radius + 1):
+            for offset_x in range(-radius, radius + 1):
+                if offset_x * offset_x + offset_y * offset_y > radius * radius:
+                    continue
+                self.active_room_frontier_blacklist.add(
+                    (target[0] + offset_x, target[1] + offset_y)
+                )
+        self.active_room_target_cell = None
+
+    def _room_frontier_path(self, belief, pose, node):
+        """Select a clustered room frontier using gain, travel and return cost."""
+        bounds = self._room_bounds(node)
+        if bounds is None:
+            return []
+        room_mask = self._room_mask(bounds)
+        frontier = self._frontier_mask(belief) & room_mask
+        for cell_x, cell_y in self.active_room_frontier_blacklist:
+            if self._inside(cell_x, cell_y):
+                frontier[cell_y, cell_x] = False
+
+        traversable = self._known_free_mask(belief) & room_mask
+        start = self._cell((pose[0], pose[1]))
+        if start is None:
+            return []
+        traversable[start[1], start[0]] = True
+        distance, parent_x, parent_y = self._distance_tree(traversable, start)
+
+        door_cell = self._cell(node.position)
+        if door_cell is not None:
+            traversable[door_cell[1], door_cell[0]] = True
+        door_distance, _, _ = self._distance_tree(traversable, door_cell)
+
+        clusters = [
+            cluster for cluster in self._frontier_clusters(frontier)
+            if len(cluster) >= self.room_frontier_min_cluster_cells
+        ]
+        clusters.sort(key=len, reverse=True)
+        candidates = []
+        for cluster in clusters:
+            reachable_cluster = [
+                cell for cell in cluster
+                if distance[cell[1], cell[0]] >= 2
+            ]
+            candidates.extend(self._sample_cluster_cells(
+                reachable_cluster, self.room_candidates_per_cluster
+            ))
+            if len(candidates) >= self.room_candidate_limit:
+                break
+        candidates = candidates[:self.room_candidate_limit]
+        if not candidates:
+            self.last_room_plan = {
+                "candidate_count": 0,
+                "cluster_count": len(clusters),
+            }
+            return []
+
         best_cell = None
         best_score = -float("inf")
-        for cell_y, cell_x in candidates:
-            radius = 4
-            y0 = max(0, cell_y - radius)
-            y1 = min(self.map_cells, cell_y + radius + 1)
-            x0 = max(0, cell_x - radius)
-            x1 = min(self.map_cells, cell_x + radius + 1)
-            information_gain = int(np.count_nonzero(unknown[y0:y1, x0:x1]))
-            score = information_gain - 0.15 * float(distance[cell_y, cell_x])
+        best_record = None
+        for cell_x, cell_y in candidates:
+            path_cells = int(distance[cell_y, cell_x])
+            if path_cells < 2:
+                continue
+            gain_cells = self._room_information_gain(
+                belief, room_mask, (cell_x, cell_y)
+            )
+            gain_area = gain_cells * self.cell_size * self.cell_size
+            path_m = path_cells * self.cell_size
+            return_cells = int(door_distance[cell_y, cell_x])
+            if return_cells >= 0:
+                return_m = return_cells * self.cell_size
+            elif door_cell is not None:
+                return_m = math.hypot(
+                    cell_x - door_cell[0], cell_y - door_cell[1]
+                ) * self.cell_size
+            else:
+                return_m = 0.0
+            obstacle_penalty = (
+                self.room_obstacle_cost_weight
+                if self._near_obstacle(belief, cell_x, cell_y, 2)
+                else 0.0
+            )
+            score = (
+                gain_area -
+                self.room_path_cost_weight * path_m -
+                self.room_return_cost_weight * return_m -
+                obstacle_penalty
+            )
             if score > best_score:
                 best_score = score
                 best_cell = (int(cell_x), int(cell_y))
+                best_record = {
+                    "cell": best_cell,
+                    "score": float(score),
+                    "gain_cells": int(gain_cells),
+                    "gain_area": float(gain_area),
+                    "path_m": float(path_m),
+                    "return_m": float(return_m),
+                    "candidate_count": len(candidates),
+                    "cluster_count": len(clusters),
+                }
+        if best_cell is None:
+            return []
+
         cells = []
         current = best_cell
         while current is not None:
@@ -790,6 +1130,8 @@ class CompetitionNavigation(object):
         if not cells or cells[-1] != start:
             return []
         cells.reverse()
+        self.active_room_target_cell = best_cell
+        self.last_room_plan = best_record
         return self._cells_to_waypoints(cells)
 
     @staticmethod
@@ -956,6 +1298,9 @@ class CompetitionNavigation(object):
                     self.active_room_entered = False
                     self.active_room_started = rospy.Time.now()
                     self.active_room_no_frontier_cycles = 0
+                    self.active_room_target_cell = None
+                    self.active_room_frontier_blacklist = set()
+                    self.last_room_plan = None
                     self.graph_dfs_attempts[floor_index] = 0
                     graph.mark_node(node_id, visited=True)
                     self.path = []
@@ -1060,12 +1405,23 @@ class CompetitionNavigation(object):
             else:
                 if self.path_index < len(self.path):
                     return True
+                self._blacklist_reached_room_target(pose)
                 path = self._room_frontier_path(belief, pose, node)
                 if path:
                     self.active_room_no_frontier_cycles = 0
-                    self._set_path(path, "room_frontier id=%d %.3f" % (
-                        node.node_id, coverage
-                    ))
+                    plan = self.last_room_plan or {}
+                    self._set_path(
+                        path,
+                        ("room_frontier id=%d coverage=%.3f gain=%s "
+                         "path=%.2f return=%.2f score=%.2f") % (
+                            node.node_id,
+                            coverage,
+                            plan.get("gain_cells", "?"),
+                            plan.get("path_m", -1.0),
+                            plan.get("return_m", -1.0),
+                            plan.get("score", -1.0),
+                        ),
+                    )
                     return True
                 self.active_room_no_frontier_cycles += 1
                 self.status = "room_waiting_for_frontier id=%d %.3f" % (
@@ -1133,10 +1489,13 @@ class CompetitionNavigation(object):
         corridor_x = min(max(0.0, x_min + 0.45), x_max - 0.45)
         if pose[1] <= y_min:
             return [entry]
-        door_ys = list(self.room_door_ys)
+        door_ys = self._refresh_room_door_ys(
+            getattr(self, "current_floor", 0)
+        )
         if not door_ys:
-            door_ys = [y_min + 0.25 * (y_max - y_min),
-                       y_min + 0.75 * (y_max - y_min)]
+            # Without a lidar-observed room entry, let the regular A* fallback
+            # use the current occupancy map instead of inventing a door pose.
+            return []
         door_y = min(door_ys, key=lambda value: abs(value - pose[1]))
         path = []
         if pose[0] > x_max + 0.25:
@@ -1307,7 +1666,11 @@ class CompetitionNavigation(object):
                 if not all(math.isfinite(value) for value in (px, py, pz)):
                     continue
                 distance = math.hypot(px - pose[0], py - pose[1])
-                if distance > 22.0 or distance < 2.0:
+                if (distance > self.scan_max_range or
+                        distance < self.scan_min_range):
+                    continue
+                if (self.scan_self_filter_enabled and
+                        self._is_self_return((px, py), pose)):
                     continue
                 # Keep the current floor and reject high ceiling returns.
                 if pz < pose[2] - 0.05 or pz > pose[2] + 1.0:
@@ -1345,6 +1708,19 @@ class CompetitionNavigation(object):
                 self.pending_known_cells[floor_index] = 0
             self.latest_scan_stamp = msg.header.stamp
             self.last_map_update = rospy.Time.now()
+
+    def _is_self_return(self, point, pose):
+        """Reject returns inside the robot footprint in the base frame."""
+        dx = float(point[0]) - float(pose[0])
+        dy = float(point[1]) - float(pose[1])
+        cos_yaw = math.cos(float(pose[3]))
+        sin_yaw = math.sin(float(pose[3]))
+        forward = cos_yaw * dx + sin_yaw * dy
+        lateral = -sin_yaw * dx + cos_yaw * dy
+        return (
+            -self.scan_self_filter_rear <= forward <= self.scan_self_filter_front
+            and -self.scan_self_filter_right <= lateral <= self.scan_self_filter_left
+        )
 
     def _transform_points(self, source_frame, stamp, points, pose):
         if not source_frame or source_frame in (self.map_frame, "odom", "/odom"):
@@ -1669,22 +2045,67 @@ class CompetitionNavigation(object):
         return 0.35
 
     @staticmethod
-    def _yaw_rate_limit(mode, max_yaw_rate):
+    def _yaw_rate_limit(mode, max_yaw_rate, stair_yaw_rate=1.0):
         if mode in ("stairs_up", "stairs_down"):
-            return min(max_yaw_rate, 0.8)
+            return min(max_yaw_rate, stair_yaw_rate)
         return max_yaw_rate
 
     @staticmethod
-    def _tracking_waypoint(mode, path_index, pose, waypoint):
+    def _stair_speed_cap(
+        mode,
+        path_index,
+        stair_speed,
+        landing_speed,
+        max_linear,
+        flat_use_max_linear=True,
+    ):
+        """Return the linear speed cap for a stair route waypoint segment."""
+        if mode not in ("stairs_up", "stairs_down"):
+            return max_linear
+        if path_index in (1, 3):
+            return stair_speed
+        if path_index == 2:
+            return landing_speed
+        if path_index in (0, 4) and not flat_use_max_linear:
+            return stair_speed
+        return max_linear
+
+    @staticmethod
+    def _tracking_waypoint(mode, path_index, pose, waypoint, lookahead=0.30):
         if mode not in ("stairs_up", "stairs_down") or path_index not in (1, 3):
             return waypoint
         delta_y = waypoint[1] - pose[1]
-        # Descending must stay on the next physical tread; a long lookahead
-        # skips several risers and can wedge the base against the stair edge.
-        lookahead = 1.20
+        # Keep the moving target within roughly one physical tread.  A long
+        # preview skips several risers and can wedge the base against an edge.
         if abs(delta_y) <= lookahead:
             return waypoint
         return (waypoint[0], pose[1] + math.copysign(lookahead, delta_y))
+
+    @staticmethod
+    def _stair_cruise_command(
+        mode,
+        path_index,
+        body_x,
+        body_y,
+        heading_error,
+        waypoint_distance,
+        stair_speed,
+        brake_distance,
+        heading_tolerance=0.60,
+        lateral_tolerance=0.18,
+    ):
+        """Return a cruise command for a well-aligned stair flight."""
+        if mode not in ("stairs_up", "stairs_down") or path_index not in (1, 3):
+            return None
+        if waypoint_distance <= brake_distance:
+            return None
+        if body_x <= 0.0:
+            return None
+        if abs(body_y) > lateral_tolerance:
+            return None
+        if abs(heading_error) > heading_tolerance:
+            return None
+        return math.copysign(abs(stair_speed), body_x)
 
     def _stair_entry(self, direction):
         geometry = self._stair_geometry()
@@ -2202,15 +2623,27 @@ class CompetitionNavigation(object):
     def _known_free_mask(self, belief):
         free = belief == FREE
         occupied = belief == OCCUPIED
-        observed_free = self._dilate_mask(free, 2)
-        blocked = self._dilate_mask(occupied, 1)
+        # Inflation radii are expressed in metres so the physical clearance the
+        # planner keeps from obstacles is independent of the grid resolution.
+        # At the original 0.4 m cells these reproduce the previous hardcoded
+        # counts: free dilated 2 cells (0.8 m), obstacles inflated 1 cell
+        # (0.4 m).  Raising the resolution (smaller cell_size) therefore keeps
+        # the same clearance instead of shrinking it.
+        free_radius = max(2, int(math.ceil(0.8 / self.cell_size)))
+        obstacle_radius = max(1, int(math.ceil(0.4 / self.cell_size)))
+        observed_free = self._dilate_mask(free, free_radius)
+        blocked = self._dilate_mask(occupied, obstacle_radius)
         traversable = observed_free & ~blocked
 
         occupied_up = np.zeros_like(occupied, dtype=bool)
         occupied_down = np.zeros_like(occupied, dtype=bool)
         occupied_left = np.zeros_like(occupied, dtype=bool)
         occupied_right = np.zeros_like(occupied, dtype=bool)
-        for offset in (1, 2):
+        doorway_offsets = sorted({
+            max(1, int(round(0.4 / self.cell_size))),
+            max(1, int(round(0.8 / self.cell_size))),
+        })
+        for offset in doorway_offsets:
             occupied_up[offset:, :] |= occupied[:-offset, :]
             occupied_down[:-offset, :] |= occupied[offset:, :]
             occupied_left[:, offset:] |= occupied[:, :-offset]
@@ -2219,7 +2652,8 @@ class CompetitionNavigation(object):
             (occupied_up & occupied_down) |
             (occupied_left & occupied_right)
         )
-        doorway_clearance = self._dilate_mask(doorway_seed, 2)
+        doorway_radius = max(2, int(math.ceil(0.8 / self.cell_size)))
+        doorway_clearance = self._dilate_mask(doorway_seed, doorway_radius)
         traversable |= doorway_clearance & free
 
         # Door panels leave too little clearance after global obstacle inflation.
@@ -2433,7 +2867,7 @@ class CompetitionNavigation(object):
 
         waypoint = path[index]
         tracking_waypoint = self._tracking_waypoint(
-            mode, index, pose, waypoint
+            mode, index, pose, waypoint, self.stair_lookahead
         )
         dx = tracking_waypoint[0] - pose[0]
         dy = tracking_waypoint[1] - pose[1]
@@ -2449,9 +2883,43 @@ class CompetitionNavigation(object):
             command.linear.y *= 0.2
         command.angular.z = clamp(0.9 * heading_error, -self.max_yaw_rate, self.max_yaw_rate)
         if mode in ("stairs_up", "stairs_down"):
-            command.linear.x = clamp(command.linear.x, -self.stair_speed, self.stair_speed)
-            command.linear.y = clamp(command.linear.y, -0.10, 0.10)
-            yaw_rate_limit = self._yaw_rate_limit(mode, self.max_yaw_rate)
+            waypoint_distance = math.hypot(
+                waypoint[0] - pose[0], waypoint[1] - pose[1]
+            )
+            cruise_command = self._stair_cruise_command(
+                mode,
+                index,
+                body_x,
+                body_y,
+                heading_error,
+                waypoint_distance,
+                self.stair_speed,
+                self.stair_brake_distance,
+                self.stair_cruise_heading_tolerance,
+                self.stair_cruise_lateral_tolerance,
+            )
+            if cruise_command is not None:
+                command.linear.x = cruise_command
+            # Turn on a landing before advancing. Carrying forward motion
+            # through a 90-degree stair turn is a common source of slip.
+            if index not in (1, 3) and abs(heading_error) > self.stair_turn_heading_threshold:
+                command.linear.x = 0.0
+                command.linear.y = 0.0
+            speed_cap = self._stair_speed_cap(
+                mode,
+                index,
+                self.stair_speed,
+                self.stair_landing_speed,
+                self.max_linear,
+                self.stair_flat_use_max_linear,
+            )
+            command.linear.x = clamp(command.linear.x, -speed_cap, speed_cap)
+            command.linear.y = clamp(
+                command.linear.y, -self.stair_lateral_limit, self.stair_lateral_limit
+            )
+            yaw_rate_limit = self._yaw_rate_limit(
+                mode, self.max_yaw_rate, self.stair_yaw_rate
+            )
             command.angular.z = clamp(command.angular.z,
                                       -yaw_rate_limit, yaw_rate_limit)
         if not all(math.isfinite(value) for value in

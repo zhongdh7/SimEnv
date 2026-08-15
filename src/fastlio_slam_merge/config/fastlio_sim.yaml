@@ -19,10 +19,15 @@ mapping:
     fov_degree:    90
     det_range:     50.0
     extrinsic_est_en:  false      # true: enable the online estimation of IMU-LiDAR extrinsic
-    extrinsic_T: [ -0.0, -0.0, 0.0 ]
-    extrinsic_R: [ 1, 0, 0,
-                   0, 1, 0,
-                   0, 0, 1]
+    # SimEnv mounts the Mid360 pitched up 45 deg about Y on the trunk:
+    #   laser_livox_joint  rpy="0 0.785 0"  xyz="0.2 0 0.08"  (parent base == imu_link)
+    # FAST-LIO transforms lidar points into the IMU/body frame as
+    #   p_imu = extrinsic_R * p_lidar + extrinsic_T,
+    # so extrinsic_R = Ry(+45 deg) and extrinsic_T = the lidar lever arm.
+    extrinsic_T: [ 0.2, 0.0, 0.08 ]
+    extrinsic_R: [ 0.7071068, 0, 0.7071068,
+                   0,         1, 0,
+                   -0.7071068, 0, 0.7071068]
 
 publish:
     path_en:  false

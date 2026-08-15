@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/loser/SimEnv/build
 include uav_simulator/Utils/multi_map_server/CMakeFiles/_multi_map_server_generate_messages_check_deps_MultiOccupancyGrid.dir/progress.make
 
 uav_simulator/Utils/multi_map_server/CMakeFiles/_multi_map_server_generate_messages_check_deps_MultiOccupancyGrid:
-	cd /home/loser/SimEnv/build/uav_simulator/Utils/multi_map_server && ../../../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py multi_map_server /home/loser/SimEnv/src/uav_simulator/Utils/multi_map_server/msg/MultiOccupancyGrid.msg nav_msgs/MapMetaData:std_msgs/Header:nav_msgs/OccupancyGrid:geometry_msgs/Point:geometry_msgs/Quaternion:geometry_msgs/Pose
+	cd /home/loser/SimEnv/build/uav_simulator/Utils/multi_map_server && ../../../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py multi_map_server /home/loser/SimEnv/src/uav_simulator/Utils/multi_map_server/msg/MultiOccupancyGrid.msg nav_msgs/OccupancyGrid:geometry_msgs/Pose:std_msgs/Header:nav_msgs/MapMetaData:geometry_msgs/Point:geometry_msgs/Quaternion
 
 _multi_map_server_generate_messages_check_deps_MultiOccupancyGrid: uav_simulator/Utils/multi_map_server/CMakeFiles/_multi_map_server_generate_messages_check_deps_MultiOccupancyGrid
 _multi_map_server_generate_messages_check_deps_MultiOccupancyGrid: uav_simulator/Utils/multi_map_server/CMakeFiles/_multi_map_server_generate_messages_check_deps_MultiOccupancyGrid.dir/build.make
