@@ -28,35 +28,45 @@ void callback_BASE(const gazebo_msgs::LinkStates::ConstPtr &msg) {
     }
     ros::Rate rate(500);//延迟至100hz发布，避免重复发布
 
-    // NOTE: map→odom TF is now published exclusively by AMCL.
-    // The old fixed-identity broadcast here caused TF_REPEATED_DATA conflicts
-    // that broke AMCL's localisation correction.  See explorer-v2 teb_navigation.
+    //map到odom的tf变换
+    static tf::TransformBroadcaster bf1;
+    tf::Transform transform_odom2map;
+    tf::Quaternion qtn;
+    qtn.setRPY(roll, pitch, yaw);
+    transform_odom2map.setRotation(tf::Quaternion(qtn.x(),
+                                         qtn.y(),
+                                         qtn.z(),
+                                         qtn.w()));
+    transform_odom2map.setOrigin(tf::Vector3(x,
+                                    y,
+                                    z));
+    // 发布odom到map的tf关系
+    bf1.sendTransform(tf::StampedTransform(transform_odom2map, ros::Time::now(), "map", "odom"));
+    
+    //求变化矩阵的逆解，用于推算map到odom的关系，以便能得到base到map的关系，及
+    tf::Transform transform_map2odom = transform_odom2map.inverse();
 
-    // Gazebo ground-truth pose is already in the world frame ("map"), and
-    // since AMCL publishes the corrective map→odom transform we just leave
-    // the Gazebo data in the odom frame as-is (identity between map and odom
-    // at this level — AMCL will shift odom relative to map as needed).
     tf::Point pt_map(msg->pose[index].position.x,msg->pose[index].position.y,msg->pose[index].position.z);
-    tf::Point pt_odom = pt_map;              // identity (was transform_map2odom * pt_map)
-
+    tf::Point pt_odom = transform_map2odom * pt_map;
+    
     tf::Quaternion q_map(msg->pose[index].orientation.x,
                         msg->pose[index].orientation.y,
                         msg->pose[index].orientation.z,
                         msg->pose[index].orientation.w);
-    tf::Quaternion q_odom = q_map;           // identity (was transform_map2odom * q_map)
+    tf::Quaternion q_odom = transform_map2odom.getRotation() * q_map;
 
     // 转换为odom的速度关系
     tf::Vector3 linear_vel(
         msg->twist[index].linear.x,
         msg->twist[index].linear.y,
         msg->twist[index].linear.z);
-    tf::Vector3 transformed_linear_vel = linear_vel;   // identity
+    tf::Vector3 transformed_linear_vel = transform_map2odom * linear_vel;
 
     tf::Vector3 angular_vel(
         msg->twist[index].angular.x,
         msg->twist[index].angular.y,
         msg->twist[index].angular.z);
-    tf::Vector3 transformed_angular_vel = angular_vel;  // identity
+    tf::Vector3 transformed_angular_vel = transform_map2odom * angular_vel;
     
     //发布base到odom的tf变换
     static tf::TransformBroadcaster bf2;

@@ -1,0 +1,48 @@
+<launch>
+  <arg name="auto_start" default="false" />
+  <arg name="auto_return_after_sec" default="0.0" />
+  <arg name="require_hdplanner" default="true" />
+  <arg name="model_path" default="/home/uf/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
+  <arg name="library_path" default="$(env HOME)/SimEnv/devel/lib/libhdplanner_inference.so" />
+  <arg name="layout_metadata_path" default="$(env HOME)/SimEnv/generated_building/layout_metadata.json" />
+  <arg name="floor_count" default="3" />
+  <arg name="floor_height" default="2.6" />
+  <arg name="min_floor_coverage" default="0.45" />
+  <arg name="no_frontier_cycles_required" default="6" />
+  <arg name="stair_speed" default="0.40" />
+  <arg name="start_verifier" default="false" />
+  <arg name="min_room_coverage" default="0.70" />
+  <arg name="room_task_timeout" default="120.0" />
+  <arg name="coverage_report_path" default="$(env HOME)/SimEnv/results/full_map_coverage.json" />
+
+  <node pkg="competition_navigation"
+        type="competition_navigation_node.py"
+        name="competition_navigation"
+        output="screen"
+        required="true">
+    <param name="auto_start" value="$(arg auto_start)" />
+    <param name="auto_return_after_sec" value="$(arg auto_return_after_sec)" />
+    <param name="require_hdplanner" value="$(arg require_hdplanner)" />
+    <param name="model_path" value="$(arg model_path)" />
+    <param name="library_path" value="$(arg library_path)" />
+    <param name="layout_metadata_path" value="$(arg layout_metadata_path)" />
+    <param name="floor_count" value="$(arg floor_count)" />
+    <param name="floor_height" value="$(arg floor_height)" />
+    <param name="min_floor_coverage" value="$(arg min_floor_coverage)" />
+    <param name="no_frontier_cycles_required" value="$(arg no_frontier_cycles_required)" />
+    <param name="stair_speed" value="$(arg stair_speed)" />
+    <param name="min_room_coverage" value="$(arg min_room_coverage)" />
+    <param name="room_task_timeout" value="$(arg room_task_timeout)" />
+  </node>
+
+  <node if="$(arg start_verifier)"
+        pkg="competition_navigation"
+        type="full_map_verifier.py"
+        name="full_map_verifier"
+        output="screen">
+    <param name="layout_metadata_path" value="$(arg layout_metadata_path)" />
+    <param name="min_floor_coverage" value="$(arg min_floor_coverage)" />
+    <param name="min_room_coverage" value="$(arg min_room_coverage)" />
+    <param name="report_path" value="$(arg coverage_report_path)" />
+  </node>
+</launch>

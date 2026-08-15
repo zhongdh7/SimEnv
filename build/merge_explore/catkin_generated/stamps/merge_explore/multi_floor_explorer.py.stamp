@@ -4,14 +4,14 @@ Multi-Floor Explorer — DWA waypoint navigation + stair climbing for 3 floors.
 
 Integrates the floor-0 waypoint sequence from auto_room_explorer with the
 stair_climber node.  Each floor uses the same XY waypoints (identical layout).
-AMCL is reinitialized after every stair climb to fix costmap freeze caused by
-3D stair pointcloud mismatch with the 2D static map.
+Between floors the robot navigates to the stair entry, triggers stair climbing,
+waits for completion, then resumes waypoint navigation on the new floor.
 
-Flow:  enter building → floor-0 (22 wp) → stairs up → reinit AMCL
-    → floor-1 (22 wp) → stairs up → reinit AMCL
-    → floor-2 (22 wp) → stairs down × 2 (reinit each) → return home
+Flow:  floor-0 (22 wp) → stairs up → floor-1 (22 wp) → stairs up
+    → floor-2 (22 wp) → stairs down × 2 → return home
 """
 
+import json
 import math
 
 import rospy
@@ -34,18 +34,16 @@ FLOOR_WAYPOINTS = [
     (-1.941, 14.722,  3.118),
 
     # === Left rooms (west wing) ===
-    (-7.649, 20.250, -0.636),       # wp3:  left room (upper, near)
-    (-7.717, 14.797, -1.571),       # wp4:  midpoint between upper & lower rooms
-    (-7.785,  9.343,  0.594),       # wp5:  left room (lower, near)
+    (-7.649, 20.250, -0.636),
+    (-7.785,  9.343,  0.594),
 
     # === Back to corridor ===
     (-1.923, 14.477,  0.089),
 
     # === Right rooms (east wing) ===
     ( 2.387, 14.597,  0.000),
-    ( 7.920, 19.999, -2.543),       # wp8:  right room (upper, near)
-    ( 8.031, 14.603, -1.571),       # wp9:  midpoint between upper & lower rooms
-    ( 8.142,  9.207,  2.550),       # wp10: right room (lower, near)
+    ( 7.920, 19.999, -2.543),
+    ( 8.142,  9.207,  2.550),
 
     # === Back to corridor ===
     ( 2.624, 14.554,  3.130),
@@ -56,31 +54,28 @@ FLOOR_WAYPOINTS = [
 
     # === Far-left rooms ===
     (-2.365, 28.269,  3.120),
-    (-7.255, 33.750, -0.652),       # wp15: far-left room (upper)
-    (-7.273, 28.358, -1.571),       # wp16: midpoint between upper & lower rooms
-    (-7.291, 22.966,  0.623),       # wp17: far-left room (lower)
+    (-7.255, 33.750, -0.652),
+    (-7.291, 22.966,  0.623),
 
     # === Back to far corridor ===
     (-1.978, 28.193,  0.049),
 
     # === Far-right rooms ===
     ( 2.784, 28.069,  0.000),
-    ( 8.394, 33.405, -2.587),       # wp20: far-right room (upper)
-    ( 8.495, 28.126, -1.571),       # wp21: midpoint between upper & lower rooms
-    ( 8.596, 22.847,  2.582),       # wp22: far-right room (lower)
+    ( 8.394, 33.405, -2.587),
+    ( 8.596, 22.847,  2.582),
+    ( 8.549, 22.720,  2.323),
 
     # === Back to corridor & return ===
     ( 3.102, 27.996,  3.114),
     ( 0.440, 28.162, -3.131),
     ( 0.050,  1.997, -1.489),
-    (-2.844,  1.615,  2.937),
+    (-2.835,  1.801, -3.072),
 ]
 
-# ---- verified positions (from RViz / simulation testing) ----
-ENTRANCE_WP      = ( 0.000,  2.000,  1.571)   # just inside main entrance
-STAIR_UP_ENTRY   = (-2.844,  1.615,  2.937)   # approach facing stairs (going up)
-STAIR_DOWN_ENTRY = (-2.482,  1.50,   3.1416)  # approach facing west into stairs (going down)
-# After climbing, robot exits near (x_exit ≈ -0.05, y_entry ≈ 1.5)
+# ---- stair approach positions ----
+STAIR_ENTRY       = (-2.835,  1.801, -3.072)  # unified stair approach (up & down)
+# After climbing, robot exits near:  (-0.05, 1.5)
 STAIR_EXIT = (-0.05, 1.50)
 
 # First waypoint after entering a new floor — corridor entrance
@@ -108,10 +103,15 @@ class MultiFloorExplorer:
     def __init__(self):
         rospy.init_node("multi_floor_explorer")
 
+        # --- stair geometry from layout metadata ---
+        layout_path = rospy.get_param(
+            "~layout_metadata_path",
+            "/home/loser/SimEnv/generated_building/layout_metadata.json",
+        )
         self.floor_count = rospy.get_param("~floor_count", 3)
         self.floor_height = rospy.get_param("~floor_height", 2.6)
 
-        self._load_stair_geometry()
+        self._load_stair_geometry(layout_path)
 
         # --- move_base action client ---
         rospy.loginfo("Waiting for move_base action server...")
@@ -166,13 +166,38 @@ class MultiFloorExplorer:
     # Initialization helpers
     # ------------------------------------------------------------------
 
-    def _load_stair_geometry(self):
-        """Use verified stair positions (tested in simulation)."""
-        self.stair_up_entry   = STAIR_UP_ENTRY
-        self.stair_down_entry = STAIR_DOWN_ENTRY
-        self.stair_exit       = STAIR_EXIT
-        rospy.loginfo("stair geometry: up_entry=%s down_entry=%s exit=%s",
-                      self.stair_up_entry, self.stair_down_entry, self.stair_exit)
+    def _load_stair_geometry(self, layout_path):
+        """Read stair bounds and pre-compute key positions."""
+        try:
+            with open(layout_path, "r") as fh:
+                metadata = json.load(fh)
+        except Exception as exc:
+            rospy.logwarn("layout metadata unavailable (%s) — using defaults", exc)
+            self.stair_up_entry = STAIR_ENTRY
+            self.stair_down_entry = STAIR_ENTRY
+            self.stair_exit = STAIR_EXIT
+            return
+
+        floors = metadata.get("floors", [])
+        if floors:
+            bounds = floors[0].get("stair_bounds", {})
+            if bounds:
+                width = float(bounds["x_max"]) - float(bounds["x_min"])
+                x_left  = float(bounds["x_min"]) + 0.26 * width
+                x_right = float(bounds["x_max"]) - 0.26 * width
+                x_exit  = float(bounds["x_max"]) + 0.50 * width
+                y_entry = float(bounds["y_min"]) + 0.65
+
+                self.stair_up_entry   = STAIR_ENTRY
+                self.stair_down_entry = STAIR_ENTRY
+                self.stair_exit       = (x_exit,  y_entry + 0.50)
+                rospy.loginfo("stair geometry loaded: up_entry=%s down_entry=%s exit=%s",
+                              self.stair_up_entry, self.stair_down_entry, self.stair_exit)
+                return
+
+        self.stair_up_entry = STAIR_ENTRY
+        self.stair_down_entry = STAIR_ENTRY
+        self.stair_exit = STAIR_EXIT
 
     # ------------------------------------------------------------------
     # Odometry → floor detection
@@ -223,6 +248,26 @@ class MultiFloorExplorer:
                 if self._cell_cost(mx + dx, my + dy) >= 100:
                     return False
         return True
+
+    def _is_in_inflation(self, x, y):
+        """Check if goal position is within inflation zone (cost > 0).
+
+        If a new obstacle's inflation covers the goal, skip immediately.
+        """
+        if self._costmap is None:
+            return False
+        info = self._costmap_info
+        mx = int((x - info.origin.position.x) / info.resolution)
+        my = int((y - info.origin.position.y) / info.resolution)
+        if not (0 <= mx < info.width and 0 <= my < info.height):
+            return False
+        cr = max(1, int(0.3 / info.resolution))
+        for dx in range(-cr, cr + 1):
+            for dy in range(-cr, cr + 1):
+                cost = self._cell_cost(mx + dx, my + dy)
+                if 0 < cost < 100:
+                    return True
+        return False
 
     def _world_coord(self, mx, my):
         info = self._costmap_info
@@ -275,11 +320,16 @@ class MultiFloorExplorer:
     def send_goal(self, x, y, yaw, label="", max_retries=3):
         """Send one waypoint to move_base, block until result."""
         self._sent += 1
+        prefix = "  %s: " % label if label else ""
         excluded = set()
         for attempt in range(max_retries):
             if rospy.is_shutdown():
                 return False
             ax, ay = self._adjust_goal(x, y, exclude=excluded)
+            if self._is_in_inflation(ax, ay):
+                rospy.logwarn("%sGOAL %02d in inflation zone — skipping",
+                              prefix, self._sent)
+                return False
             info = self._costmap_info
             if info is not None:
                 mx = int((ax - info.origin.position.x) / info.resolution)
@@ -287,7 +337,6 @@ class MultiFloorExplorer:
                 excluded.add((mx, my))
             goal = self._make_goal(ax, ay, yaw)
             tag = " [SHIFTED]" if (ax != x or ay != y) else ""
-            prefix = "  %s: " % label if label else ""
             rospy.loginfo("%sGOAL %02d → (%.2f, %.2f, yaw=%.2f)%s",
                           prefix, self._sent, ax, ay, yaw, tag)
             self.ac.send_goal(goal)
@@ -295,9 +344,7 @@ class MultiFloorExplorer:
             if not finished:
                 rospy.logwarn("%sGOAL %02d TIMED OUT", prefix, self._sent)
                 self.ac.cancel_goal()
-                if attempt < max_retries - 1:
-                    rospy.loginfo("  retrying with shifted goal...")
-                continue
+                return False  # skip to next waypoint immediately
             state = self.ac.get_state()
             if state == GoalStatus.SUCCEEDED:
                 self._ok += 1
@@ -424,17 +471,12 @@ class MultiFloorExplorer:
     # ------------------------------------------------------------------
 
     def navigate_to_stair_entry(self, direction):
-        """Use move_base to approach the stair entry position."""
-        if direction == "up":
-            entry = self.stair_up_entry
-            label = "stair_approach_up"
-        else:
-            entry = self.stair_down_entry
-            label = "stair_approach_down"
-
+        """Navigate directly to the stair entry position."""
+        entry = self.stair_up_entry if direction == "up" else self.stair_down_entry
         rospy.loginfo("navigating to stair %s entry: (%.2f, %.2f)",
                       direction, entry[0], entry[1])
-        return self.send_goal(entry[0], entry[1], entry[2], label=label)
+        return self.send_goal(entry[0], entry[1], entry[2],
+                             label="stair_approach_%s" % direction)
 
     # ------------------------------------------------------------------
     # Floor execution
@@ -474,12 +516,6 @@ class MultiFloorExplorer:
             rospy.sleep(0.2)
         rospy.loginfo("initial pose: (%.2f, %.2f, z=%.2f) floor=%d",
                       self.pose[0], self.pose[1], self.pose[2], self.current_floor)
-
-        # ---- Enter building through main entrance ----
-        rospy.loginfo("")
-        rospy.loginfo("========== ENTER BUILDING ==========")
-        self.send_goal(ENTRANCE_WP[0], ENTRANCE_WP[1], ENTRANCE_WP[2],
-                       label="enter_gate")
 
         # ---- Floor 0: ground-floor exploration ----
         self.run_floor(0)

@@ -1,30 +1,22 @@
 xacro: in-order processing became default in ROS Melodic. You can drop the option.
-[31m[ERROR] [1786448818.105400045]: Couldn't open joystick /dev/input/js0. Will retry every second.[0m
-Error in XmlRpcClient::writeRequest: write error (Connection refused).
-Error in XmlRpcClient::writeRequest: write error (Connection refused).
-Error in XmlRpcClient::writeRequest: write error (Connection refused).
-Error in XmlRpcClient::writeRequest: write error (Connection refused).
-Error in XmlRpcClient::writeRequest: write error (Connection refused).
-[0m[INFO] [1786448818.437012576]: Finished loading Gazebo ROS API Plugin.[0m
-[0m[INFO] [1786448818.437878635]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m
-[0m[INFO] [1786448819.600728576]: waitForService: Service [/gazebo/set_physics_properties] is now available.[0m
-[0m[INFO] [1786448819.637824460, 0.030000000]: Physics dynamic reconfigure ready.[0m
-[0m[INFO] [1786448819.897803626, 0.200000000]: <initialOrientationAsReference> is unset, using default value of false to comply with REP 145 (world as orientation reference)[0m
-[0m[INFO] [1786448819.897885452, 0.200000000]: <robotNamespace> set to: //[0m
-[0m[INFO] [1786448819.897896397, 0.200000000]: <topicName> set to: trunk_imu[0m
-[0m[INFO] [1786448819.897902320, 0.200000000]: <frameName> set to: imu_link[0m
-[0m[INFO] [1786448819.897927016, 0.200000000]: <updateRateHZ> set to: 1000[0m
-[0m[INFO] [1786448819.897935992, 0.200000000]: <gaussianNoise> set to: 0[0m
-[0m[INFO] [1786448819.897964953, 0.200000000]: <xyzOffset> set to: 0 0 0[0m
-[0m[INFO] [1786448819.898047342, 0.200000000]: <rpyOffset> set to: 0 -0 0[0m
-[0m[INFO] [1786448819.982032127, 0.200000000]: load csv file name:/home/loser/SimEnv/src/unitree_guide/unitree_ros/robots/a1_description/scan_mode/mid360.csv[0m
+[31m[ERROR] [1786781441.982330896]: Couldn't open joystick /dev/input/js0. Will retry every second.[0m
+[31m[ERROR] [1786781443.370055915]: GetModelState: model [a1_gazebo] does not exist[0m
+[0m[INFO] [1786781442.288471360]: Finished loading Gazebo ROS API Plugin.[0m
+[0m[INFO] [1786781442.289193648]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m
+[0m[INFO] [1786781443.251401446]: waitForService: Service [/gazebo/set_physics_properties] is now available.[0m
+[0m[INFO] [1786781443.279050248]: Physics dynamic reconfigure ready.[0m
+[0m[INFO] [1786781443.602870736]: <initialOrientationAsReference> is unset, using default value of false to comply with REP 145 (world as orientation reference)[0m
+[0m[INFO] [1786781443.602908528]: <robotNamespace> set to: //[0m
+[0m[INFO] [1786781443.602915831]: <topicName> set to: trunk_imu[0m
+[0m[INFO] [1786781443.602920555]: <frameName> set to: imu_link[0m
+[0m[INFO] [1786781443.602943840]: <updateRateHZ> set to: 1000[0m
+[0m[INFO] [1786781443.602950617]: <gaussianNoise> set to: 0[0m
+[0m[INFO] [1786781443.602977270]: <xyzOffset> set to: 0 0 0[0m
+[0m[INFO] [1786781443.603053586]: <rpyOffset> set to: 0 -0 0[0m
+[0m[INFO] [1786781443.691780346]: load csv file name:/home/loser/SimEnv/src/unitree_guide/unitree_ros/robots/a1_description/scan_mode/mid360.csv[0m
 cannot convert str:
 data size:800000
-[WARN] [1786448818.432557, 0.000000]: wait_for_service(/gazebo/spawn_urdf_model): failed to contact, will keep trying
-[INFO] [1786448818.420965, 0.000000]: Loading model XML from ros parameter robot_description
-[INFO] [1786448818.429600, 0.000000]: Waiting for service /gazebo/spawn_urdf_model
-[INFO] [1786448819.637853, 0.000000]: wait_for_service(/gazebo/spawn_urdf_model): finally were able to contact [rosrpc://loser:45521]
-[INFO] [1786448819.638711, 0.000000]: Calling service /gazebo/spawn_urdf_model
-[INFO] [1786448821.394056, 0.200000]: Spawn status: SpawnModel: Successfully spawned entity
-
-libcurl: (28) Operation timed out after 300107 milliseconds with 0 out of 0 bytes received
+[INFO] [1786781442.209496, 0.000000]: Loading model XML from ros parameter robot_description
+[INFO] [1786781442.217967, 0.000000]: Waiting for service /gazebo/spawn_urdf_model
+[INFO] [1786781443.423905, 0.000000]: Calling service /gazebo/spawn_urdf_model
+[INFO] [1786781445.130389, 0.000000]: Spawn status: SpawnModel: Successfully spawned entity

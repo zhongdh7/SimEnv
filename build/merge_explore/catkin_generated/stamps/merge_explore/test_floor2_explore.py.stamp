@@ -24,56 +24,34 @@ from tf.transformations import quaternion_from_euler
 
 # ---- same 22 waypoints (XY identical for all floors) ----
 FLOOR_WAYPOINTS = [
-    # === Enter building → corridor midpoint ===
     ( 0.256, 14.641,  1.565),
     (-1.941, 14.722,  3.118),
-
-    # === Left rooms (west wing) ===
-    (-7.649, 20.250, -0.636),       # wp3:  left room (upper, near)
-    (-7.717, 14.797, -1.571),       # wp4:  midpoint between upper & lower rooms
-    (-7.785,  9.343,  0.594),       # wp5:  left room (lower, near)
-
-    # === Back to corridor ===
+    (-7.649, 20.250, -0.636),
+    (-7.785,  9.343,  0.594),
     (-1.923, 14.477,  0.089),
-
-    # === Right rooms (east wing) ===
     ( 2.387, 14.597,  0.000),
-    ( 7.920, 19.999, -2.543),       # wp8:  right room (upper, near)
-    ( 8.031, 14.603, -1.571),       # wp9:  midpoint between upper & lower rooms
-    ( 8.142,  9.207,  2.550),       # wp10: right room (lower, near)
-
-    # === Back to corridor ===
+    ( 7.920, 19.999, -2.543),
+    ( 8.142,  9.207,  2.550),
     ( 2.624, 14.554,  3.130),
     ( 0.290, 14.641, -3.121),
-
-    # === Transit to far corridor ===
     ( 0.511, 28.162,  1.572),
-
-    # === Far-left rooms ===
     (-2.365, 28.269,  3.120),
-    (-7.255, 33.750, -0.652),       # wp15: far-left room (upper)
-    (-7.273, 28.358, -1.571),       # wp16: midpoint between upper & lower rooms
-    (-7.291, 22.966,  0.623),       # wp17: far-left room (lower)
-
-    # === Back to far corridor ===
+    (-7.255, 33.750, -0.652),
+    (-7.291, 22.966,  0.623),
     (-1.978, 28.193,  0.049),
-
-    # === Far-right rooms ===
     ( 2.784, 28.069,  0.000),
-    ( 8.394, 33.405, -2.587),       # wp20: far-right room (upper)
-    ( 8.495, 28.126, -1.571),       # wp21: midpoint between upper & lower rooms
-    ( 8.596, 22.847,  2.582),       # wp22: far-right room (lower)
-
-    # === Back to corridor & return ===
+    ( 8.394, 33.405, -2.587),
+    ( 8.596, 22.847,  2.582),
+    ( 8.549, 22.720,  2.323),
     ( 3.102, 27.996,  3.114),
     ( 0.440, 28.162, -3.131),
     ( 0.050,  1.997, -1.489),
-    (-2.844,  1.615,  2.937),
+    (-2.835,  1.801, -3.072),
 ]
 
 # ---- stair geometry ----
 ENTRANCE_WP      = ( 0.000,  2.000,  1.571)   # just inside main entrance
-STAIR_UP_ENTRY   = (-2.844,  1.615,  2.937)
+STAIR_UP_ENTRY   = (-2.835,  1.801, -3.072)   # unified stair approach
 FLOOR_START_WP   = ( 0.256, 14.641,  1.565)
 
 # ---- tunable ----
@@ -176,6 +154,22 @@ class TestFloor2Explorer:
                     return False
         return True
 
+    def _is_in_inflation(self, x, y):
+        if self._costmap is None:
+            return False
+        info = self._costmap_info
+        mx = int((x - info.origin.position.x) / info.resolution)
+        my = int((y - info.origin.position.y) / info.resolution)
+        if not (0 <= mx < info.width and 0 <= my < info.height):
+            return False
+        cr = max(1, int(0.3 / info.resolution))
+        for dx in range(-cr, cr + 1):
+            for dy in range(-cr, cr + 1):
+                cost = self._cell_cost(mx + dx, my + dy)
+                if 0 < cost < 100:
+                    return True
+        return False
+
     def _world_coord(self, mx, my):
         info = self._costmap_info
         wx = info.origin.position.x + (mx + 0.5) * info.resolution
@@ -226,18 +220,22 @@ class TestFloor2Explorer:
 
     def send_goal(self, x, y, yaw, label="", max_retries=3):
         self._sent += 1
+        prefix = "  %s: " % label if label else ""
         excluded = set()
         for attempt in range(max_retries):
             if rospy.is_shutdown():
                 return False
             ax, ay = self._adjust_goal(x, y, exclude=excluded)
+            if self._is_in_inflation(ax, ay):
+                rospy.logwarn("%sGOAL %02d in inflation zone — skipping",
+                              prefix, self._sent)
+                return False
             info = self._costmap_info
             if info is not None:
                 mx = int((ax - info.origin.position.x) / info.resolution)
                 my = int((ay - info.origin.position.y) / info.resolution)
                 excluded.add((mx, my))
             goal = self._make_goal(ax, ay, yaw)
-            prefix = "  %s: " % label if label else ""
             rospy.loginfo("%sGOAL %02d → (%.2f, %.2f, yaw=%.2f)",
                           prefix, self._sent, ax, ay, yaw)
             self.ac.send_goal(goal)
@@ -245,7 +243,7 @@ class TestFloor2Explorer:
             if not finished:
                 rospy.logwarn("%sGOAL %02d TIMED OUT", prefix, self._sent)
                 self.ac.cancel_goal()
-                continue
+                return False  # skip to next waypoint immediately
             state = self.ac.get_state()
             if state == GoalStatus.SUCCEEDED:
                 self._ok += 1
