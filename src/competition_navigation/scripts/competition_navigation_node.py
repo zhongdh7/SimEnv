@@ -2623,15 +2623,27 @@ class CompetitionNavigation(object):
     def _known_free_mask(self, belief):
         free = belief == FREE
         occupied = belief == OCCUPIED
-        observed_free = self._dilate_mask(free, 2)
-        blocked = self._dilate_mask(occupied, 1)
+        # Inflation radii are expressed in metres so the physical clearance the
+        # planner keeps from obstacles is independent of the grid resolution.
+        # At the original 0.4 m cells these reproduce the previous hardcoded
+        # counts: free dilated 2 cells (0.8 m), obstacles inflated 1 cell
+        # (0.4 m).  Raising the resolution (smaller cell_size) therefore keeps
+        # the same clearance instead of shrinking it.
+        free_radius = max(2, int(math.ceil(0.8 / self.cell_size)))
+        obstacle_radius = max(1, int(math.ceil(0.4 / self.cell_size)))
+        observed_free = self._dilate_mask(free, free_radius)
+        blocked = self._dilate_mask(occupied, obstacle_radius)
         traversable = observed_free & ~blocked
 
         occupied_up = np.zeros_like(occupied, dtype=bool)
         occupied_down = np.zeros_like(occupied, dtype=bool)
         occupied_left = np.zeros_like(occupied, dtype=bool)
         occupied_right = np.zeros_like(occupied, dtype=bool)
-        for offset in (1, 2):
+        doorway_offsets = sorted({
+            max(1, int(round(0.4 / self.cell_size))),
+            max(1, int(round(0.8 / self.cell_size))),
+        })
+        for offset in doorway_offsets:
             occupied_up[offset:, :] |= occupied[:-offset, :]
             occupied_down[:-offset, :] |= occupied[offset:, :]
             occupied_left[:, offset:] |= occupied[:, :-offset]
@@ -2640,7 +2652,8 @@ class CompetitionNavigation(object):
             (occupied_up & occupied_down) |
             (occupied_left & occupied_right)
         )
-        doorway_clearance = self._dilate_mask(doorway_seed, 2)
+        doorway_radius = max(2, int(math.ceil(0.8 / self.cell_size)))
+        doorway_clearance = self._dilate_mask(doorway_seed, doorway_radius)
         traversable |= doorway_clearance & free
 
         # Door panels leave too little clearance after global obstacle inflation.

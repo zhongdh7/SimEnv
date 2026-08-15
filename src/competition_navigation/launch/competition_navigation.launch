@@ -3,6 +3,11 @@
   <arg name="auto_return_after_sec" default="0.0" />
   <arg name="odom_topic" default="/Odometry_gazebo" />
   <arg name="map_frame" default="odom" />
+  <!-- 2-D grid resolution in metres.  Smaller = finer published map.  0.4 was
+       the original; 0.2 doubles the resolution.  The obstacle inflation in
+       competition_navigation_node.py is distance-based, so the planner keeps
+       the same physical clearance regardless of this value. -->
+  <arg name="cell_size" default="0.2" />
   <arg name="require_hdplanner" default="true" />
   <arg name="model_path" default="/home/uf/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
   <arg name="library_path" default="$(env HOME)/SimEnv/devel/lib/libhdplanner_inference.so" />
@@ -55,6 +60,7 @@
     <param name="auto_return_after_sec" value="$(arg auto_return_after_sec)" />
     <param name="odom_topic" value="$(arg odom_topic)" />
     <param name="map_frame" value="$(arg map_frame)" />
+    <param name="cell_size" value="$(arg cell_size)" />
     <param name="require_hdplanner" value="$(arg require_hdplanner)" />
     <param name="model_path" value="$(arg model_path)" />
     <param name="library_path" value="$(arg library_path)" />
