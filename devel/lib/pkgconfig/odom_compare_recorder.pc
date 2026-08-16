@@ -1,0 +1,8 @@
+prefix=/home/loser/SimEnv/devel
+
+Name: odom_compare_recorder
+Description: Description of odom_compare_recorder
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

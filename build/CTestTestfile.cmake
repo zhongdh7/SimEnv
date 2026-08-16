@@ -6,9 +6,12 @@
 # testing this directory and lists subdirectories to be tested as well.
 subdirs("gtest")
 subdirs("building_generator_core")
+subdirs("carto_localization")
 subdirs("fastlio2_merge")
 subdirs("fastlio_slam_merge")
 subdirs("building_generator_interfaces")
+subdirs("odom_compare_player")
+subdirs("odom_compare_recorder")
 subdirs("uav_simulator/Utils/quadrotor_msgs")
 subdirs("unitree_guide/unitree_ros_to_real/unitree_legged_sdk")
 subdirs("unitree_guide/unitree_ros/robots/a1_description")

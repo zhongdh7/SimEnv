@@ -55,9 +55,12 @@ CMAKE_BINARY_DIR = /home/loser/SimEnv/build
 # The main recursive "all" target.
 all: gtest/all
 all: building_generator_core/all
+all: carto_localization/all
 all: fastlio2_merge/all
 all: fastlio_slam_merge/all
 all: building_generator_interfaces/all
+all: odom_compare_player/all
+all: odom_compare_recorder/all
 all: uav_simulator/Utils/quadrotor_msgs/all
 all: unitree_guide/unitree_ros_to_real/unitree_legged_sdk/all
 all: unitree_guide/unitree_ros/robots/a1_description/all
@@ -93,9 +96,12 @@ all: uav_simulator/Utils/waypoint_generator/all
 # The main recursive "preinstall" target.
 preinstall: gtest/preinstall
 preinstall: building_generator_core/preinstall
+preinstall: carto_localization/preinstall
 preinstall: fastlio2_merge/preinstall
 preinstall: fastlio_slam_merge/preinstall
 preinstall: building_generator_interfaces/preinstall
+preinstall: odom_compare_player/preinstall
+preinstall: odom_compare_recorder/preinstall
 preinstall: uav_simulator/Utils/quadrotor_msgs/preinstall
 preinstall: unitree_guide/unitree_ros_to_real/unitree_legged_sdk/preinstall
 preinstall: unitree_guide/unitree_ros/robots/a1_description/preinstall
@@ -136,9 +142,12 @@ clean: CMakeFiles/tests.dir/clean
 clean: CMakeFiles/download_extra_data.dir/clean
 clean: gtest/clean
 clean: building_generator_core/clean
+clean: carto_localization/clean
 clean: fastlio2_merge/clean
 clean: fastlio_slam_merge/clean
 clean: building_generator_interfaces/clean
+clean: odom_compare_player/clean
+clean: odom_compare_recorder/clean
 clean: uav_simulator/Utils/quadrotor_msgs/clean
 clean: unitree_guide/unitree_ros_to_real/unitree_legged_sdk/clean
 clean: unitree_guide/unitree_ros/robots/a1_description/clean
@@ -304,6 +313,24 @@ building_obstacles/clean: building_obstacles/CMakeFiles/std_srvs_generate_messag
 .PHONY : building_obstacles/clean
 
 #=============================================================================
+# Directory level rules for directory carto_localization
+
+# Recursive "all" directory target.
+carto_localization/all:
+
+.PHONY : carto_localization/all
+
+# Recursive "preinstall" directory target.
+carto_localization/preinstall:
+
+.PHONY : carto_localization/preinstall
+
+# Recursive "clean" directory target.
+carto_localization/clean:
+
+.PHONY : carto_localization/clean
+
+#=============================================================================
 # Directory level rules for directory competition_navigation
 
 # Recursive "all" directory target.
@@ -462,6 +489,42 @@ merge_explore/clean: merge_explore/CMakeFiles/move_base_msgs_generate_messages_e
 merge_explore/clean: merge_explore/CMakeFiles/move_base_msgs_generate_messages_cpp.dir/clean
 
 .PHONY : merge_explore/clean
+
+#=============================================================================
+# Directory level rules for directory odom_compare_player
+
+# Recursive "all" directory target.
+odom_compare_player/all:
+
+.PHONY : odom_compare_player/all
+
+# Recursive "preinstall" directory target.
+odom_compare_player/preinstall:
+
+.PHONY : odom_compare_player/preinstall
+
+# Recursive "clean" directory target.
+odom_compare_player/clean:
+
+.PHONY : odom_compare_player/clean
+
+#=============================================================================
+# Directory level rules for directory odom_compare_recorder
+
+# Recursive "all" directory target.
+odom_compare_recorder/all:
+
+.PHONY : odom_compare_recorder/all
+
+# Recursive "preinstall" directory target.
+odom_compare_recorder/preinstall:
+
+.PHONY : odom_compare_recorder/preinstall
+
+# Recursive "clean" directory target.
+odom_compare_recorder/clean:
+
+.PHONY : odom_compare_recorder/clean
 
 #=============================================================================
 # Directory level rules for directory uav_simulator/Utils/cmake_utils

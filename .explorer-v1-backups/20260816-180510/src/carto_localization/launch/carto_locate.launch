@@ -1,0 +1,58 @@
+<launch>
+<!-- Cartographer 2D loop-closure localization for the SimEnv robot.
+
+     Prerequisites (run BEFORE this launch, in separate terminals):
+       1. SimEnv Gazebo is running (robot_state_publisher, state_from_gazebo,
+          /scan and /livox/imu are up).  robot_state_publisher must broadcast
+          the base -> laser_livox transform.
+       2. Cartographer has been sourced:
+            source ~/cartographer_ws/install_isolated/setup.bash
+          (it was built with catkin_make_isolated; there is no apt package).
+
+     Data flow:
+       /scan (sensor_msgs/PointCloud, laser_livox)
+         -> pointcloud_to_laserscan.py (TF laser_livox -> base, project to 2D)
+         -> /scan_2d (sensor_msgs/LaserScan, base)
+         -> cartographer_node (use_odometry=false)
+         -> TF: carto_map -> base   (loop-closure corrected)
+         -> cartographer_occupancy_grid_node -> /carto_map_grid (2D map, rviz)
+
+     Usage:
+       source /opt/ros/noetic/setup.bash
+       source ~/SimEnv/devel/setup.bash
+       source ~/cartographer_ws/install_isolated/setup.bash
+       source ~/explorer-v1-best/devel/setup.bash
+       roslaunch carto_localization carto_locate.launch rviz:=true
+-->
+
+    <arg name="rviz" default="false" />
+
+    <!-- Convert /scan (legacy PointCloud) -> /scan_2d (flat 2D LaserScan). -->
+    <node pkg="carto_localization" type="pointcloud_to_laserscan.py"
+          name="pointcloud_to_laserscan" output="screen">
+        <param name="scan_topic" value="/scan" />
+        <param name="laser_topic" value="/scan_2d" />
+        <param name="target_frame" value="base" />
+    </node>
+
+    <!-- Cartographer 2D SLAM (pure scan matching + loop closure). -->
+    <node name="cartographer_node" pkg="cartographer_ros" type="cartographer_node"
+          args="-configuration_directory $(find carto_localization)/config
+                -configuration_basename carto_2d.lua"
+          output="screen">
+        <remap from="scan" to="/scan_2d" />
+    </node>
+
+    <!-- Publish the accumulated 2D occupancy grid for visualization. -->
+    <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
+          type="cartographer_occupancy_grid_node"
+          args="-resolution 0.05 -publish_period_sec 1.0">
+        <remap from="map" to="/carto_map_grid" />
+    </node>
+
+    <group if="$(arg rviz)">
+        <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz"
+              args="-d $(find carto_localization)/rviz/carto.rviz" />
+    </group>
+
+</launch>

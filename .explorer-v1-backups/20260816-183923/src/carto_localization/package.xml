@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>carto_localization</name>
+  <version>0.0.0</version>
+  <description>Cartographer 2D loop-closure localization for the SimEnv robot.
+    Converts the legacy /scan (sensor_msgs/PointCloud) into a flat 2D LaserScan,
+    then runs Cartographer in pure scan-matching mode (no odometry, no IMU) to
+    publish a drift-corrected "carto_map" -> "base" transform.</description>
+
+  <maintainer email="loser@todo.todo">loser</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>tf</exec_depend>
+  <exec_depend>cartographer_ros</exec_depend>
+  <exec_depend>cartographer_ros_msgs</exec_depend>
+
+  <export>
+  </export>
+</package>

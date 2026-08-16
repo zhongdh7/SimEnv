@@ -1,0 +1,42 @@
+<launch>
+<!-- Offline playback / visualisation of the recorded GT vs FAST-LIO tracks.
+
+     visualizer.py always runs: publishes the two full trajectories plus the
+     deviation segments as RViz markers and prints drift metrics.  Setting
+     animate:=true additionally runs animate.py to replay the two poses over
+     time so you can watch the drift accumulate.
+
+     Run AFTER recording (SimEnv / FAST-LIO need not be running):
+
+       source /opt/ros/noetic/setup.bash
+       source $HOME/SimEnv/devel/setup.bash   # (only needed to resolve packages)
+       roslaunch odom_compare_player player.launch
+
+     In RViz set Fixed Frame to ``world`` (the default below matches).
+-->
+
+  <arg name="csv_path"  default="$(env HOME)/odom_compare/odom_compare.csv" />
+  <arg name="align_sec" default="5.0" />
+  <arg name="frame"     default="world" />
+  <arg name="animate"   default="false" />
+  <arg name="rviz"      default="true" />
+
+  <node pkg="odom_compare_player" type="visualizer.py"
+        name="odom_compare_visualizer" output="screen">
+    <param name="csv_path"  value="$(arg csv_path)" />
+    <param name="align_sec" value="$(arg align_sec)" />
+    <param name="frame"     value="$(arg frame)" />
+  </node>
+
+  <node if="$(arg animate)" pkg="odom_compare_player" type="animate.py"
+        name="odom_compare_animate" output="screen">
+    <param name="csv_path"  value="$(arg csv_path)" />
+    <param name="align_sec" value="$(arg align_sec)" />
+    <param name="frame"     value="$(arg frame)" />
+    <param name="rate"      value="10.0" />
+    <param name="loop"      value="true" />
+  </node>
+
+  <node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz_odom_compare"
+        args="-d $(find odom_compare_player)/rviz/odom_compare.rviz" />
+</launch>
