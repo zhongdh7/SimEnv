@@ -74,8 +74,9 @@ def main():
     lio_pts = aligned[:, 0:3]
 
     pub = rospy.Publisher("/odom_compare_markers", Marker, queue_size=10, latch=True)
-    pub.publish(_line_strip(frame, "gt", (0.0, 1.0, 0.0, 1.0), 0.10, gt_pts))
-    pub.publish(_line_strip(frame, "lio", (1.0, 0.0, 0.0, 1.0), 0.10, lio_pts))
+
+    gt_marker = _line_strip(frame, "gt", (0.0, 1.0, 0.0, 1.0), 0.10, gt_pts)
+    lio_marker = _line_strip(frame, "lio", (1.0, 0.0, 0.0, 1.0), 0.10, lio_pts)
 
     # Deviation: connecting segments, thinned so the plot stays readable.
     stride = max(1, int(len(gt_pts) / 500))
@@ -83,7 +84,20 @@ def main():
     for i in range(0, len(gt_pts), stride):
         dev_pts.append(gt_pts[i])
         dev_pts.append(lio_pts[i])
-    pub.publish(_line_list(frame, "deviation", (0.3, 0.3, 1.0, 0.8), 0.03, dev_pts))
+    dev_marker = _line_list(frame, "deviation", (0.3, 0.3, 1.0, 0.8), 0.03, dev_pts)
+
+    # A latched publisher keeps only the LAST message, so a subscriber that
+    # connects after startup would only ever receive "deviation" and miss the
+    # gt / lio lines.  Re-publish all three periodically so RViz accumulates
+    # every marker regardless of when it subscribes.
+    def republish(_event):
+        now = rospy.Time.now()
+        for m in (gt_marker, lio_marker, dev_marker):
+            m.header.stamp = now
+            pub.publish(m)
+
+    republish(None)
+    rospy.Timer(rospy.Duration(0.5), republish)
 
     # Drift metrics.
     met = lib.metrics(data, aligned)
@@ -98,7 +112,7 @@ def main():
         len(gt_pts), met["ate_rmse"], met["mean"], met["max"], met["end"])
     rospy.loginfo("yaw drift: final=%.2f deg  max_abs=%.2f deg",
                   math.degrees(yaw_err[-1]), math.degrees(np.max(np.abs(yaw_err))))
-    rospy.loginfo("spinning to keep latched topics alive (Ctrl-C to quit)")
+    rospy.loginfo("spinning to re-publish markers (Ctrl-C to quit)")
     rospy.spin()
 
 

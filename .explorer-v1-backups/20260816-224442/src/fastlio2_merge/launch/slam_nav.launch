@@ -1,0 +1,62 @@
+<launch>
+<!-- SLAM + competition navigation integrated launch (FAST-LIO2 flavour).
+
+     Runs FAST-LIO2 SLAM in parallel with the ORIGINAL competition navigation.
+     Navigation keeps the Gazebo ground-truth odometry (/Odometry_gazebo) so
+     the full-map exploration and door finding behave exactly as the original
+     autonomous navigation; the 2-D occupancy grids still use /scan.
+     FAST-LIO2 builds the 3-D point-cloud map from the same /scan + IMU, and
+     save_pcd writes that accumulated cloud to PCD after the status reports
+     returned_home full_map=True.
+
+     Usage (after SimEnv + junior_ctrl are running, and ws_livox is sourced):
+       source /opt/ros/noetic/setup.bash
+       source $HOME/SimEnv/devel/setup.bash
+       source $HOME/ws_livox/devel/setup.bash
+       roslaunch fastlio2_merge slam_nav.launch
+-->
+
+    <arg name="rviz" default="false" />
+    <arg name="auto_start" default="true" />
+    <arg name="start_verifier" default="true" />
+    <arg name="model_path"
+         default="$(env HOME)/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
+    <arg name="library_path"
+         default="$(env HOME)/SimEnv/devel/lib/libhdplanner_inference.so" />
+    <arg name="layout_metadata_path"
+         default="$(env HOME)/SimEnv/generated_building/layout_metadata.json" />
+    <arg name="coverage_report_path"
+         default="$(env HOME)/SimEnv/results/full_map_coverage.json" />
+    <arg name="cell_size" default="0.2" />
+
+    <!-- 1. FAST-LIO2 SLAM for SimEnv (MARSIM lidar_type=4) -->
+    <include file="$(find fastlio2_merge)/launch/mapping_sim.launch">
+        <arg name="rviz" value="$(arg rviz)" />
+    </include>
+
+    <!-- 2. Competition navigation using ground-truth odometry (2-D grids use /scan) -->
+    <include file="$(find competition_navigation)/launch/competition_navigation.launch">
+        <arg name="auto_start" value="$(arg auto_start)" />
+        <arg name="start_verifier" value="$(arg start_verifier)" />
+        <arg name="model_path" value="$(arg model_path)" />
+        <arg name="library_path" value="$(arg library_path)" />
+        <arg name="layout_metadata_path" value="$(arg layout_metadata_path)" />
+        <arg name="coverage_report_path" value="$(arg coverage_report_path)" />
+        <arg name="cell_size" value="$(arg cell_size)" />
+        <!-- Navigation keeps the ORIGINAL ground-truth odometry, not FAST-LIO2's
+             /tf_odom.  FAST-LIO2 publishes its pose in the ``camera_init`` frame
+             (initial IMU pose); the /scan -> odom transform used to build the
+             2-D occupancy grid instead comes from state_from_gazebo's ground
+             truth ``odom`` frame.  Those two frames do not coincide, so mixing
+             them corrupts the grid and breaks door finding.  FAST-LIO2 still
+             runs in parallel (mapping_sim.launch) purely to build the
+             point-cloud map, which save_pcd.py writes after exploration. -->
+        <arg name="odom_topic" value="/Odometry_gazebo" />
+        <arg name="map_frame" value="odom" />
+    </include>
+
+    <!-- 3. Save accumulated cloud to PCD after exploration completes -->
+    <node pkg="fastlio2_merge" type="save_pcd.py" name="save_pcd"
+          output="screen" />
+
+</launch>

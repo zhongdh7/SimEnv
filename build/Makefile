@@ -2118,6 +2118,123 @@ clean_test_results_competition_navigation/fast:
 .PHONY : clean_test_results_competition_navigation/fast
 
 #=============================================================================
+# Target rules for targets named run_tests_competition_navigation_fastlio2
+
+# Build rule for target.
+run_tests_competition_navigation_fastlio2: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_competition_navigation_fastlio2
+.PHONY : run_tests_competition_navigation_fastlio2
+
+# fast build rule for target.
+run_tests_competition_navigation_fastlio2/fast:
+	$(MAKE) -f competition_navigation_fastlio2/CMakeFiles/run_tests_competition_navigation_fastlio2.dir/build.make competition_navigation_fastlio2/CMakeFiles/run_tests_competition_navigation_fastlio2.dir/build
+.PHONY : run_tests_competition_navigation_fastlio2/fast
+
+#=============================================================================
+# Target rules for targets named _run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py
+
+# Build rule for target.
+_run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py
+.PHONY : _run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py
+
+# fast build rule for target.
+_run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py/fast:
+	$(MAKE) -f competition_navigation_fastlio2/CMakeFiles/_run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py.dir/build.make competition_navigation_fastlio2/CMakeFiles/_run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py.dir/build
+.PHONY : _run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py/fast
+
+#=============================================================================
+# Target rules for targets named _run_tests_competition_navigation_fastlio2_nosetests
+
+# Build rule for target.
+_run_tests_competition_navigation_fastlio2_nosetests: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_competition_navigation_fastlio2_nosetests
+.PHONY : _run_tests_competition_navigation_fastlio2_nosetests
+
+# fast build rule for target.
+_run_tests_competition_navigation_fastlio2_nosetests/fast:
+	$(MAKE) -f competition_navigation_fastlio2/CMakeFiles/_run_tests_competition_navigation_fastlio2_nosetests.dir/build.make competition_navigation_fastlio2/CMakeFiles/_run_tests_competition_navigation_fastlio2_nosetests.dir/build
+.PHONY : _run_tests_competition_navigation_fastlio2_nosetests/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_competition_navigation_fastlio2_nosetests
+
+# Build rule for target.
+run_tests_competition_navigation_fastlio2_nosetests: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_competition_navigation_fastlio2_nosetests
+.PHONY : run_tests_competition_navigation_fastlio2_nosetests
+
+# fast build rule for target.
+run_tests_competition_navigation_fastlio2_nosetests/fast:
+	$(MAKE) -f competition_navigation_fastlio2/CMakeFiles/run_tests_competition_navigation_fastlio2_nosetests.dir/build.make competition_navigation_fastlio2/CMakeFiles/run_tests_competition_navigation_fastlio2_nosetests.dir/build
+.PHONY : run_tests_competition_navigation_fastlio2_nosetests/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py
+
+# Build rule for target.
+run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py
+.PHONY : run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py
+
+# fast build rule for target.
+run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py/fast:
+	$(MAKE) -f competition_navigation_fastlio2/CMakeFiles/run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py.dir/build.make competition_navigation_fastlio2/CMakeFiles/run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py.dir/build
+.PHONY : run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py
+
+# Build rule for target.
+run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py
+.PHONY : run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py
+
+# fast build rule for target.
+run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py/fast:
+	$(MAKE) -f competition_navigation_fastlio2/CMakeFiles/run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py.dir/build.make competition_navigation_fastlio2/CMakeFiles/run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py.dir/build
+.PHONY : run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py/fast
+
+#=============================================================================
+# Target rules for targets named _run_tests_competition_navigation_fastlio2
+
+# Build rule for target.
+_run_tests_competition_navigation_fastlio2: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_competition_navigation_fastlio2
+.PHONY : _run_tests_competition_navigation_fastlio2
+
+# fast build rule for target.
+_run_tests_competition_navigation_fastlio2/fast:
+	$(MAKE) -f competition_navigation_fastlio2/CMakeFiles/_run_tests_competition_navigation_fastlio2.dir/build.make competition_navigation_fastlio2/CMakeFiles/_run_tests_competition_navigation_fastlio2.dir/build
+.PHONY : _run_tests_competition_navigation_fastlio2/fast
+
+#=============================================================================
+# Target rules for targets named clean_test_results_competition_navigation_fastlio2
+
+# Build rule for target.
+clean_test_results_competition_navigation_fastlio2: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 clean_test_results_competition_navigation_fastlio2
+.PHONY : clean_test_results_competition_navigation_fastlio2
+
+# fast build rule for target.
+clean_test_results_competition_navigation_fastlio2/fast:
+	$(MAKE) -f competition_navigation_fastlio2/CMakeFiles/clean_test_results_competition_navigation_fastlio2.dir/build.make competition_navigation_fastlio2/CMakeFiles/clean_test_results_competition_navigation_fastlio2.dir/build
+.PHONY : clean_test_results_competition_navigation_fastlio2/fast
+
+#=============================================================================
+# Target rules for targets named _run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py
+
+# Build rule for target.
+_run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py
+.PHONY : _run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py
+
+# fast build rule for target.
+_run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py/fast:
+	$(MAKE) -f competition_navigation_fastlio2/CMakeFiles/_run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py.dir/build.make competition_navigation_fastlio2/CMakeFiles/_run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py.dir/build
+.PHONY : _run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py/fast
+
+#=============================================================================
 # Target rules for targets named move_base_msgs_generate_messages_py
 
 # Build rule for target.
@@ -4061,6 +4178,15 @@ help:
 	@echo "... _run_tests_competition_navigation"
 	@echo "... run_tests_competition_navigation_nosetests_test.test_full_map_logic.py"
 	@echo "... clean_test_results_competition_navigation"
+	@echo "... run_tests_competition_navigation_fastlio2"
+	@echo "... _run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py"
+	@echo "... _run_tests_competition_navigation_fastlio2_nosetests"
+	@echo "... run_tests_competition_navigation_fastlio2_nosetests"
+	@echo "... run_tests_competition_navigation_fastlio2_nosetests_test.test_full_map_logic.py"
+	@echo "... run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py"
+	@echo "... _run_tests_competition_navigation_fastlio2"
+	@echo "... clean_test_results_competition_navigation_fastlio2"
+	@echo "... _run_tests_competition_navigation_fastlio2_nosetests_test.test_corridor_graph.py"
 	@echo "... move_base_msgs_generate_messages_py"
 	@echo "... move_base_msgs_generate_messages_nodejs"
 	@echo "... move_base_msgs_generate_messages_lisp"
