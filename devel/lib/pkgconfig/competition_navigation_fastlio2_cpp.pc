@@ -1,0 +1,8 @@
+prefix=/home/loser/SimEnv/devel
+
+Name: competition_navigation_fastlio2_cpp
+Description: Description of competition_navigation_fastlio2_cpp
+Version: 0.3.0
+Cflags: -I/home/loser/SimEnv/src/competition_navigation_fastlio2_cpp/include
+Libs: -L${prefix}/lib 
+Requires: roscpp geometry_msgs nav_msgs sensor_msgs std_msgs std_srvs tf2_ros tf2_geometry_msgs

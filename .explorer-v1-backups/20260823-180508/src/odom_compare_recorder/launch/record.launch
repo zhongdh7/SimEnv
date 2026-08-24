@@ -1,0 +1,32 @@
+<launch>
+<!-- Record ground-truth + FAST-LIO odometry for offline trajectory comparison.
+
+     Subscribes to the ground-truth odometry (default /Odometry_gazebo, frame
+     odom -> base) and the FAST-LIO odometry (default /Odometry, frame
+     camera_init -> body) and writes, into ~output_dir:
+       * odom_compare.csv  : time-aligned pose pairs (one row per LIO sample)
+       * odom_compare.bag  : compact rosbag of ONLY these two topics (GT is
+                              throttled to ~bag_gt_max_hz to keep it small)
+
+     Run this in the merged SimEnv + ws_livox environment, alongside the
+     SLAM/navigation launch (a separate terminal works fine).
+
+     Usage (after sourcing noetic + SimEnv/devel + ws_livox/devel):
+       roslaunch odom_compare_recorder record.launch
+-->
+
+  <arg name="gt_topic"  default="/Odometry_gazebo" />
+  <arg name="lio_topic" default="/Odometry" />
+  <arg name="output_dir" default="$(env HOME)/odom_compare" />
+
+  <node pkg="odom_compare_recorder" type="recorder.py"
+        name="odom_compare_recorder" output="screen">
+    <param name="gt_topic"       value="$(arg gt_topic)" />
+    <param name="lio_topic"      value="$(arg lio_topic)" />
+    <param name="output_dir"     value="$(arg output_dir)" />
+    <!-- max allowed GT<->LIO timestamp gap for a CSV pair (s) -->
+    <param name="max_sync_sec"   value="0.05" />
+    <!-- ground-truth rate in the rosbag; 500 Hz -> 20 Hz keeps the bag small -->
+    <param name="bag_gt_max_hz"  value="20.0" />
+  </node>
+</launch>

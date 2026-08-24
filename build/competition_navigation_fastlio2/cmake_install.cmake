@@ -61,6 +61,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/competition_navigation_fastlio2" TYPE PROGRAM FILES "/home/loser/SimEnv/build/competition_navigation_fastlio2/catkin_generated/installspace/collision_safety.py")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/competition_navigation_fastlio2" TYPE PROGRAM FILES "/home/loser/SimEnv/build/competition_navigation_fastlio2/catkin_generated/installspace/full_map_verifier.py")
 endif()
 

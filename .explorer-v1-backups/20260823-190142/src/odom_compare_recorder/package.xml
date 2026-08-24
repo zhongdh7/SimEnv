@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>odom_compare_recorder</name>
+  <version>0.0.0</version>
+  <description>Record ground-truth (/Odometry_gazebo, frame odom->base) and
+    FAST-LIO (/Odometry, frame camera_init->body) odometry side by side into a
+    time-aligned CSV plus a compact rosbag, for offline trajectory comparison.</description>
+
+  <maintainer email="loser@todo.todo">loser</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>rosbag</exec_depend>
+
+  <export>
+  </export>
+</package>

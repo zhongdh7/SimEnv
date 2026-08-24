@@ -260,6 +260,25 @@ class CompetitionNavigation(object):
         self.map_size_m = float(rospy.get_param("~map_size_m", 80.0))
         self.planning_period = float(rospy.get_param("~planning_period", 2.0))
         self.control_period = float(rospy.get_param("~control_period", 0.1))
+        # Rate at which the occupancy-grid map (and status) is re-published.
+        # The belief array itself is updated on every scan (~10 Hz), so this
+        # only controls how often the result is pushed out for visualisation /
+        # downstream consumers.  During in-place turns the robot sweeps new
+        # cells quickly, so a higher rate makes the map look much more
+        # responsive.
+        self.map_publish_rate = max(
+            1.0, float(rospy.get_param("~map_publish_rate", 5.0))
+        )
+        # Anti-re-exploration: a frontier target is skipped if it lies within
+        # this many metres of any position the robot has already visited on the
+        # current floor.  Occluded frontiers in already-explored rooms otherwise
+        # keep winning the information-gain score and waste time revisiting.
+        self.frontier_revisit_radius = max(
+            0.0, float(rospy.get_param("~frontier_revisit_radius", 0.8))
+        )
+        self.frontier_revisit_radius_cells = max(
+            0, int(math.ceil(self.frontier_revisit_radius / self.cell_size))
+        )
         self.scan_stride = max(1, int(rospy.get_param("~scan_stride", 8)))
         self.max_scan_points = max(100, int(rospy.get_param("~max_scan_points", 1800)))
         self.scan_min_range = max(
@@ -301,10 +320,37 @@ class CompetitionNavigation(object):
         self.map_progress_cell_batch = max(
             1, int(rospy.get_param("~map_progress_cell_batch", 8))
         )
+        # Percentage-based ghost-obstacle clearing (see scan_callback).  An
+        # occupied cell is cleared back to free only once the fraction of rays
+        # that pass *through* it (vs. end on it) exceeds this percent, and only
+        # after at least obstacle_clear_min_obs observations.  A real wall keeps
+        # getting hit so its free-pass fraction stays low and it survives; a
+        # spurious 3-D-flattening point gets mostly free passes and is erased.
+        # Raise the percent to be more conservative (walls safer), lower it to
+        # drop ghost points more aggressively.
+        self.obstacle_clear_percent = float(
+            rospy.get_param("~obstacle_clear_percent", 80.0)
+        )
+        self.obstacle_clear_min_obs = max(
+            1, int(rospy.get_param("~obstacle_clear_min_obs", 5))
+        )
         self.max_linear = float(rospy.get_param("~max_linear", 0.5))
         self.linear_gain = float(rospy.get_param("~linear_gain", 1.0))
         self.max_lateral = float(rospy.get_param("~max_lateral", 0.15))
         self.max_yaw_rate = float(rospy.get_param("~max_yaw_rate", 1.2))
+        # Robot footprint radius (Unitree A1: trunk ~0.194 m wide x ~0.267 m
+        # long, legs out to ~0.4 m total => ~0.20 m half-width).  The planner
+        # treats the robot as a disc of this radius, so even unknown-space
+        # paths (doorway + room interior) keep the *centre* at least this far
+        # from any occupied cell.  A point-planner otherwise routes the centre
+        # straight against a door frame and the ~0.4 m body rubs/hooks the
+        # frame while entering.  Capped implicitly by the 0.8 m room door: this
+        # radius leaves a centred ~0.4 m passage through it.
+        self.robot_radius = max(0.0, float(rospy.get_param("~robot_radius", 0.20)))
+        self.robot_radius_cells = (
+            0 if self.robot_radius <= 0.0
+            else max(1, int(math.ceil(self.robot_radius / self.cell_size)))
+        )
         self.allow_unknown_return = bool(rospy.get_param("~allow_unknown_return", False))
         self.auto_start = bool(rospy.get_param("~auto_start", False))
         self.auto_return_after_sec = float(rospy.get_param("~auto_return_after_sec", 0.0))
@@ -408,6 +454,43 @@ class CompetitionNavigation(object):
         self.room_entry_allow_unknown_wall = bool(
             rospy.get_param("~room_entry_allow_unknown_wall", True)
         )
+        # Minimum doorway width (in cells) required to accept a side opening.
+        # Measured: real doors are 0.8-1.2 m (4-6 cells) while drift-induced
+        # phantom openings are 0.2-0.4 m (1-2 cells), so 3 cells cleanly
+        # separates them.
+        self.room_entry_min_width_cells = max(
+            2, int(rospy.get_param("~room_entry_min_width_cells", 3))
+        )
+        # Phantom-door wall-support filter: a real doorway sits in a SOLID
+        # wall -- at least one side (above or below the opening, along the
+        # wall line) keeps continuous OCCUPIED wall, and the opening itself is
+        # narrow (0.6-1.2 m).  A drift/observation-broken wall segment (e.g.
+        # the 1st-floor far-corridor left wall) instead shows either a very
+        # WIDE free gap (6-8+ cells) or FREE cells on both sides.
+        # ``room_entry_wall_support_cells`` is the wall window checked on each
+        # side (in cells); ``room_entry_wall_support_min_occupied`` is how many
+        # of those cells must be OCCUPIED on at least one side; and
+        # ``room_entry_max_width_cells`` caps the opening width.  Both checks
+        # are applied only when the values are > 0.
+        self.room_entry_wall_support_cells = max(
+            0, int(rospy.get_param("~room_entry_wall_support_cells", 3))
+        )
+        self.room_entry_wall_support_min_occupied = max(
+            1, int(rospy.get_param("~room_entry_wall_support_min_occupied", 2))
+        )
+        self.room_entry_max_width_cells = max(
+            0, int(rospy.get_param("~room_entry_max_width_cells", 7))
+        )
+        # Fast-fail guard: while trying to ENTER a room, count consecutive
+        # planning cycles where no entry path could be computed.  A phantom
+        # doorway has no real room behind it, so the entry A* never succeeds
+        # and the old code waited the full room_task_timeout (120 s) before
+        # giving up.  Fail fast after this many consecutive empty-path
+        # planning cycles (default 5 * planning_period 2 s = ~10 s) and mark
+        # the room blocked so DFS moves on.
+        self.room_entry_path_fail_limit = max(
+            1, int(rospy.get_param("~room_entry_path_fail_limit", 5))
+        )
         rooms_per_floor = max(
             1,
             int(rospy.get_param("~rooms_per_floor", DEFAULT_ROOMS_PER_FLOOR)),
@@ -438,6 +521,17 @@ class CompetitionNavigation(object):
             np.full((cells, cells), UNKNOWN, dtype=np.uint8)
             for _ in range(self.floor_count)
         ]
+        # Per-cell hit / free-pass counts for percentage-based clearing of
+        # ghost obstacles (see obstacle_clear_percent).  Only occupied cells
+        # carry meaningful values; both counters reset on any state change.
+        self.obs_hits = [
+            np.zeros((cells, cells), dtype=np.int32)
+            for _ in range(self.floor_count)
+        ]
+        self.obs_free = [
+            np.zeros((cells, cells), dtype=np.int32)
+            for _ in range(self.floor_count)
+        ]
         self._reset_graph_state()
         self.map_origin_x = None
         self.map_origin_y = None
@@ -450,6 +544,7 @@ class CompetitionNavigation(object):
         self.current_floor = 0
         self.home_floor = 0
         self.visited_by_floor = [set() for _ in range(self.floor_count)]
+        self.visited_cells = [set() for _ in range(self.floor_count)]
         self.floor_complete = [False for _ in range(self.floor_count)]
         self.no_frontier_cycles = [0 for _ in range(self.floor_count)]
         self.distributed_coverage_cycles = [0 for _ in range(self.floor_count)]
@@ -467,6 +562,17 @@ class CompetitionNavigation(object):
         self.blacklisted_frontiers = [set() for _ in range(self.floor_count)]
         self.last_progress_pose = None
         self.last_progress_time = rospy.Time(0)
+        # Generic path-progress stall tracking (control timer).  When the robot
+        # follows a path but makes no pose progress for a while -- e.g.
+        # collision_safety is holding it against an obstacle -- drop the path
+        # so the planning timer re-plans instead of pushing into the obstacle
+        # forever (measured: collision trip at floor-0 corridor ghost, robot
+        # frozen while nav kept sending full-speed forward).
+        self.ctrl_last_pose = None
+        self.ctrl_last_time = rospy.Time(0)
+        self.ctrl_stall_timeout = max(
+            4.0, float(rospy.get_param("~ctrl_stall_timeout", 8.0))
+        )
         self.pending_known_cells = [0 for _ in range(self.floor_count)]
         self.latest_scan_stamp = rospy.Time(0)
         self.last_map_update = rospy.Time(0)
@@ -503,7 +609,9 @@ class CompetitionNavigation(object):
         rospy.Service("/competition_navigation/stop", Trigger, self.stop_callback)
         rospy.Timer(rospy.Duration(self.control_period), self.control_timer)
         rospy.Timer(rospy.Duration(self.planning_period), self.planning_timer)
-        rospy.Timer(rospy.Duration(1.0), self.publish_timer)
+        rospy.Timer(
+            rospy.Duration(1.0 / self.map_publish_rate), self.publish_timer
+        )
         rospy.on_shutdown(self.shutdown)
 
         if self.auto_start:
@@ -543,7 +651,21 @@ class CompetitionNavigation(object):
         self.active_room_no_frontier_cycles = 0
         self.active_room_target_cell = None
         self.active_room_frontier_blacklist = set()
+        self.room_entry_path_failures = 0
         self.last_room_plan = None
+        # Room-task stall recovery: a doorway/return path can sit at
+        # path_index < len(path) forever when the next waypoint is
+        # unreachable (a drift-induced phantom doorway, or the body wedged on
+        # a door frame).  The state machine's path-following branch returns
+        # True indefinitely and room_task_timeout only covers the *empty*
+        # path case, so without this the robot never abandons such a room.
+        # Track the last pose that registered meaningful motion and flag a
+        # stall once neither position nor heading has advanced for a timeout.
+        self.room_entry_progress_pose = None
+        self.room_entry_progress_time = rospy.Time(0)
+        self.room_entry_stall_timeout = max(
+            3.0, float(rospy.get_param("~room_entry_stall_timeout", 10.0))
+        )
         self.room_door_ys_by_floor = [[] for _ in range(self.floor_count)]
         self.room_entry_observations = [dict() for _ in range(self.floor_count)]
 
@@ -602,16 +724,54 @@ class CompetitionNavigation(object):
                     start = index
                 if not opening and start is not None:
                     run = samples[start:index]
-                    if len(run) >= 2:
-                        center_y = sum(item[0] for item in run) / len(run)
-                        candidates.append({
-                            "side": side,
-                            "x": wall_x + room_direction * 0.60,
-                            "y": center_y,
-                            "yaw": math.pi if side == "left" else 0.0,
-                            "corridor_s": center_y - float(corridor["y_min"]),
-                            "confidence": min(1.0, len(run) / 4.0),
-                        })
+                    if len(run) >= self.room_entry_min_width_cells:
+                        # Phantom-door filter (measured on the 1st-floor
+                        # far-corridor left wall): a real doorway is narrow
+                        # (<= room_entry_max_width_cells) and has at least one
+                        # side with a solid wall fragment
+                        # (>= room_entry_wall_support_min_occupied OCCUPIED
+                        # cells within room_entry_wall_support_cells along the
+                        # wall line); a broken-wall phantom opening is either
+                        # very wide or has FREE cells on both sides.
+                        width_ok = True
+                        if (self.room_entry_max_width_cells > 0 and
+                                len(run) > self.room_entry_max_width_cells):
+                            width_ok = False
+                        support_ok = True
+                        if (width_ok and
+                                self.room_entry_wall_support_cells > 0):
+                            support_ok = False
+                            window = self.room_entry_wall_support_cells
+                            for item_list, step in (
+                                    (samples, -1), (samples, 1)):
+                                base = start if step < 0 else index - 1
+                                occupied_count = 0
+                                checked = 0
+                                for k in range(1, window + 1):
+                                    pos = base + step * k
+                                    if pos < 0 or pos >= len(samples):
+                                        break
+                                    wall_cell = self._cell(
+                                        (wall_x, samples[pos][0])
+                                    )
+                                    checked += 1
+                                    if (wall_cell is not None and
+                                            belief[wall_cell[1], wall_cell[0]] == OCCUPIED):
+                                        occupied_count += 1
+                                if (checked >= 1 and occupied_count >=
+                                        self.room_entry_wall_support_min_occupied):
+                                    support_ok = True
+                                    break
+                        if width_ok and support_ok:
+                            center_y = sum(item[0] for item in run) / len(run)
+                            candidates.append({
+                                "side": side,
+                                "x": wall_x + room_direction * 0.60,
+                                "y": center_y,
+                                "yaw": math.pi if side == "left" else 0.0,
+                                "corridor_s": center_y - float(corridor["y_min"]),
+                                "confidence": min(1.0, len(run) / 4.0),
+                            })
                     start = None
         return candidates
 
@@ -642,6 +802,33 @@ class CompetitionNavigation(object):
                 confirmed.append(confirmed_candidate)
         self.room_entry_observations[floor_index] = current
         return confirmed
+
+    def _room_progress_stalled(self, pose):
+        """True when the active room task has made no pose progress for too long.
+
+        Compares the current pose against the last point that registered
+        meaningful motion (translation or heading).  A genuine halt -- neither
+        the body nor the heading advancing for ``room_entry_stall_timeout`` --
+        is treated as a stall so the caller can abandon the room instead of
+        wedging the robot in place.  The progress marker is refreshed while the
+        robot is still advancing, so only a real stop starts the clock.
+        """
+        now = rospy.Time.now()
+        if (self.room_entry_progress_time == rospy.Time(0) or
+                self.room_entry_progress_pose is None):
+            self.room_entry_progress_pose = pose
+            self.room_entry_progress_time = now
+            return False
+        last = self.room_entry_progress_pose
+        moved = math.hypot(pose[0] - last[0], pose[1] - last[1])
+        turned = abs(((pose[3] - last[3] + math.pi) % (2 * math.pi)) - math.pi)
+        if moved >= 0.25 or turned >= 0.25:
+            self.room_entry_progress_pose = pose
+            self.room_entry_progress_time = now
+            return False
+        return now - self.room_entry_progress_time > rospy.Duration(
+            self.room_entry_stall_timeout
+        )
 
     def _update_floor_graph(self, belief, floor_index):
         """Record observed corridor anchors and side-room entry nodes."""
@@ -1279,12 +1466,23 @@ class CompetitionNavigation(object):
                     for node in graph.nodes.values()):
                 # A late scan may reveal an entrance after the first survey.
                 # Rebuild the event list so the new room is not silently
-                # omitted from DFS.
+                # omitted from DFS -- but preserve our current DFS position, so
+                # a late doorway does not reset the walk back to the corridor
+                # end and trap the robot in a two-point oscillation.
+                resume_node = None
+                idx = self.graph_dfs_index[floor_index]
+                if 0 <= idx < len(order):
+                    resume_node = order[idx]
                 if not self._prepare_graph_dfs(floor_index):
                     self.graph_phase[floor_index] = "frontier_fallback"
                     self.status = "room_graph_unavailable"
                     return False
                 order = self.graph_dfs_order[floor_index]
+                if resume_node is not None:
+                    try:
+                        self.graph_dfs_index[floor_index] = order.index(resume_node)
+                    except ValueError:
+                        self.graph_dfs_index[floor_index] = 0
 
             while self.graph_dfs_index[floor_index] < len(order):
                 node_id = order[self.graph_dfs_index[floor_index]]
@@ -1300,7 +1498,10 @@ class CompetitionNavigation(object):
                     self.active_room_no_frontier_cycles = 0
                     self.active_room_target_cell = None
                     self.active_room_frontier_blacklist = set()
+                    self.room_entry_path_failures = 0
                     self.last_room_plan = None
+                    self.room_entry_progress_pose = pose
+                    self.room_entry_progress_time = rospy.Time.now()
                     self.graph_dfs_attempts[floor_index] = 0
                     graph.mark_node(node_id, visited=True)
                     self.path = []
@@ -1374,19 +1575,35 @@ class CompetitionNavigation(object):
                 self.status = "room_entered id=%d" % node.node_id
                 return True
             if self.path_index < len(self.path):
+                if self._room_progress_stalled(pose):
+                    graph.mark_node(self.active_room_node, blocked=True)
+                    self.status = "room_blocked_stalled id=%d" % node.node_id
+                    self.active_room_node = None
+                    self.active_room_phase = None
+                    self.room_entry_progress_pose = None
+                    self.room_entry_progress_time = rospy.Time(0)
+                    self.graph_dfs_index[floor_index] += 1
+                    return True
                 return True
             path = self._room_path(belief, pose, node, entering=True)
             if path:
+                self.room_entry_path_failures = 0
                 self._set_path(path, "room_enter_path id=%d" % node.node_id)
                 return True
-            if elapsed >= self.room_task_timeout:
+            self.room_entry_path_failures += 1
+            if (elapsed >= self.room_task_timeout or
+                    self.room_entry_path_failures >= self.room_entry_path_fail_limit):
                 graph.mark_node(self.active_room_node, blocked=True)
-                self.status = "room_blocked id=%d" % node.node_id
+                self.status = "room_blocked id=%d entry_failures=%d" % (
+                    node.node_id, self.room_entry_path_failures
+                )
                 self.active_room_node = None
                 self.active_room_phase = None
                 self.graph_dfs_index[floor_index] += 1
                 return True
-            self.status = "room_waiting_for_entry_path id=%d" % node.node_id
+            self.status = "room_waiting_for_entry_path id=%d failures=%d" % (
+                node.node_id, self.room_entry_path_failures
+            )
             self.path = []
             self.path_index = 0
             return True
@@ -1404,6 +1621,15 @@ class CompetitionNavigation(object):
                 )
             else:
                 if self.path_index < len(self.path):
+                    if self._room_progress_stalled(pose):
+                        graph.mark_node(self.active_room_node, blocked=True)
+                        self.status = "room_blocked_frontier_stalled id=%d" % node.node_id
+                        self.active_room_node = None
+                        self.active_room_phase = None
+                        self.room_entry_progress_pose = None
+                        self.room_entry_progress_time = rospy.Time(0)
+                        self.graph_dfs_index[floor_index] += 1
+                        return True
                     return True
                 self._blacklist_reached_room_target(pose)
                 path = self._room_frontier_path(belief, pose, node)
@@ -1458,6 +1684,15 @@ class CompetitionNavigation(object):
                 self.path_index = 0
                 return True
             if self.path_index < len(self.path):
+                if self._room_progress_stalled(pose):
+                    graph.mark_node(self.active_room_node, blocked=True)
+                    self.status = "room_return_blocked_stalled id=%d" % node.node_id
+                    self.active_room_node = None
+                    self.active_room_phase = None
+                    self.room_entry_progress_pose = None
+                    self.room_entry_progress_time = rospy.Time(0)
+                    self.graph_dfs_index[floor_index] += 1
+                    return True
                 return True
             path = self._room_path(belief, pose, node, entering=False)
             if path:
@@ -1660,6 +1895,8 @@ class CompetitionNavigation(object):
 
         with self.lock:
             belief = self.floor_beliefs[floor_index]
+            obs_hits = self.obs_hits[floor_index]
+            obs_free = self.obs_free[floor_index]
             new_known_cells = 0
             for point in transformed:
                 px, py, pz = point
@@ -1679,20 +1916,47 @@ class CompetitionNavigation(object):
                 if endpoint is None:
                     continue
                 line = list(bresenham(sensor_cell[0], sensor_cell[1], endpoint[0], endpoint[1]))
-                for cell_x, cell_y in line[:-1]:
-                    if self._inside(cell_x, cell_y):
-                        if belief[cell_y, cell_x] != OCCUPIED:
-                            if (belief[cell_y, cell_x] == UNKNOWN and
-                                    (self.exploration_roi is None or
-                                     self.exploration_roi[cell_y, cell_x])):
-                                new_known_cells += 1
-                            belief[cell_y, cell_x] = FREE
+                for idx, (cell_x, cell_y) in enumerate(line[:-1]):
+                    if not self._inside(cell_x, cell_y):
+                        continue
+                    if belief[cell_y, cell_x] == OCCUPIED:
+                        # A free ray now crosses an occupied cell.  Count it as
+                        # a free pass only when the ray re-enters FREE space
+                        # before its endpoint (_free_past): a phantom cell or
+                        # cluster left by 3-D flattening / odometry drift floats
+                        # in open space, whereas a genuine wall is opaque and
+                        # never lets a ray reach FREE beyond it.  This keeps
+                        # drift-displaced wall cells from being eroded into
+                        # phantom doorways while still clearing real ghosts.
+                        if self._free_past(belief, line, idx):
+                            free = obs_free[cell_y, cell_x] + 1
+                            obs_free[cell_y, cell_x] = free
+                            total = free + obs_hits[cell_y, cell_x]
+                            if (total >= self.obstacle_clear_min_obs and
+                                    free * 100.0 / total >
+                                    self.obstacle_clear_percent):
+                                belief[cell_y, cell_x] = FREE
+                                obs_free[cell_y, cell_x] = 0
+                                obs_hits[cell_y, cell_x] = 0
+                    else:
+                        if (belief[cell_y, cell_x] == UNKNOWN and
+                                (self.exploration_roi is None or
+                                 self.exploration_roi[cell_y, cell_x])):
+                            new_known_cells += 1
+                        belief[cell_y, cell_x] = FREE
+                        obs_free[cell_y, cell_x] = 0
+                        obs_hits[cell_y, cell_x] = 0
                 ex, ey = endpoint
                 if self._inside(ex, ey):
                     if (belief[ey, ex] == UNKNOWN and
                             (self.exploration_roi is None or
                              self.exploration_roi[ey, ex])):
                         new_known_cells += 1
+                    if belief[ey, ex] == OCCUPIED:
+                        obs_hits[ey, ex] += 1
+                    else:
+                        obs_hits[ey, ex] = 1
+                        obs_free[ey, ex] = 0
                     belief[ey, ex] = OCCUPIED
             if self._inside(robot_cell[0], robot_cell[1]):
                 if (belief[robot_cell[1], robot_cell[0]] == UNKNOWN and
@@ -1700,6 +1964,8 @@ class CompetitionNavigation(object):
                          self.exploration_roi[robot_cell[1], robot_cell[0]])):
                     new_known_cells += 1
                 belief[robot_cell[1], robot_cell[0]] = FREE
+                obs_free[robot_cell[1], robot_cell[0]] = 0
+                obs_hits[robot_cell[1], robot_cell[0]] = 0
             self.pending_known_cells[floor_index] += new_known_cells
             if (self.pending_known_cells[floor_index] >=
                     self.map_progress_cell_batch):
@@ -1708,6 +1974,29 @@ class CompetitionNavigation(object):
                 self.pending_known_cells[floor_index] = 0
             self.latest_scan_stamp = msg.header.stamp
             self.last_map_update = rospy.Time.now()
+
+    def _free_past(self, belief, line, idx):
+        """True if the ray re-enters FREE space after the occupied cell at
+        line[idx] and before it terminates at the (occupied) endpoint.
+
+        A floating phantom cell/cluster (3-D flattening or odometry drift) sits
+        in open space, so a ray that passes through it keeps going through FREE
+        cells.  A genuine wall is opaque: the cells directly behind it are
+        UNKNOWN (occluded) and the endpoint itself is OCCUPIED, so a ray never
+        reaches FREE beyond a real wall.  Requiring FREE beyond before counting
+        a free-pass therefore erases ghosts while leaving wall cells intact
+        (no phantom doorways from eroding a real wall)."""
+        for j in range(idx + 1, len(line)):
+            cx, cy = line[j]
+            if not self._inside(cx, cy):
+                return False
+            v = belief[cy, cx]
+            if v == FREE:
+                return True
+            if v != OCCUPIED:
+                # UNKNOWN (occluded) -> solid wall face.
+                return False
+        return False
 
     def _is_self_return(self, point, pose):
         """Reject returns inside the robot footprint in the base frame."""
@@ -1911,7 +2200,13 @@ class CompetitionNavigation(object):
         )
 
     def _graph_floor_ready(self, floor_index):
-        """Require every discovered room on a floor to finish before exit."""
+        """Require every discovered room on a floor to finish before exit.
+
+        A room that was discovered but could not be entered (blocked) counts as
+        satisfied: a drift-induced phantom doorway is detected as a room, then
+        blocked after entry fails, and must not hold the whole floor open for
+        re-exploration forever.  Only genuinely-missing rooms (fewer than
+        ``expected``) keep the floor from completing."""
         if floor_index >= len(self.floor_graphs):
             return False
         if self.active_room_node is not None:
@@ -1926,7 +2221,9 @@ class CompetitionNavigation(object):
         )
         if expected and len(rooms) < expected:
             return False
-        return bool(rooms) and all(node.completed for node in rooms)
+        return bool(rooms) and all(
+            node.completed or node.blocked for node in rooms
+        )
 
     def _room_task_status(self):
         records = []
@@ -1949,6 +2246,20 @@ class CompetitionNavigation(object):
                     )
                 )
         return ",".join(records) if records else "none"
+
+    def _visited_neighborhood_mask(self, floor_index):
+        """Boolean mask of cells within frontier_revisit_radius of any visited cell."""
+        mask = np.zeros((self.map_cells, self.map_cells), dtype=bool)
+        radius = self.frontier_revisit_radius_cells
+        if radius <= 0:
+            return mask
+        for cell_x, cell_y in self.visited_cells[floor_index]:
+            x0 = max(0, cell_x - radius)
+            x1 = min(self.map_cells, cell_x + radius + 1)
+            y0 = max(0, cell_y - radius)
+            y1 = min(self.map_cells, cell_y + radius + 1)
+            mask[y0:y1, x0:x1] = True
+        return mask
 
     def _reachable_frontier_plan(self, belief, pose, floor_index):
         """Return a high-information reachable frontier and its known-free path."""
@@ -1996,7 +2307,10 @@ class CompetitionNavigation(object):
                 best_cell = (current_x, current_y)
         if best_cell is None:
             best_score = -float("inf")
+            visited_near = self._visited_neighborhood_mask(floor_index)
             for cell_y, cell_x in candidates:
+                if visited_near[cell_y, cell_x]:
+                    continue
                 radius = 5
                 y0 = max(0, cell_y - radius)
                 y1 = min(self.map_cells, cell_y + radius + 1)
@@ -2706,7 +3020,13 @@ class CompetitionNavigation(object):
         if start_cell is None or goal_cell is None:
             return []
         if allow_unknown:
-            traversable = belief != OCCUPIED
+            # Unknown space is passable, but keep the robot's physical footprint
+            # clear of known obstacles so a doorway/interior path centres the
+            # body in the opening instead of grazing the frame.  With
+            # robot_radius_cells == 0 this degrades to the old point-robot rule.
+            occupied = belief == OCCUPIED
+            blocked = self._dilate_mask(occupied, self.robot_radius_cells)
+            traversable = ~blocked
         else:
             traversable = self._known_free_mask(belief)
         if restrict_roi and self.exploration_roi is not None:
@@ -2795,6 +3115,10 @@ class CompetitionNavigation(object):
                 self.visited_by_floor[self.current_floor].add(
                     (round(self.pose[0], 1), round(self.pose[1], 1))
                 )
+                if self.map_origin_x is not None:
+                    cell = self._cell((self.pose[0], self.pose[1]))
+                    if cell is not None:
+                        self.visited_cells[self.current_floor].add(cell)
         return True
 
     def control_timer(self, _event):
@@ -2812,6 +3136,36 @@ class CompetitionNavigation(object):
         if not active or pose is None:
             self.cmd_pub.publish(command)
             return
+        # Generic path-progress stall guard: while following a path (not on
+        # stairs, where slow progress is normal), if the pose has not advanced
+        # for ctrl_stall_timeout seconds, drop the path so the planning timer
+        # re-plans.  Without this, a collision_safety hold against an obstacle
+        # leaves the robot pushing at full speed into the wall forever.
+        if (index < len(path) and mode not in ("stairs_up", "stairs_down")):
+            moved = 0.0
+            if self.ctrl_last_pose is not None:
+                moved = math.hypot(
+                    pose[0] - self.ctrl_last_pose[0],
+                    pose[1] - self.ctrl_last_pose[1],
+                )
+            now = rospy.Time.now()
+            if (self.ctrl_last_time == rospy.Time(0) or
+                    moved >= 0.15):
+                self.ctrl_last_pose = pose
+                self.ctrl_last_time = now
+            elif now - self.ctrl_last_time > rospy.Duration(self.ctrl_stall_timeout):
+                with self.lock:
+                    self.path = []
+                    self.path_index = 0
+                    self.status = "path_stalled_replan"
+                self.ctrl_last_pose = pose
+                self.ctrl_last_time = now
+                rospy.logwarn_throttle(
+                    5.0, "path progress stalled; dropping path for re-plan"
+                )
+        else:
+            self.ctrl_last_pose = pose
+            self.ctrl_last_time = rospy.Time(0)
         if rospy.Time.now() - self.last_map_update > rospy.Duration(5.0) and mode != "return":
             self.cmd_pub.publish(command)
             rospy.logwarn_throttle(5.0, "scan map is stale; holding zero velocity")

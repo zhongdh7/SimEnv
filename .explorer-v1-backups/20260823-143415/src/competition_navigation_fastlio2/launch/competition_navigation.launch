@@ -1,0 +1,224 @@
+<launch>
+  <!-- Identical to competition_navigation.launch, except the odometry source is
+       FAST-LIO2 re-anchored into the building-aligned odom frame.  scan_tf_relay
+       uses a one-time ground-truth anchor to align camera_init -> odom, then
+       publishes /Odometry_fastlio (frame odom), re-labels /scan into
+       laser_livox_fastlio and broadcasts odom -> laser_livox_fastlio.  The
+       navigation logic is byte-identical; only the odometry wiring differs. -->
+  <arg name="auto_start" default="false" />
+  <arg name="auto_return_after_sec" default="0.0" />
+  <!-- Navigation consumes FAST-LIO2's pose re-anchored into the building-aligned
+       odom frame by scan_tf_relay (see that node for why camera_init cannot be
+       used directly). -->
+  <arg name="odom_topic" default="/Odometry_fastlio" />
+  <arg name="map_frame" default="odom" />
+  <arg name="scan_topic" default="/scan_fastlio" />
+  <arg name="raw_scan_topic" default="/scan" />
+  <!-- scan_tf_relay inputs: raw FAST-LIO2 odometry and the one-time ground-truth
+       anchor (used only to fix the initial pose, never for localisation). -->
+  <arg name="fastlio_odom_topic" default="/Odometry" />
+  <arg name="gt_odom_topic" default="/Odometry_gazebo" />
+  <!-- 2-D grid resolution in metres.  Smaller = finer published map. -->
+  <arg name="cell_size" default="0.2" />
+  <!-- How often the occupancy-grid map is re-published (Hz).  The belief map is
+       refreshed on every scan; this only affects the published grid, so raising
+       it makes turning look much more responsive. -->
+  <arg name="map_publish_rate" default="5.0" />
+  <arg name="require_hdplanner" default="true" />
+  <arg name="model_path" default="/home/uf/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
+  <arg name="library_path" default="$(env HOME)/SimEnv/devel/lib/libhdplanner_inference.so" />
+  <arg name="layout_metadata_path" default="$(env HOME)/SimEnv/generated_building/layout_metadata.json" />
+  <arg name="floor_count" default="3" />
+  <arg name="rooms_per_floor" default="4" />
+  <arg name="floor_height" default="2.6" />
+  <arg name="min_floor_coverage" default="0.45" />
+  <arg name="no_frontier_cycles_required" default="6" />
+  <arg name="stair_speed" default="0.80" />
+  <arg name="stair_landing_speed" default="0.40" />
+  <arg name="stair_yaw_rate" default="1.0" />
+  <arg name="stair_flat_use_max_linear" default="true" />
+  <arg name="stair_lookahead" default="0.30" />
+  <arg name="stair_brake_distance" default="0.35" />
+  <arg name="stair_lateral_limit" default="0.08" />
+  <arg name="stair_cruise_heading_tolerance" default="0.70" />
+  <arg name="stair_cruise_lateral_tolerance" default="0.22" />
+  <arg name="stair_turn_heading_threshold" default="0.60" />
+  <arg name="start_verifier" default="false" />
+  <arg name="min_room_coverage" default="0.70" />
+  <arg name="room_task_timeout" default="120.0" />
+  <!-- Abandon a room task when the robot stops making pose progress while
+       following a doorway/return/frontier path (e.g. a drift-induced phantom
+       doorway that has no real opening).  room_task_timeout only covers the
+       empty-path case, so without this the robot wedges in place forever. -->
+  <arg name="room_entry_stall_timeout" default="10.0" />
+  <!-- Minimum recorded lidar range.  Kept at 2.0 m: lowering it to record the
+       ~1.1 m corridor side walls also records drift-displaced near-field
+       returns ahead of the robot, which collision_safety then reads as a wall
+       and freezes forward motion (observed: stuck in graph_corridor_survey).
+       The phantom-doorway root cause is handled by obstacle_clear_percent=100
+       instead (see below). -->
+  <arg name="scan_min_range" default="2.0" />
+  <arg name="scan_max_range" default="22.0" />
+  <arg name="scan_self_filter_enabled" default="true" />
+  <arg name="scan_self_filter_front" default="0.75" />
+  <arg name="scan_self_filter_rear" default="0.60" />
+  <arg name="scan_self_filter_left" default="0.55" />
+  <arg name="scan_self_filter_right" default="0.55" />
+  <!-- Percentage-based ghost-obstacle clearing: an occupied cell is cleared
+       back to free once its free-pass fraction exceeds this percent (after
+       obstacle_clear_min_obs observations).  Higher = walls are safer.
+
+       A free-pass is counted only when the ray RE-ENTERS FREE space past the
+       occupied cell before its endpoint (_free_past): a phantom cell/cluster
+       left by 3-D flattening or drift floats in open space, whereas a real
+       wall is opaque and never lets a ray reach FREE beyond it.  This spatial
+       guard lets us keep clearing ENABLED (so ghost points do not pile up and
+       freeze the planner) without eroding real walls into phantom doorways. -->
+  <arg name="obstacle_clear_percent" default="80.0" />
+  <arg name="obstacle_clear_min_obs" default="10" />
+  <arg name="room_frontier_min_cluster_cells" default="3" />
+  <arg name="room_candidates_per_cluster" default="2" />
+  <arg name="room_candidate_limit" default="10" />
+  <arg name="room_information_range" default="6.0" />
+  <arg name="room_information_angle_step_deg" default="10.0" />
+  <arg name="room_path_cost_weight" default="0.45" />
+  <arg name="room_return_cost_weight" default="0.20" />
+  <arg name="room_obstacle_cost_weight" default="0.80" />
+  <arg name="room_target_blacklist_radius" default="0.80" />
+  <!-- Phantom-door tightening: a doorway must persist across 3 planning
+       observations (6 s) at the same quantised wall position.  Drift-induced
+       phantom openings move as the pose error evolves, so they rarely survive;
+       a real doorway is static and does. -->
+  <arg name="room_entry_confirmation_cycles" default="3" />
+  <!-- Phantom-door tightening: require the wall cell itself to be OBSERVED FREE
+       (a genuine gap the lidar has seen through), not merely UNKNOWN.  FAST-LIO2
+       drift displaces a solid wall so its true wall line is never hit and stays
+       UNKNOWN; accepting UNKNOWN made every unobserved wall segment read as a
+       door.  A real doorway is raytraced through, so its wall cell IS free. -->
+  <arg name="room_entry_allow_unknown_wall" default="false" />
+  <!-- Minimum doorway width (cells) before a side opening is accepted.  Real
+       doors measure 0.8-1.2 m (4-6 cells at cell_size=0.2); drift-induced
+       phantom openings are only 0.2-0.4 m (1-2 cells), so 3 cells filters them. -->
+  <arg name="room_entry_min_width_cells" default="3" />
+  <arg name="max_linear" default="1.00" />
+  <!-- Robot footprint radius (m): Unitree A1 ~0.4 m wide => 0.20 m half-width.
+       Used to inflate obstacles in unknown-space paths so the robot centres in
+       a doorway instead of hugging the frame. -->
+  <arg name="robot_radius" default="0.20" />
+  <arg name="coverage_report_path" default="$(env HOME)/SimEnv/results/full_map_coverage.json" />
+  <!-- The navigation node publishes its raw command here; collision_safety
+       checks it against the map and re-publishes on /cmd_vel (what the robot's
+       unitree_gazebo_servo actually consumes). -->
+  <arg name="cmd_vel_topic" default="/cmd_vel_raw" />
+  <arg name="collision_safety" default="true" />
+  <arg name="safety_dist" default="0.60" />
+  <!-- Safety-box half-width.  Was 0.35, which is 0.15 wider than the A1 body
+       half-width (0.20).  That extra margin eats into a 0.8 m doorway: 0.35*2
+       leaves only 0.10 m of door clearance, so any FAST-LIO2 drift-induced
+       off-centre approach (measured ~0.3 m) makes a box corner clip the door
+       frame and blocks entry.  0.25 = body 0.20 + 0.05 margin keeps the body
+       protected while leaving enough doorway clearance to pass through a
+       slightly off-centre door. -->
+  <arg name="safety_half_width" default="0.25" />
+
+  <!-- Re-anchor FAST-LIO2's camera_init pose into the building-aligned odom
+       frame, publish it on /Odometry_fastlio, re-label /scan into
+       laser_livox_fastlio and broadcast odom -> laser_livox_fastlio. -->
+  <node pkg="competition_navigation_fastlio2"
+        type="scan_tf_relay.py"
+        name="scan_tf_relay"
+        output="screen">
+    <param name="odom_topic" value="$(arg fastlio_odom_topic)" />
+    <param name="gt_odom_topic" value="$(arg gt_odom_topic)" />
+    <param name="out_odom_topic" value="$(arg odom_topic)" />
+    <param name="scan_topic" value="$(arg raw_scan_topic)" />
+    <param name="out_scan_topic" value="$(arg scan_topic)" />
+    <param name="map_frame" value="$(arg map_frame)" />
+  </node>
+
+  <node pkg="competition_navigation_fastlio2"
+        type="competition_navigation_node.py"
+        name="competition_navigation_fastlio2"
+        output="screen"
+        required="true">
+    <param name="auto_start" value="$(arg auto_start)" />
+    <param name="auto_return_after_sec" value="$(arg auto_return_after_sec)" />
+    <param name="odom_topic" value="$(arg odom_topic)" />
+    <param name="map_frame" value="$(arg map_frame)" />
+    <param name="scan_topic" value="$(arg scan_topic)" />
+    <param name="cell_size" value="$(arg cell_size)" />
+    <param name="map_publish_rate" value="$(arg map_publish_rate)" />
+    <param name="require_hdplanner" value="$(arg require_hdplanner)" />
+    <param name="model_path" value="$(arg model_path)" />
+    <param name="library_path" value="$(arg library_path)" />
+    <param name="floor_count" value="$(arg floor_count)" />
+    <param name="rooms_per_floor" value="$(arg rooms_per_floor)" />
+    <param name="floor_height" value="$(arg floor_height)" />
+    <param name="min_floor_coverage" value="$(arg min_floor_coverage)" />
+    <param name="no_frontier_cycles_required" value="$(arg no_frontier_cycles_required)" />
+    <param name="stair_speed" value="$(arg stair_speed)" />
+    <param name="stair_landing_speed" value="$(arg stair_landing_speed)" />
+    <param name="stair_yaw_rate" value="$(arg stair_yaw_rate)" />
+    <param name="stair_flat_use_max_linear" value="$(arg stair_flat_use_max_linear)" />
+    <param name="stair_lookahead" value="$(arg stair_lookahead)" />
+    <param name="stair_brake_distance" value="$(arg stair_brake_distance)" />
+    <param name="stair_lateral_limit" value="$(arg stair_lateral_limit)" />
+    <param name="stair_cruise_heading_tolerance" value="$(arg stair_cruise_heading_tolerance)" />
+    <param name="stair_cruise_lateral_tolerance" value="$(arg stair_cruise_lateral_tolerance)" />
+    <param name="stair_turn_heading_threshold" value="$(arg stair_turn_heading_threshold)" />
+    <param name="min_room_coverage" value="$(arg min_room_coverage)" />
+    <param name="room_task_timeout" value="$(arg room_task_timeout)" />
+    <param name="room_entry_stall_timeout" value="$(arg room_entry_stall_timeout)" />
+    <param name="scan_min_range" value="$(arg scan_min_range)" />
+    <param name="scan_max_range" value="$(arg scan_max_range)" />
+    <param name="scan_self_filter_enabled" value="$(arg scan_self_filter_enabled)" />
+    <param name="scan_self_filter_front" value="$(arg scan_self_filter_front)" />
+    <param name="scan_self_filter_rear" value="$(arg scan_self_filter_rear)" />
+    <param name="scan_self_filter_left" value="$(arg scan_self_filter_left)" />
+    <param name="scan_self_filter_right" value="$(arg scan_self_filter_right)" />
+    <param name="obstacle_clear_percent" value="$(arg obstacle_clear_percent)" />
+    <param name="obstacle_clear_min_obs" value="$(arg obstacle_clear_min_obs)" />
+    <param name="room_frontier_min_cluster_cells" value="$(arg room_frontier_min_cluster_cells)" />
+    <param name="room_candidates_per_cluster" value="$(arg room_candidates_per_cluster)" />
+    <param name="room_candidate_limit" value="$(arg room_candidate_limit)" />
+    <param name="room_information_range" value="$(arg room_information_range)" />
+    <param name="room_information_angle_step_deg" value="$(arg room_information_angle_step_deg)" />
+    <param name="room_path_cost_weight" value="$(arg room_path_cost_weight)" />
+    <param name="room_return_cost_weight" value="$(arg room_return_cost_weight)" />
+    <param name="room_obstacle_cost_weight" value="$(arg room_obstacle_cost_weight)" />
+    <param name="room_target_blacklist_radius" value="$(arg room_target_blacklist_radius)" />
+    <param name="room_entry_confirmation_cycles" value="$(arg room_entry_confirmation_cycles)" />
+    <param name="room_entry_allow_unknown_wall" value="$(arg room_entry_allow_unknown_wall)" />
+    <param name="room_entry_min_width_cells" value="$(arg room_entry_min_width_cells)" />
+    <param name="max_linear" value="$(arg max_linear)" />
+    <param name="robot_radius" value="$(arg robot_radius)" />
+    <param name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+  </node>
+
+  <!-- Collision-safety layer: zeroes forward velocity when the nav's own map
+       shows an obstacle ahead, preventing wall-hugging / falls.  Independent of
+       the exploration logic; only re-routes cmd_vel. -->
+  <node if="$(arg collision_safety)"
+        pkg="competition_navigation_fastlio2"
+        type="collision_safety.py"
+        name="collision_safety"
+        output="screen">
+    <param name="cmd_in" value="$(arg cmd_vel_topic)" />
+    <param name="cmd_out" value="/cmd_vel" />
+    <param name="odom_topic" value="$(arg odom_topic)" />
+    <param name="map_topic" value="/competition_navigation/map" />
+    <param name="safety_dist" value="$(arg safety_dist)" />
+    <param name="safety_half_width" value="$(arg safety_half_width)" />
+  </node>
+
+  <node if="$(arg start_verifier)"
+        pkg="competition_navigation_fastlio2"
+        type="full_map_verifier.py"
+        name="full_map_verifier"
+        output="screen">
+    <param name="layout_metadata_path" value="$(arg layout_metadata_path)" />
+    <param name="min_floor_coverage" value="$(arg min_floor_coverage)" />
+    <param name="min_room_coverage" value="$(arg min_room_coverage)" />
+    <param name="report_path" value="$(arg coverage_report_path)" />
+  </node>
+</launch>

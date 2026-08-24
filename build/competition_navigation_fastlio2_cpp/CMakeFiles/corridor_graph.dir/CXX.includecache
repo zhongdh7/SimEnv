@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/loser/SimEnv/src/competition_navigation_fastlio2_cpp/include/competition_navigation_fastlio2_cpp/corridor_graph.h
+cmath
+-
+map
+-
+optional
+-
+string
+-
+utility
+-
+vector
+-
+
+/home/loser/SimEnv/src/competition_navigation_fastlio2_cpp/src/corridor_graph.cpp
+competition_navigation_fastlio2_cpp/corridor_graph.h
+/home/loser/SimEnv/src/competition_navigation_fastlio2_cpp/src/competition_navigation_fastlio2_cpp/corridor_graph.h
+algorithm
+-
+cmath
+-
+functional
+-
+limits
+-
+

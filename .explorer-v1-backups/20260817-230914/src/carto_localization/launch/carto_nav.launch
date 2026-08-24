@@ -1,0 +1,60 @@
+<launch>
+  <!-- Loop-closure-corrected navigation: FAST-LIO2 (odometry) + Cartographer
+       (loop closure) + carto_relay + competition navigation.
+
+       FAST-LIO2 supplies lidar+IMU odometry (/Odometry, camera_init -> body),
+       which Cartographer consumes (via odom_dedup, body relabelled to base) for
+       local tracking and corrects with loop closure, publishing TF
+       carto_map -> base.  carto_relay turns that TF into /carto_odom (an
+       Odometry message in carto_map) and /scan_carto (a re-labelled scan whose
+       frame laser_livox_carto is directly parented by carto_map); the nav node
+       consumes both with map_frame=carto_map.  This sidesteps the base
+       double-parent TF conflict (state_from_gazebo also parents base via
+       odom -> base) that otherwise makes any carto_map -> base lookup fail.
+
+       Prerequisites (already running): Gazebo + state_from_gazebo +
+       robot_state_publisher + junior_ctrl.  fast_lio2 (ws_livox) and
+       cartographer_ros (~/cartographer_ws) must be sourced; use
+       scripts/start_carto_navigation.sh, which sources all three workspaces. -->
+  <arg name="rviz" default="false" />
+  <arg name="auto_start" default="true" />
+  <arg name="start_verifier" default="true" />
+  <arg name="model_path"
+       default="$(env HOME)/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
+  <arg name="library_path"
+       default="$(env HOME)/SimEnv/devel/lib/libhdplanner_inference.so" />
+  <arg name="layout_metadata_path"
+       default="$(env HOME)/SimEnv/generated_building/layout_metadata.json" />
+  <arg name="coverage_report_path"
+       default="$(env HOME)/SimEnv/results/full_map_coverage.json" />
+  <arg name="cell_size" default="0.2" />
+
+  <!-- 1. FAST-LIO2 SLAM: lidar+IMU odometry source for Cartographer. -->
+  <include file="$(find fastlio2_merge)/launch/mapping_sim.launch">
+    <arg name="rviz" value="false" />
+  </include>
+
+  <!-- 2. Cartographer loop-closure localisation, using FAST-LIO2 odometry. -->
+  <include file="$(find carto_localization)/launch/carto_locate.launch">
+    <arg name="odom_src_topic" value="/Odometry" />
+    <arg name="odom_frame" value="camera_init" />
+    <arg name="odom_child_frame" value="base" />
+  </include>
+
+  <!-- 3. Relay carto_map -> base TF into /carto_odom + /scan_carto (bypasses the
+        base double-parent TF conflict between state_from_gazebo and Cartographer). -->
+  <node pkg="carto_localization" type="carto_relay.py"
+        name="carto_relay" output="screen" />
+
+  <!-- 4. Competition navigation localised on the loop-closure-corrected
+        carto_map frame. -->
+  <include file="$(find competition_navigation_fastlio2)/launch/carto_navigation.launch">
+    <arg name="auto_start" value="$(arg auto_start)" />
+    <arg name="start_verifier" value="$(arg start_verifier)" />
+    <arg name="model_path" value="$(arg model_path)" />
+    <arg name="library_path" value="$(arg library_path)" />
+    <arg name="layout_metadata_path" value="$(arg layout_metadata_path)" />
+    <arg name="coverage_report_path" value="$(arg coverage_report_path)" />
+    <arg name="cell_size" value="$(arg cell_size)" />
+  </include>
+</launch>
