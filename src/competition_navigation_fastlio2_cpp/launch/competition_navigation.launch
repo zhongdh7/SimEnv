@@ -37,9 +37,9 @@
        climb is too fast, or when it turns / laterally-corrects while stepping.
        Keep the flight speed low, the landing turn slow, and only allow a straight
        "cruise" when the robot is genuinely aligned with the flight. -->
-  <arg name="stair_speed" default="0.40" />
+  <arg name="stair_speed" default="0.75" />
   <arg name="stair_landing_speed" default="0.25" />
-  <arg name="stair_yaw_rate" default="0.40" />
+  <arg name="stair_yaw_rate" default="1.0" />
   <arg name="stair_flat_use_max_linear" default="true" />
   <arg name="stair_lookahead" default="0.30" />
   <arg name="stair_brake_distance" default="0.35" />

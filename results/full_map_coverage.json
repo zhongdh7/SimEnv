@@ -2,18 +2,18 @@
   "floors": [
     {
       "floor": 0,
-      "known_ratio": 0.8978668390433097,
+      "known_ratio": 0.8959276018099548,
       "passed": true
     },
     {
       "floor": 1,
-      "known_ratio": 0.0,
-      "passed": false
+      "known_ratio": 0.8854234001292824,
+      "passed": true
     },
     {
       "floor": 2,
-      "known_ratio": 0.0,
-      "passed": false
+      "known_ratio": 0.857950872656755,
+      "passed": true
     }
   ],
   "min_floor_coverage": 0.45,
@@ -24,40 +24,40 @@
     {
       "blocked": false,
       "completed": true,
-      "coverage": 0.892,
+      "coverage": 0.907,
       "entered": true,
       "floor": 0,
       "interior_observation": true,
       "node_id": 2,
-      "side": "R",
-      "y": 14.75
-    },
-    {
-      "blocked": false,
-      "completed": true,
-      "coverage": 0.938,
-      "entered": true,
-      "floor": 0,
-      "interior_observation": true,
-      "node_id": 3,
       "side": "L",
       "y": 14.65
     },
     {
       "blocked": false,
       "completed": true,
-      "coverage": 0.912,
+      "coverage": 0.929,
+      "entered": true,
+      "floor": 0,
+      "interior_observation": true,
+      "node_id": 3,
+      "side": "R",
+      "y": 14.65
+    },
+    {
+      "blocked": false,
+      "completed": true,
+      "coverage": 0.894,
       "entered": true,
       "floor": 0,
       "interior_observation": true,
       "node_id": 5,
       "side": "L",
-      "y": 28.75
+      "y": 28.65
     },
     {
       "blocked": false,
       "completed": true,
-      "coverage": 0.859,
+      "coverage": 0.884,
       "entered": true,
       "floor": 0,
       "interior_observation": true,
@@ -67,14 +67,113 @@
     },
     {
       "blocked": false,
+      "completed": true,
+      "coverage": 0.941,
+      "entered": true,
+      "floor": 1,
+      "interior_observation": true,
+      "node_id": 2,
+      "side": "R",
+      "y": 14.55
+    },
+    {
+      "blocked": false,
+      "completed": true,
+      "coverage": 0.885,
+      "entered": true,
+      "floor": 1,
+      "interior_observation": true,
+      "node_id": 4,
+      "side": "L",
+      "y": 28.45
+    },
+    {
+      "blocked": false,
+      "completed": true,
+      "coverage": 0.904,
+      "entered": true,
+      "floor": 1,
+      "interior_observation": true,
+      "node_id": 5,
+      "side": "L",
+      "y": 14.55
+    },
+    {
+      "blocked": false,
+      "completed": true,
+      "coverage": 0.941,
+      "entered": true,
+      "floor": 1,
+      "interior_observation": true,
+      "node_id": 6,
+      "side": "R",
+      "y": 28.75
+    },
+    {
+      "blocked": false,
+      "completed": true,
+      "coverage": 0.887,
+      "entered": true,
+      "floor": 1,
+      "interior_observation": true,
+      "node_id": 8,
+      "side": "R",
+      "y": 33.85
+    },
+    {
+      "blocked": false,
+      "completed": true,
+      "coverage": 0.9,
+      "entered": true,
+      "floor": 2,
+      "interior_observation": true,
+      "node_id": 2,
+      "side": "R",
+      "y": 14.55
+    },
+    {
+      "blocked": false,
+      "completed": true,
+      "coverage": 0.892,
+      "entered": true,
+      "floor": 2,
+      "interior_observation": true,
+      "node_id": 3,
+      "side": "L",
+      "y": 14.55
+    },
+    {
+      "blocked": true,
       "completed": false,
       "coverage": 0.0,
       "entered": false,
-      "floor": 0,
+      "floor": 2,
       "interior_observation": false,
-      "node_id": 9,
+      "node_id": 5,
+      "side": "L",
+      "y": 28.75
+    },
+    {
+      "blocked": false,
+      "completed": true,
+      "coverage": 0.863,
+      "entered": true,
+      "floor": 2,
+      "interior_observation": true,
+      "node_id": 7,
+      "side": "L",
+      "y": 31.05
+    },
+    {
+      "blocked": false,
+      "completed": true,
+      "coverage": 0.856,
+      "entered": true,
+      "floor": 2,
+      "interior_observation": true,
+      "node_id": 8,
       "side": "R",
-      "y": 15.95
+      "y": 28.55
     }
   ],
   "rooms": [
@@ -85,9 +184,9 @@
       "floor": 0,
       "id": "floor_0_room_0",
       "interior_observation": true,
-      "known_ratio": 0.9766414141414141,
+      "known_ratio": 0.9573863636363636,
       "passed": true,
-      "task_coverage": 0.938,
+      "task_coverage": 0.907,
       "task_found": true
     },
     {
@@ -97,9 +196,9 @@
       "floor": 0,
       "id": "floor_0_room_1",
       "interior_observation": true,
-      "known_ratio": 0.9914772727272727,
+      "known_ratio": 0.9681186868686869,
       "passed": true,
-      "task_coverage": 0.892,
+      "task_coverage": 0.929,
       "task_found": true
     },
     {
@@ -109,9 +208,9 @@
       "floor": 0,
       "id": "floor_0_room_2",
       "interior_observation": true,
-      "known_ratio": 0.9485479797979798,
+      "known_ratio": 0.9624368686868687,
       "passed": true,
-      "task_coverage": 0.912,
+      "task_coverage": 0.894,
       "task_found": true
     },
     {
@@ -121,107 +220,107 @@
       "floor": 0,
       "id": "floor_0_room_3",
       "interior_observation": true,
-      "known_ratio": 0.9169823232323232,
+      "known_ratio": 0.922979797979798,
       "passed": true,
-      "task_coverage": 0.859,
+      "task_coverage": 0.884,
       "task_found": true
     },
     {
       "blocked": false,
-      "completed": false,
-      "entered": false,
+      "completed": true,
+      "entered": true,
       "floor": 1,
       "id": "floor_1_room_0",
-      "interior_observation": false,
-      "known_ratio": 0.0,
-      "passed": false,
-      "task_coverage": 0.0,
-      "task_found": false
+      "interior_observation": true,
+      "known_ratio": 0.9700126262626263,
+      "passed": true,
+      "task_coverage": 0.904,
+      "task_found": true
     },
     {
       "blocked": false,
-      "completed": false,
-      "entered": false,
+      "completed": true,
+      "entered": true,
       "floor": 1,
       "id": "floor_1_room_1",
-      "interior_observation": false,
-      "known_ratio": 0.0,
-      "passed": false,
-      "task_coverage": 0.0,
-      "task_found": false
+      "interior_observation": true,
+      "known_ratio": 0.9725378787878788,
+      "passed": true,
+      "task_coverage": 0.941,
+      "task_found": true
     },
     {
       "blocked": false,
-      "completed": false,
-      "entered": false,
+      "completed": true,
+      "entered": true,
       "floor": 1,
       "id": "floor_1_room_2",
-      "interior_observation": false,
-      "known_ratio": 0.0,
-      "passed": false,
-      "task_coverage": 0.0,
-      "task_found": false
+      "interior_observation": true,
+      "known_ratio": 0.9343434343434344,
+      "passed": true,
+      "task_coverage": 0.885,
+      "task_found": true
     },
     {
       "blocked": false,
-      "completed": false,
-      "entered": false,
+      "completed": true,
+      "entered": true,
       "floor": 1,
       "id": "floor_1_room_3",
-      "interior_observation": false,
-      "known_ratio": 0.0,
-      "passed": false,
-      "task_coverage": 0.0,
-      "task_found": false
+      "interior_observation": true,
+      "known_ratio": 0.9611742424242424,
+      "passed": true,
+      "task_coverage": 0.941,
+      "task_found": true
     },
     {
       "blocked": false,
-      "completed": false,
-      "entered": false,
+      "completed": true,
+      "entered": true,
       "floor": 2,
       "id": "floor_2_room_0",
-      "interior_observation": false,
-      "known_ratio": 0.0,
-      "passed": false,
-      "task_coverage": 0.0,
-      "task_found": false
+      "interior_observation": true,
+      "known_ratio": 0.9283459595959596,
+      "passed": true,
+      "task_coverage": 0.892,
+      "task_found": true
     },
     {
       "blocked": false,
-      "completed": false,
-      "entered": false,
+      "completed": true,
+      "entered": true,
       "floor": 2,
       "id": "floor_2_room_1",
-      "interior_observation": false,
-      "known_ratio": 0.0,
-      "passed": false,
-      "task_coverage": 0.0,
-      "task_found": false
+      "interior_observation": true,
+      "known_ratio": 0.9368686868686869,
+      "passed": true,
+      "task_coverage": 0.9,
+      "task_found": true
     },
     {
-      "blocked": false,
+      "blocked": true,
       "completed": false,
       "entered": false,
       "floor": 2,
       "id": "floor_2_room_2",
       "interior_observation": false,
-      "known_ratio": 0.0,
+      "known_ratio": 0.9539141414141414,
       "passed": false,
       "task_coverage": 0.0,
-      "task_found": false
+      "task_found": true
     },
     {
       "blocked": false,
-      "completed": false,
-      "entered": false,
+      "completed": true,
+      "entered": true,
       "floor": 2,
       "id": "floor_2_room_3",
-      "interior_observation": false,
-      "known_ratio": 0.0,
-      "passed": false,
-      "task_coverage": 0.0,
-      "task_found": false
+      "interior_observation": true,
+      "known_ratio": 0.8737373737373737,
+      "passed": true,
+      "task_coverage": 0.856,
+      "task_found": true
     }
   ],
-  "status": "hdplanner_nonprogress_recovery inference=40 mode=explore active=True policy=torchscript_checkpoint_loaded inferences=40 floor=0/3 full_map=False complete=0,0,0 coverage=0.883,0.000,0.000 frontiers=191,0,0 graph_rooms=5,0,0 distance=113.9,0.0,0.0 pose=(5.725455585195405, 16.748220397965476, 0.37165829647103205, -3.054822644364836) home=(-0.0030316011043441692, -3.2067195943223856, 0.30757676219984176, 1.5959914901860142) path=1/67 room_tasks=0:2:R:14.75:1:1:1:0:0.892,0:3:L:14.65:1:1:1:0:0.938,0:5:L:28.75:1:1:1:0:0.912,0:6:R:28.65:1:1:1:0:0.859,0:9:R:15.95:0:0:0:0:0.000"
+  "status": "return_waiting_for_path mode=return active=True policy=torchscript_checkpoint_loaded inferences=0 floor=0/3 full_map=True complete=1,1,1 coverage=0.884,0.864,0.834 frontiers=0,0,0 graph_rooms=4,5,5 distance=130.1,131.1,103.5 pose=(-0.218191, 1.47646, 0.313549, 0.139598) home=(0.00107021, -3.20309, 0.307775, 1.63088) path=0/0 room_tasks=0:2:L:14.65:1:1:1:0:0.907,0:3:R:14.65:1:1:1:0:0.929,0:5:L:28.65:1:1:1:0:0.894,0:6:R:28.65:1:1:1:0:0.884,1:2:R:14.55:1:1:1:0:0.941,1:4:L:28.45:1:1:1:0:0.885,1:5:L:14.55:1:1:1:0:0.904,1:6:R:28.75:1:1:1:0:0.941,1:8:R:33.85:1:1:1:0:0.887,2:2:R:14.55:1:1:1:0:0.900,2:3:L:14.55:1:1:1:0:0.892,2:5:L:28.75:0:0:0:1:0.000,2:7:L:31.05:1:1:1:0:0.863,2:8:R:28.55:1:1:1:0:0.856"
 }

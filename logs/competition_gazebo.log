@@ -1,20 +1,21 @@
 xacro: in-order processing became default in ROS Melodic. You can drop the option.
-[31m[ERROR] [1787584638.544520364]: Couldn't open joystick /dev/input/js0. Will retry every second.[0m
-[0m[INFO] [1787584638.855914159]: Finished loading Gazebo ROS API Plugin.[0m
-[0m[INFO] [1787584638.856742677]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m
-[0m[INFO] [1787584639.829711265]: waitForService: Service [/gazebo/set_physics_properties] is now available.[0m
-[0m[INFO] [1787584639.944621117]: <initialOrientationAsReference> is unset, using default value of false to comply with REP 145 (world as orientation reference)[0m
-[0m[INFO] [1787584639.944660001]: <robotNamespace> set to: //[0m
-[0m[INFO] [1787584639.944666810]: <topicName> set to: trunk_imu[0m
-[0m[INFO] [1787584639.944671468]: <frameName> set to: imu_link[0m
-[0m[INFO] [1787584639.944692339]: <updateRateHZ> set to: 1000[0m
-[0m[INFO] [1787584639.944697726]: <gaussianNoise> set to: 0[0m
-[0m[INFO] [1787584639.944722870]: <xyzOffset> set to: 0 0 0[0m
-[0m[INFO] [1787584639.944788825]: <rpyOffset> set to: 0 -0 0[0m
-[0m[INFO] [1787584640.032467669]: load csv file name:/home/loser/SimEnv/src/unitree_guide/unitree_ros/robots/a1_description/scan_mode/mid360.csv[0m
+[31m[ERROR] [1787666281.070606321]: Couldn't open joystick /dev/input/js0. Will retry every second.[0m
+[0m[INFO] [1787666281.363638003]: Finished loading Gazebo ROS API Plugin.[0m
+[0m[INFO] [1787666281.364276446]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m
+[0m[INFO] [1787666282.364722941]: waitForService: Service [/gazebo/set_physics_properties] is now available.[0m
+[0m[INFO] [1787666282.374760234]: Physics dynamic reconfigure ready.[0m
+[0m[INFO] [1787666282.722871250]: <initialOrientationAsReference> is unset, using default value of false to comply with REP 145 (world as orientation reference)[0m
+[0m[INFO] [1787666282.722910350]: <robotNamespace> set to: //[0m
+[0m[INFO] [1787666282.722918594]: <topicName> set to: trunk_imu[0m
+[0m[INFO] [1787666282.722923711]: <frameName> set to: imu_link[0m
+[0m[INFO] [1787666282.722947784]: <updateRateHZ> set to: 1000[0m
+[0m[INFO] [1787666282.722955059]: <gaussianNoise> set to: 0[0m
+[0m[INFO] [1787666282.722982451]: <xyzOffset> set to: 0 0 0[0m
+[0m[INFO] [1787666282.723057279]: <rpyOffset> set to: 0 -0 0[0m
+[0m[INFO] [1787666282.813648816]: load csv file name:/home/loser/SimEnv/src/unitree_guide/unitree_ros/robots/a1_description/scan_mode/mid360.csv[0m
 cannot convert str:
 data size:800000
-[INFO] [1787584638.872136, 0.000000]: Loading model XML from ros parameter robot_description
-[INFO] [1787584638.880755, 0.000000]: Waiting for service /gazebo/spawn_urdf_model
-[INFO] [1787584639.785595, 0.000000]: Calling service /gazebo/spawn_urdf_model
-[INFO] [1787584641.675591, 0.000000]: Spawn status: SpawnModel: Successfully spawned entity
+[INFO] [1787666281.209806, 0.000000]: Loading model XML from ros parameter robot_description
+[INFO] [1787666281.216330, 0.000000]: Waiting for service /gazebo/spawn_urdf_model
+[INFO] [1787666282.422586, 0.000000]: Calling service /gazebo/spawn_urdf_model
+[INFO] [1787666284.254016, 0.000000]: Spawn status: SpawnModel: Successfully spawned entity

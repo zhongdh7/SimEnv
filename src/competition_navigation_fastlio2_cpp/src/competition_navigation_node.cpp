@@ -56,6 +56,7 @@ double clampd(double value, double lower, double upper) {
 // Python round(): round-half-to-even (banker's rounding), unlike std::round.
 int64_t py_round(double x) { return std::lrint(x); }
 double py_round1(double x) { return std::nearbyint(x * 10.0) / 10.0; }
+double py_round2(double x) { return std::nearbyint(x * 100.0) / 100.0; }
 
 double yaw_from_quat(double qx, double qy, double qz, double qw) {
   return std::atan2(2.0 * (qw * qz + qx * qy),
@@ -1340,7 +1341,7 @@ class CompetitionNavigation {
       const nav::GraphNode& other = kv.second;
       if (other.node_type == "room_entry" && other.floor == node.floor &&
           room_side(other) == side) {
-        y_values.insert(py_round1(other.y));
+        y_values.insert(py_round2(other.y));
       }
     }
     double lower = y_min, upper = y_max;
@@ -2106,14 +2107,15 @@ class CompetitionNavigation {
         else roi[idx(x, y)] = 0;
       }
     }
-    // Clear core bounds (stairs / elevator) from the ROI.
-    struct C { Bounds b; bool use_lobby; };
-    std::vector<C> cores = {{stair_bounds_, false}, {elevator_bounds_, false}};
+    // Clear core bounds (stairs / elevator) from the ROI.  Python uses
+    // ``y_bounds = lobby_bounds or bounds`` for the vertical range, so the
+    // cleared region spans the full lobby height for each core's x-range.
+    std::vector<Bounds> cores = {stair_bounds_, elevator_bounds_};
     double core_margin = 0.20;
-    for (const auto& core : cores) {
-      Bounds cb = core.b;
+    double cy0 = lobby_bounds_.y_min - core_margin;
+    double cy1 = lobby_bounds_.y_max + core_margin;
+    for (const auto& cb : cores) {
       double cx0 = cb.x_min - core_margin, cx1 = cb.x_max + core_margin;
-      double cy0 = cb.y_min - core_margin, cy1 = cb.y_max + core_margin;
       for (int y = 0; y < map_cells_; ++y) {
         double wy = *map_origin_y_ + y * cell_size_;
         if (wy < cy0 || wy > cy1) continue;

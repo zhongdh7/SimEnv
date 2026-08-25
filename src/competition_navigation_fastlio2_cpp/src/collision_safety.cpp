@@ -263,8 +263,15 @@ class CollisionSafety {
   }
 
   void spin() {
-    ros::Rate r(rate_);
+    // Unlike rospy (whose subscriber callbacks run on their own threads),
+    // roscpp only dispatches callbacks when the node spins.  This manual loop
+    // must call ros::spinOnce() each iteration so cmd/odom/map/status callbacks
+    // actually fire, and uses WallRate so the loop stays at real-time (the
+    // rospy.Rate original sleeps in wall time; ros::Rate would stall on sim
+    // time).
+    ros::WallRate r(rate_);
     while (ros::ok()) {
+      ros::spinOnce();
       geometry_msgs::Twist cmd = last_cmd_;
       ros::Time now = ros::Time::now();
       if (has_cmd_stamp_ && now - last_cmd_stamp_ > stale_timeout_) {
