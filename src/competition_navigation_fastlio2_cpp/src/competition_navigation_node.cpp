@@ -342,6 +342,16 @@ class CompetitionNavigation {
     pnh_.param<double>("linear_gain", linear_gain_, 1.0);
     pnh_.param<double>("max_lateral", max_lateral_, 0.15);
     pnh_.param<double>("max_yaw_rate", max_yaw_rate_, 1.2);
+    pnh_.param<double>("corridor_max_linear", corridor_max_linear_, max_linear_);
+    corridor_max_linear_ = std::max(0.1, corridor_max_linear_);
+    pnh_.param<double>("room_max_linear", room_max_linear_, 0.60);
+    room_max_linear_ = std::max(0.1, room_max_linear_);
+    pnh_.param<double>("turn_heading_threshold", turn_heading_threshold_, 0.8);
+    turn_heading_threshold_ = std::max(0.05, turn_heading_threshold_);
+    pnh_.param<double>("turn_linear_scale", turn_linear_scale_, 0.2);
+    turn_linear_scale_ = clampd(turn_linear_scale_, 0.0, 1.0);
+    pnh_.param<double>("scan_yaw_rate", scan_yaw_rate_, 0.8);
+    scan_yaw_rate_ = std::max(0.05, scan_yaw_rate_);
     pnh_.param<double>("robot_radius", robot_radius_, 0.20);
     robot_radius_ = std::max(0.0, robot_radius_);
     robot_radius_cells_ =
@@ -352,6 +362,10 @@ class CompetitionNavigation {
     pnh_.param<bool>("auto_start", auto_start_, false);
     pnh_.param<double>("auto_return_after_sec", auto_return_after_sec_, 0.0);
     pnh_.param<bool>("require_hdplanner", require_hdplanner_, true);
+    pnh_.param<int>("hdplanner_nonprogress_recovery_threshold",
+                    hdplanner_nonprogress_recovery_threshold_, 3);
+    hdplanner_nonprogress_recovery_threshold_ =
+        std::max(1, hdplanner_nonprogress_recovery_threshold_);
     pnh_.param<int>("floor_count", floor_count_, DEFAULT_FLOOR_COUNT);
     floor_count_ = std::max(1, floor_count_);
     pnh_.param<double>("floor_height", floor_height_, DEFAULT_FLOOR_HEIGHT);
@@ -371,7 +385,7 @@ class CompetitionNavigation {
     pnh_.param<int>("no_frontier_cycles_required",
                     no_frontier_cycles_required_, 6);
     no_frontier_cycles_required_ = std::max(2, no_frontier_cycles_required_);
-    pnh_.param<double>("stair_speed", stair_speed_, 0.80);
+    pnh_.param<double>("stair_speed", stair_speed_, 1.00);
     stair_speed_ = std::max(0.05, stair_speed_);
     pnh_.param<double>("stair_landing_speed", stair_landing_speed_, 0.40);
     stair_landing_speed_ = std::max(0.0, stair_landing_speed_);
@@ -423,6 +437,13 @@ class CompetitionNavigation {
     pnh_.param<int>("room_entry_confirmation_cycles",
                     room_entry_confirmation_cycles_, 2);
     room_entry_confirmation_cycles_ = std::max(1, room_entry_confirmation_cycles_);
+    pnh_.param<double>("room_entry_end_margin", room_entry_end_margin_, 5.27);
+    room_entry_end_margin_ = std::max(0.8, room_entry_end_margin_);
+    pnh_.param<int>("room_entry_probe_min_free", room_entry_probe_min_free_, 2);
+    room_entry_probe_min_free_ = std::max(1, room_entry_probe_min_free_);
+    pnh_.param<double>("room_entry_merge_corridor_s",
+                       room_entry_merge_corridor_s_, 1.35);
+    room_entry_merge_corridor_s_ = std::max(0.0, room_entry_merge_corridor_s_);
     pnh_.param<bool>("room_entry_allow_unknown_wall",
                      room_entry_allow_unknown_wall_, true);
     pnh_.param<int>("room_entry_min_width_cells", room_entry_min_width_cells_,
@@ -435,12 +456,26 @@ class CompetitionNavigation {
                     room_entry_wall_support_min_occupied_, 2);
     room_entry_wall_support_min_occupied_ =
         std::max(1, room_entry_wall_support_min_occupied_);
+    pnh_.param<bool>("room_entry_require_two_sided_support",
+                     room_entry_require_two_sided_support_, true);
     pnh_.param<int>("room_entry_max_width_cells", room_entry_max_width_cells_,
                     7);
     room_entry_max_width_cells_ = std::max(0, room_entry_max_width_cells_);
+    pnh_.param<double>("room_wall_search_max_offset",
+                       room_wall_search_max_offset_, 1.3);
+    room_wall_search_max_offset_ = std::max(0.4, room_wall_search_max_offset_);
+    pnh_.param<int>("room_wall_min_support_score",
+                    room_wall_min_support_score_, 12);
+    room_wall_min_support_score_ = std::max(6, room_wall_min_support_score_);
     pnh_.param<int>("room_entry_path_fail_limit", room_entry_path_fail_limit_,
                     5);
     room_entry_path_fail_limit_ = std::max(1, room_entry_path_fail_limit_);
+    // 2-D occupancy 地图不包含低矮家具，深入房间中心可能楔住（实测
+    // x≈4.8,y≈17.5）；但太浅又降低 hazard RGB 扫描覆盖。6.0 m 会更接近
+    // 房间中心，牺牲一点返廊时间换取更多 hazard 观察（4.0 m 常只有 3-4
+    // 个 confirmed）。
+    pnh_.param<double>("room_go_deeper_max_m", room_go_deeper_max_m_, 3.2);
+    room_go_deeper_max_m_ = std::max(0.8, room_go_deeper_max_m_);
     int rooms_per_floor = DEFAULT_ROOMS_PER_FLOOR;
     pnh_.param<int>("rooms_per_floor", rooms_per_floor, DEFAULT_ROOMS_PER_FLOOR);
     rooms_per_floor = std::max(1, rooms_per_floor);
@@ -455,6 +490,11 @@ class CompetitionNavigation {
 
     room_door_ys_.clear();
     room_entry_observations_.assign(floor_count_, std::map<EntryKey, int>());
+    room_wall_x_observed_.assign(floor_count_, std::vector<double>(2, 0.0));
+    for (int floor = 0; floor < floor_count_; ++floor) {
+      room_wall_x_observed_[floor][0] = corridor_bounds_.x_min;
+      room_wall_x_observed_[floor][1] = corridor_bounds_.x_max;
+    }
 
     pnh_.param<std::string>("model_path", model_path_,
                             "/home/uf/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt");
@@ -501,6 +541,10 @@ class CompetitionNavigation {
     frontier_progress_cell_ = std::nullopt;
     frontier_best_distance_ = std::numeric_limits<double>::infinity();
     frontier_progress_time_ = ros::Time(0);
+    hdplanner_nonprogress_count_ = 0;
+    pending_corridor_return_ = false;
+    pending_corridor_return_floor_ = -1;
+    pending_corridor_return_node_ = -1;
     blacklisted_frontiers_.assign(floor_count_, std::set<std::pair<int, int>>());
     last_progress_pose_ = std::nullopt;
     last_progress_time_ = ros::Time(0);
@@ -596,6 +640,11 @@ class CompetitionNavigation {
     graph_dfs_order_.assign(floor_count_, std::vector<int>());
     graph_dfs_index_.assign(floor_count_, 0);
     graph_dfs_attempts_.assign(floor_count_, 0);
+    corridor_frontier_stall_counts_.assign(floor_count_, 0);
+    // A blocked room is not an acceptance result.  Allow one bounded retry
+    // after the map/pose has advanced, without creating an infinite loop for
+    // a genuinely unreachable doorway.
+    room_retry_counts_.assign(floor_count_, std::map<int, int>());
     active_room_node_ = -1;
     active_room_phase_.clear();
     active_room_entered_ = false;
@@ -607,6 +656,7 @@ class CompetitionNavigation {
     last_room_plan_ = std::nullopt;
     room_entry_progress_pose_ = std::nullopt;
     room_entry_progress_time_ = ros::Time(0);
+    reset_room_goal_progress();
     double stall = 10.0;
     pnh_.param<double>("room_entry_stall_timeout", stall, 10.0);
     room_entry_stall_timeout_ = std::max(3.0, stall);
@@ -741,7 +791,30 @@ class CompetitionNavigation {
       last_progress_time_ = ros::Time::now();
       ROS_INFO("home pose recorded at (%.3f, %.3f)", new_pose.x, new_pose.y);
     }
-    current_floor_ = floor_from_height(position.z);
+    int observed_floor = floor_from_height(position.z);
+    if (transition_target_floor_.has_value() &&
+        (mode_ == "stairs_up" || mode_ == "go_stairs_up" ||
+         mode_ == "stairs_down" || mode_ == "go_stairs_down")) {
+      int target_floor = transition_target_floor_.value();
+      bool up = mode_ == "stairs_up" || mode_ == "go_stairs_up";
+      // FAST-LIO2 z can dip back toward the previous floor while the dog is
+      // still climbing/landing (or overshoot slightly).  During a pending
+      // stair transition, never let odometry floor observation cross the
+      // target floor or move backwards; the route-endpoint confirmation in
+      // finish_stair_transition owns the final floor change.
+      if (up && (observed_floor > target_floor || observed_floor < current_floor_))
+        observed_floor = current_floor_;
+      if (!up && (observed_floor < target_floor || observed_floor > current_floor_))
+        observed_floor = current_floor_;
+    } else if (!(mode_ == "stairs_up" || mode_ == "go_stairs_up" ||
+                 mode_ == "stairs_down" || mode_ == "go_stairs_down")) {
+      // FAST-LIO2 z is useful as a diagnostic, but it can oscillate around the
+      // midpoint between floors after a landing.  The validated five-waypoint
+      // stair route owns floor changes; do not let ordinary explore/return
+      // odometry move the active map back to a previous floor.
+      observed_floor = current_floor_;
+    }
+    current_floor_ = observed_floor;
     if (current_floor_ != previous_floor) {
       ROS_INFO("floor transition observed: %d -> %d at z=%.3f", previous_floor,
                current_floor_, position.z);
@@ -1052,7 +1125,9 @@ class CompetitionNavigation {
       const std::vector<uint8_t>& belief) const {
     if (!map_origin_x_.has_value()) return {};
     double x_min = corridor_bounds_.x_min, x_max = corridor_bounds_.x_max;
-    double y_min = corridor_bounds_.y_min + 0.8, y_max = corridor_bounds_.y_max - 0.8;
+    double y_min = corridor_bounds_.y_min + 0.8;
+    double y_max = corridor_bounds_.y_max - room_entry_end_margin_;
+    if (y_max < y_min) return {};
     std::vector<RoomEntryCandidate> candidates;
     struct SideSpec {
       std::string side;
@@ -1061,28 +1136,42 @@ class CompetitionNavigation {
     };
     for (const auto& spec :
          {SideSpec{"left", x_min, -1.0}, SideSpec{"right", x_max, 1.0}}) {
+      double wall_x = observed_room_wall_x(belief, spec.wall_x)
+                          .value_or(spec.wall_x);
       std::vector<std::pair<double, bool>> samples;
       for (double y = y_min; y <= y_max; y += cell_size_) {
-        auto wall_cell = cell(spec.wall_x, y, *map_origin_x_, *map_origin_y_);
-        auto room_cell = cell(spec.wall_x + spec.dir * 0.45, y, *map_origin_x_,
-                              *map_origin_y_);
-        auto corridor_cell = cell(spec.wall_x - spec.dir * 0.45, y,
+        auto wall_cell = cell(wall_x, y, *map_origin_x_, *map_origin_y_);
+        auto corridor_cell = cell(wall_x - spec.dir * 0.45, y,
                                   *map_origin_x_, *map_origin_y_);
         bool opening = false;
-        if (wall_cell.has_value() && room_cell.has_value() &&
-            corridor_cell.has_value()) {
+        if (wall_cell.has_value() && corridor_cell.has_value()) {
           uint8_t wall_value = belief[idx(wall_cell->first, wall_cell->second)];
           bool wall_open =
               (wall_value == FREE ||
                (room_entry_allow_unknown_wall_ && wall_value == UNKNOWN));
+          int room_free_count = 0;
+          for (double depth : {0.45, 0.85, 1.25}) {
+            auto probe_cell = cell(wall_x + spec.dir * depth, y,
+                                   *map_origin_x_, *map_origin_y_);
+            if (probe_cell.has_value() &&
+                belief[idx(probe_cell->first, probe_cell->second)] == FREE)
+              room_free_count++;
+          }
           opening = wall_open &&
-                    belief[idx(room_cell->first, room_cell->second)] == FREE &&
+                    room_free_count >= room_entry_probe_min_free_ &&
                     belief[idx(corridor_cell->first, corridor_cell->second)] ==
                         FREE;
         }
         samples.emplace_back(y, opening);
       }
       int start = -1;
+      std::vector<std::pair<int, int>> max_width_runs;
+      struct PendingCandidate {
+        RoomEntryCandidate candidate;
+        int start = 0;
+        int end = 0;
+      };
+      std::vector<PendingCandidate> pending_candidates;
       for (size_t index = 0; index <= samples.size(); ++index) {
         bool opening = index < samples.size() ? samples[index].second : false;
         if (opening && start < 0) start = static_cast<int>(index);
@@ -1093,9 +1182,10 @@ class CompetitionNavigation {
             if (room_entry_max_width_cells_ > 0 &&
                 len > room_entry_max_width_cells_)
               width_ok = false;
+            if (!width_ok) max_width_runs.emplace_back(start, index);
             bool support_ok = true;
             if (width_ok && room_entry_wall_support_cells_ > 0) {
-              support_ok = false;
+              std::vector<bool> support_sides;
               int window = room_entry_wall_support_cells_;
               for (int step : {-1, 1}) {
                 int base = step < 0 ? start : static_cast<int>(index) - 1;
@@ -1105,7 +1195,7 @@ class CompetitionNavigation {
                   int pos = base + step * k;
                   if (pos < 0 || pos >= static_cast<int>(samples.size())) break;
                   auto wall_cell =
-                      cell(spec.wall_x, samples[pos].first, *map_origin_x_,
+                      cell(wall_x, samples[pos].first, *map_origin_x_,
                            *map_origin_y_);
                   checked++;
                   if (wall_cell.has_value() &&
@@ -1113,11 +1203,17 @@ class CompetitionNavigation {
                           OCCUPIED)
                     occupied_count++;
                 }
-                if (checked >= 1 &&
-                    occupied_count >= room_entry_wall_support_min_occupied_) {
-                  support_ok = true;
-                  break;
-                }
+                support_sides.push_back(
+                    checked >= 1 &&
+                    occupied_count >= room_entry_wall_support_min_occupied_);
+              }
+              if (room_entry_require_two_sided_support_) {
+                support_ok = support_sides.size() == 2 &&
+                             support_sides[0] && support_sides[1];
+              } else {
+                support_ok = std::any_of(
+                    support_sides.begin(), support_sides.end(),
+                    [](bool supported) { return supported; });
               }
             }
             if (width_ok && support_ok) {
@@ -1127,19 +1223,122 @@ class CompetitionNavigation {
               center_y /= len;
               RoomEntryCandidate c;
               c.side = spec.side;
-              c.x = spec.wall_x + spec.dir * 0.60;
+              c.x = wall_x + spec.dir * 0.60;
               c.y = center_y;
               c.yaw = (spec.side == "left") ? M_PI : 0.0;
               c.corridor_s = center_y - corridor_bounds_.y_min;
               c.confidence = std::min(1.0, len / 4.0);
-              candidates.push_back(c);
+              pending_candidates.push_back(
+                  PendingCandidate{c, start, static_cast<int>(index)});
             }
           }
           start = -1;
         }
       }
+      double max_fragment_gap = 2.0 * cell_size_;
+      for (const auto& pending : pending_candidates) {
+        bool adjacent_max_width = false;
+        double run_start = samples[pending.start].first;
+        double run_end = samples[pending.end - 1].first;
+        for (const auto& rejected : max_width_runs) {
+          double rejected_start = samples[rejected.first].first;
+          double rejected_end = samples[rejected.second - 1].first;
+          double gap = std::max(
+              0.0, std::max(rejected_start - run_end,
+                            run_start - rejected_end));
+          if (gap <= max_fragment_gap + 1.0e-9) {
+            adjacent_max_width = true;
+            break;
+          }
+        }
+        if (!adjacent_max_width) candidates.push_back(pending.candidate);
+      }
     }
     return candidates;
+  }
+
+  std::optional<double> observed_room_wall_x(
+      const std::vector<uint8_t>& belief, double expected_x) const {
+    if (!map_origin_x_.has_value() || !map_origin_y_.has_value()) {
+      return std::nullopt;
+    }
+    const double y_min = corridor_bounds_.y_min + 0.8;
+    const double y_max = corridor_bounds_.y_max - room_entry_end_margin_;
+    if (y_max <= y_min) return std::nullopt;
+    const int support_rows = std::max(
+        1, static_cast<int>(std::lrint(0.8 / std::max(cell_size_, 0.05))));
+    std::optional<double> best_x;
+    int best_score = -1;
+    const double search_min =
+        expected_x - room_wall_search_max_offset_;
+    const double search_max =
+        expected_x + room_wall_search_max_offset_;
+    const int steps = std::max(
+        1, static_cast<int>(std::lrint(
+               (search_max - search_min) / std::max(cell_size_, 0.05))));
+    for (int step = 0; step <= steps; ++step) {
+      const double x = search_min + step * cell_size_;
+      auto base = cell(x, y_min, *map_origin_x_, *map_origin_y_);
+      if (!base.has_value()) continue;
+      const int cx = base->first;
+      int cy0 = base->second;
+      int cy1 = static_cast<int>(std::lrint(
+          (y_max - *map_origin_y_) / cell_size_));
+      if (cx < 0 || cx >= map_cells_) continue;
+      cy1 = std::min(map_cells_ - 1, std::max(cy0, cy1));
+      int score = 0;
+      for (int cy = std::max(0, cy0); cy <= cy1; ++cy) {
+        if (belief[idx(cx, cy)] != OCCUPIED) continue;
+        bool supported = false;
+        for (int dy = 1; dy <= support_rows; ++dy) {
+          if ((cy - dy >= 0 &&
+               belief[idx(cx, cy - dy)] == OCCUPIED) ||
+              (cy + dy < map_cells_ &&
+               belief[idx(cx, cy + dy)] == OCCUPIED)) {
+            supported = true;
+            break;
+          }
+        }
+        if (supported) score++;
+      }
+      if (score > best_score ||
+          (score == best_score && best_x.has_value() &&
+           std::abs(x - expected_x) < std::abs(*best_x - expected_x))) {
+        best_x = x;
+        best_score = score;
+      }
+    }
+    if (!best_x.has_value() ||
+        best_score < room_wall_min_support_score_) {
+      return std::nullopt;
+    }
+    return best_x;
+  }
+
+  static bool room_entry_same_side(double node_x, double candidate_x) {
+    return (node_x < 0.0) == (candidate_x < 0.0);
+  }
+
+  std::optional<int> room_entry_merge_id(
+      const nav::CorridorGraph& graph, int floor_index,
+      const RoomEntryCandidate& candidate) const {
+    if (!std::isfinite(candidate.corridor_s)) return std::nullopt;
+    int best_id = -1;
+    double best_delta = std::numeric_limits<double>::infinity();
+    for (const auto& kv : graph.nodes) {
+      const nav::GraphNode& node = kv.second;
+      if (node.floor != floor_index || node.node_type != "room_entry" ||
+          !node.corridor_s.has_value() ||
+          !room_entry_same_side(node.x, candidate.x))
+        continue;
+      double delta = std::abs(node.corridor_s.value() - candidate.corridor_s);
+      if (delta <= room_entry_merge_corridor_s_ && delta < best_delta) {
+        best_id = node.node_id;
+        best_delta = delta;
+      }
+    }
+    if (best_id < 0) return std::nullopt;
+    return best_id;
   }
 
   std::vector<RoomEntryCandidate> confirmed_room_entry_candidates(
@@ -1177,9 +1376,10 @@ class CompetitionNavigation {
     }
     Pose last = room_entry_progress_pose_.value();
     double moved = std::hypot(pose.x - last.x, pose.y - last.y);
-    double turned = std::abs(
-        std::remainder(pose.yaw - last.yaw, 2.0 * M_PI));
-    if (moved >= 0.25 || turned >= 0.25) {
+    // Turning in place at a blocked doorway/return path is not progress:
+    // counting heading-only motion here let the robot spin forever in
+    // ``room_return_path`` without ever reaching the corridor.
+    if (moved >= 0.25) {
       room_entry_progress_pose_ = pose;
       room_entry_progress_time_ = now;
       return false;
@@ -1187,13 +1387,97 @@ class CompetitionNavigation {
     return now - room_entry_progress_time_ > ros::Duration(room_entry_stall_timeout_);
   }
 
+  void reset_room_goal_progress() {
+    room_goal_progress_key_.clear();
+    room_goal_best_distance_ = std::numeric_limits<double>::infinity();
+    room_goal_progress_time_ = ros::Time(0);
+  }
+
+  bool room_goal_progress_stalled(const Pose& pose,
+                                  const nav::GraphNode& node) {
+    std::optional<std::pair<double, double>> target;
+    std::string key;
+    if (active_room_phase_ == "entering") {
+      target = room_target(node);
+      key = ssprintf("entering:%d", node.node_id);
+    } else if (active_room_phase_ == "surveying" &&
+               active_room_target_cell_.has_value()) {
+      auto cell = *active_room_target_cell_;
+      target = std::make_pair(
+          *map_origin_x_ + cell.first * cell_size_,
+          *map_origin_y_ + cell.second * cell_size_);
+      key = ssprintf("surveying:%d:%d:%d", node.node_id, cell.first,
+                     cell.second);
+    } else if (active_room_phase_ == "returning") {
+      // The corridor centre at the room's longitudinal position is a stable
+      // live-pose goal; it does not create a shortcut through a wall.
+      target = std::make_pair(0.0, node.y);
+      key = ssprintf("returning:%d", node.node_id);
+    } else {
+      reset_room_goal_progress();
+      return false;
+    }
+    if (!target.has_value()) {
+      reset_room_goal_progress();
+      return false;
+    }
+
+    double distance = std::hypot(pose.x - target->first, pose.y - target->second);
+    ros::Time now = ros::Time::now();
+    if (distance <= 0.65) {
+      room_goal_progress_key_ = key;
+      room_goal_best_distance_ = distance;
+      room_goal_progress_time_ = now;
+      return false;
+    }
+    if (room_goal_progress_key_ != key ||
+        room_goal_progress_time_ == ros::Time(0)) {
+      room_goal_progress_key_ = key;
+      room_goal_best_distance_ = distance;
+      room_goal_progress_time_ = now;
+      return false;
+    }
+    if (distance <= room_goal_best_distance_ - 0.20) {
+      room_goal_best_distance_ = distance;
+      room_goal_progress_time_ = now;
+      return false;
+    }
+    return now - room_goal_progress_time_ >
+           ros::Duration(room_entry_stall_timeout_);
+  }
+
   void update_floor_graph(const std::vector<uint8_t>& belief, int floor_index) {
     if (floor_index >= static_cast<int>(floor_graphs_.size())) return;
+    update_observed_room_walls(belief, floor_index);
     nav::CorridorGraph& graph = floor_graphs_[floor_index];
     graph_root(floor_index);
     std::vector<RoomEntryCandidate> candidates = confirmed_room_entry_candidates(
         room_entry_candidates(belief), floor_index);
+    int room_count = 0;
+    for (const auto& kv : graph.nodes) {
+      if (kv.second.node_type == "room_entry" &&
+          kv.second.floor == floor_index)
+        room_count++;
+    }
+    const int expected =
+        floor_index < static_cast<int>(expected_room_count_.size())
+            ? expected_room_count_[floor_index]
+            : 0;
     for (const auto& candidate : candidates) {
+      auto merged_id = room_entry_merge_id(graph, floor_index, candidate);
+      // Once the configured room count is represented, a later unmatched
+      // sensor opening is not allowed to become a new exploration task.  In
+      // the fixed building this prevents a late corridor/stair-wall smear
+      // from adding a phantom room after the real rooms are already queued.
+      // Existing observations are still refreshed through the merge path.
+      if (!merged_id.has_value() && expected > 0 && room_count >= expected) {
+        ROS_DEBUG_THROTTLE(
+            10.0,
+            "ignoring late unmatched room candidate on floor %d at y=%.2f "
+            "after room count reached %d",
+            floor_index, candidate.y, expected);
+        continue;
+      }
       std::string key = ssprintf("%.2f", candidate.y);
       auto it = graph_anchor_nodes_[floor_index].find(key);
       int anchor_id = (it != graph_anchor_nodes_[floor_index].end()) ? it->second
@@ -1218,10 +1502,20 @@ class CompetitionNavigation {
       } else {
         graph_anchor_nodes_[floor_index][key] = anchor_id;
       }
-      auto [entry_id, created] = graph.add_room_entry(
-          floor_index, candidate.x, candidate.y, candidate.yaw,
-          candidate.corridor_s, candidate.confidence, "room_entry_" + key);
-      (void)created;
+      int entry_id;
+      if (merged_id.has_value()) {
+        entry_id = *merged_id;
+      } else {
+        auto result = graph.add_room_entry(
+            floor_index, candidate.x, candidate.y, candidate.yaw,
+            candidate.corridor_s, candidate.confidence, "room_entry_" + key);
+        entry_id = result.first;
+        room_count++;
+      }
+      if (graph.nodes.find(entry_id) != graph.nodes.end()) {
+        graph.nodes.at(entry_id).confidence = std::max(
+            graph.nodes.at(entry_id).confidence, candidate.confidence);
+      }
       graph.add_edge(anchor_id, entry_id);
     }
 
@@ -1283,6 +1577,33 @@ class CompetitionNavigation {
     return true;
   }
 
+  bool assume_corridor_end_from_stall(const std::vector<uint8_t>& belief,
+                                      int floor_index,
+                                      const std::string& label) {
+    if (floor_index >= static_cast<int>(floor_graphs_.size()) ||
+        corridor_bounds_.y_max <= corridor_bounds_.y_min)
+      return false;
+    const double corridor_min_y = corridor_bounds_.y_min;
+    const double end_y = corridor_bounds_.y_max - 0.8;
+    nav::CorridorGraph& graph = floor_graphs_[floor_index];
+    auto [end_id, created] = graph.add_node(
+        "corridor_end", floor_index, 0.0, end_y, 0.0,
+        end_y - corridor_min_y, 1.0, label);
+    (void)created;
+    graph_end_nodes_[floor_index] = end_id;
+    update_floor_graph(belief, floor_index);
+    int room_count = 0;
+    for (const auto& kv : graph.nodes)
+      if (kv.second.node_type == "room_entry") room_count++;
+    if (!prepare_graph_dfs(floor_index)) return false;
+    corridor_frontier_stall_counts_[floor_index] = 0;
+    status_ = ssprintf("%s rooms=%d dfs_nodes=%zu", label.c_str(), room_count,
+                       graph_dfs_order_[floor_index].size());
+    path_.clear();
+    path_index_ = 0;
+    return true;
+  }
+
   bool plan_graph_corridor_survey(const std::vector<uint8_t>& belief,
                                   const Pose& pose, int floor_index) {
     if (floor_index >= static_cast<int>(graph_phase_.size())) return false;
@@ -1299,22 +1620,8 @@ class CompetitionNavigation {
     }
     double end_y = corridor_bounds_.y_max - 0.8;
     if (pose.y >= end_y - 0.5) {
-      nav::CorridorGraph& graph = floor_graphs_[floor_index];
-      auto [end_id, created] = graph.add_node(
-          "corridor_end", floor_index, 0.0, end_y, 0.0,
-          end_y - corridor_min_y, 1.0, "corridor_end");
-      (void)created;
-      graph_end_nodes_[floor_index] = end_id;
-      update_floor_graph(belief, floor_index);
-      int room_count = 0;
-      for (const auto& kv : graph.nodes)
-        if (kv.second.node_type == "room_entry") room_count++;
-      prepare_graph_dfs(floor_index);
-      status_ = ssprintf("corridor_end_discovered rooms=%d dfs_nodes=%zu",
-                         room_count, graph_dfs_order_[floor_index].size());
-      path_.clear();
-      path_index_ = 0;
-      return true;
+      return assume_corridor_end_from_stall(belief, floor_index,
+                                            "corridor_end_discovered");
     }
     auto path = astar_path(belief, std::make_pair(pose.x, pose.y),
                            std::make_pair(0.0, end_y), false, true);
@@ -1322,14 +1629,72 @@ class CompetitionNavigation {
       path = astar_path(belief, std::make_pair(pose.x, pose.y),
                         std::make_pair(0.0, end_y), true, true);
     }
-    if (path.empty()) return false;
+    if (path.empty()) {
+      // 卡住兜底：odom 漂移使 pose.y 判断永远到不了走廊末端，机器人实际已到
+      // 末端但 path 反复失败（前面是墙/楼梯）。路径连续失败且原地不动超时后
+      // 强制完成 corridor_end，进入 DFS 房间调度，避免永久卡在走廊 survey。
+      ros::Time now = ros::Time::now();
+      bool moved = corridor_survey_stall_pose_valid_ &&
+                   std::hypot(pose.x - corridor_survey_stall_pose_.x,
+                              pose.y - corridor_survey_stall_pose_.y) > 0.5;
+      if (corridor_survey_stall_since_ == ros::Time(0) || moved) {
+        corridor_survey_stall_since_ = now;
+        corridor_survey_stall_pose_ = pose;
+        corridor_survey_stall_pose_valid_ = true;
+      } else if ((now - corridor_survey_stall_since_).toSec() > 15.0) {
+        corridor_survey_stall_since_ = ros::Time(0);
+        corridor_survey_stall_pose_valid_ = false;
+        nav::CorridorGraph& graph = floor_graphs_[floor_index];
+        auto [end_id, created] = graph.add_node(
+            "corridor_end", floor_index, 0.0, end_y, 0.0,
+            end_y - corridor_min_y, 1.0, "corridor_end_assumed");
+        (void)created;
+        graph_end_nodes_[floor_index] = end_id;
+        update_floor_graph(belief, floor_index);
+        int room_count = 0;
+        for (const auto& kv : graph.nodes)
+          if (kv.second.node_type == "room_entry") room_count++;
+        prepare_graph_dfs(floor_index);
+        status_ = ssprintf("corridor_end_assumed rooms=%d dfs_nodes=%zu",
+                           room_count, graph_dfs_order_[floor_index].size());
+        ROS_WARN("corridor survey stalled; assuming corridor end (odom drift)");
+        path_.clear();
+        path_index_ = 0;
+        return true;
+      }
+      return false;
+    }
     set_path(path, "graph_corridor_survey");
     return true;
   }
 
   std::string room_side(const nav::GraphNode& node) const {
-    double center_x = 0.5 * (corridor_bounds_.x_min + corridor_bounds_.x_max);
+    const double left_wall = observed_wall_x(node.floor, true);
+    const double right_wall = observed_wall_x(node.floor, false);
+    double center_x = 0.5 * (left_wall + right_wall);
     return node.x < center_x ? "left" : "right";
+  }
+
+  double observed_wall_x(int floor_index, bool left) const {
+    if (floor_index >= 0 &&
+        floor_index < static_cast<int>(room_wall_x_observed_.size())) {
+      double value = room_wall_x_observed_[floor_index][left ? 0 : 1];
+      if (std::isfinite(value)) return value;
+    }
+    return left ? corridor_bounds_.x_min : corridor_bounds_.x_max;
+  }
+
+  void update_observed_room_walls(const std::vector<uint8_t>& belief,
+                                  int floor_index) {
+    if (floor_index < 0 ||
+        floor_index >= static_cast<int>(room_wall_x_observed_.size()))
+      return;
+    double left = observed_room_wall_x(belief, corridor_bounds_.x_min)
+                      .value_or(corridor_bounds_.x_min);
+    double right = observed_room_wall_x(belief, corridor_bounds_.x_max)
+                       .value_or(corridor_bounds_.x_max);
+    room_wall_x_observed_[floor_index][0] = left;
+    room_wall_x_observed_[floor_index][1] = right;
   }
 
   std::optional<Bounds> room_bounds(const nav::GraphNode& node) const {
@@ -1356,9 +1721,9 @@ class CompetitionNavigation {
     Bounds b;
     if (side == "left") {
       b.x_min = footprint_bounds_.x_min;
-      b.x_max = corridor_bounds_.x_min;
+      b.x_max = observed_wall_x(node.floor, true);
     } else {
-      b.x_min = corridor_bounds_.x_max;
+      b.x_min = observed_wall_x(node.floor, false);
       b.x_max = footprint_bounds_.x_max;
     }
     b.y_min = lower;
@@ -1425,6 +1790,12 @@ class CompetitionNavigation {
     double tx = *map_origin_x_ + target.first * cell_size_;
     double ty = *map_origin_y_ + target.second * cell_size_;
     if (std::hypot(pose.x - tx, pose.y - ty) > 0.90) return;
+    blacklist_active_room_target();
+  }
+
+  void blacklist_active_room_target() {
+    if (!active_room_target_cell_.has_value()) return;
+    auto target = *active_room_target_cell_;
     int radius = static_cast<int>(
         std::ceil(room_target_blacklist_radius_ / cell_size_));
     for (int oy = -radius; oy <= radius; ++oy) {
@@ -1435,6 +1806,7 @@ class CompetitionNavigation {
       }
     }
     active_room_target_cell_ = std::nullopt;
+    reset_room_goal_progress();
   }
 
   std::vector<std::pair<double, double>> room_frontier_path(
@@ -1544,7 +1916,188 @@ class CompetitionNavigation {
     std::reverse(cells.begin(), cells.end());
     active_room_target_cell_ = best_cell;
     last_room_plan_ = best_record;
+    reset_room_goal_progress();
     return cells_to_waypoints(cells);
+  }
+
+
+  bool observed_room_door_near_pose(const Pose& pose, int floor_index) const {
+    if (floor_index >= static_cast<int>(floor_graphs_.size()) ||
+        !(corridor_bounds_.y_min - 0.35 <= pose.y &&
+          pose.y <= corridor_bounds_.y_max + 0.35))
+      return false;
+    std::string side;
+    const double left_wall = observed_wall_x(floor_index, true);
+    const double right_wall = observed_wall_x(floor_index, false);
+    if (left_wall - 0.35 <= pose.x && pose.x < left_wall)
+      side = "left";
+    else if (right_wall < pose.x &&
+             pose.x <= right_wall + 0.35)
+      side = "right";
+    else
+      return false;
+    const nav::CorridorGraph& graph = floor_graphs_[floor_index];
+    for (const auto& kv : graph.nodes) {
+      const nav::GraphNode& candidate = kv.second;
+      if (candidate.node_type != "room_entry" || !candidate.entered ||
+          !candidate.completed || std::abs(candidate.y - pose.y) > 1.0 ||
+          room_side(candidate) != side)
+        continue;
+      return true;
+    }
+    return false;
+  }
+
+  std::vector<std::pair<double, double>> live_corridor_return_bridge(
+      const Pose& pose, int floor_index) const {
+    // A room watchdog may release control while the live pose is still just
+    // on the room side of an inflated doorway.  Permit only a short bridge
+    // when another completed, sensor-created doorway proves the local wall
+    // opening.  This is not a geometric shortcut through arbitrary walls.
+    if (floor_index >= static_cast<int>(floor_graphs_.size()) ||
+        !(corridor_bounds_.y_min - 0.35 <= pose.y &&
+          pose.y <= corridor_bounds_.y_max + 0.35))
+      return {};
+    std::string side;
+    constexpr double bridge_margin = 0.65;
+    const double left_wall = observed_wall_x(floor_index, true);
+    const double right_wall = observed_wall_x(floor_index, false);
+    if (left_wall - bridge_margin <= pose.x && pose.x < left_wall)
+      side = "left";
+    else if (right_wall < pose.x &&
+             pose.x <= right_wall + bridge_margin)
+      side = "right";
+    else
+      return {};
+    const nav::CorridorGraph& graph = floor_graphs_[floor_index];
+    bool observed = false;
+    for (const auto& kv : graph.nodes) {
+      const nav::GraphNode& candidate = kv.second;
+      if (candidate.node_type == "room_entry" && candidate.entered &&
+          candidate.completed && std::abs(candidate.y - pose.y) <= 1.0 &&
+          room_side(candidate) == side) {
+        observed = true;
+        break;
+      }
+    }
+    if (!observed) return {};
+    double center_x = 0.5 * (left_wall + right_wall);
+    double goal_y = clampd(pose.y, corridor_bounds_.y_min + 0.5,
+                           corridor_bounds_.y_max - 0.5);
+    if (std::hypot(center_x - pose.x, goal_y - pose.y) > 1.45) return {};
+    return {{center_x, goal_y}};
+  }
+
+  std::vector<std::pair<double, double>> room_corridor_approach(
+      const std::vector<uint8_t>& belief, const Pose& pose,
+      const nav::GraphNode& node,
+      const std::pair<double, double>& corridor_pose) const {
+    std::pair<double, double> start = {pose.x, pose.y};
+    for (bool allow_unknown : {false, true}) {
+      auto approach = astar_path(belief, start, corridor_pose, allow_unknown,
+                                 true);
+      if (!approach.empty()) return approach;
+    }
+
+    const double left_wall = observed_wall_x(node.floor, true);
+    const double right_wall = observed_wall_x(node.floor, false);
+    double center_x = 0.5 * (left_wall + right_wall);
+    double y_min = corridor_bounds_.y_min + 0.45;
+    double y_max = corridor_bounds_.y_max - 0.45;
+    const std::vector<double> stage_offsets = {-0.85, 0.85, -1.25, 1.25};
+
+    // A successful room can leave the live pose a few centimetres on the
+    // room side of its wall.  A nearby completed sensor-created node proves
+    // this short bridge is an observed doorway, not a wall shortcut.
+    if (observed_room_door_near_pose(pose, node.floor) &&
+        pose.x >= left_wall - 0.35 &&
+        pose.x <= right_wall + 0.35) {
+      std::pair<double, double> bridge = {
+          center_x, clampd(pose.y, y_min, y_max)};
+      if (std::hypot(bridge.first - pose.x, bridge.second - pose.y) <= 1.45) {
+        for (double offset : stage_offsets) {
+          std::pair<double, double> stage = {
+              center_x, clampd(node.y + offset, y_min, y_max)};
+          if (std::abs(stage.second - corridor_pose.second) < 0.05) continue;
+          for (bool allow_unknown : {false, true}) {
+            auto tail = astar_path(belief, bridge, stage, allow_unknown, true);
+            if (!tail.empty()) {
+              std::vector<std::pair<double, double>> recovered = {bridge};
+              append_path(recovered, tail);
+              append_path(recovered, {corridor_pose});
+              return recovered;
+            }
+          }
+        }
+        if (std::abs(node.y - bridge.second) <= 1.25)
+          return {bridge, corridor_pose};
+      }
+    }
+
+    // When the live pose is already inside the observed corridor band, the
+    // final door-row gap is only a short centerline segment.  This is narrower
+    // than a general geometric route: it never crosses a side wall until the
+    // separate, sensor-confirmed doorway segment.
+    if (left_wall <= pose.x && pose.x <= right_wall &&
+        std::abs(node.y - pose.y) <= 1.25) {
+      std::pair<double, double> near_center = {
+          center_x, clampd(pose.y, y_min, y_max)};
+      return {near_center, corridor_pose};
+    }
+
+    // Keep the recovery map-based and short: only the final door-row segment
+    // is geometric, while the longer corridor approach remains A*-validated.
+    for (double offset : stage_offsets) {
+      std::pair<double, double> stage = {
+          center_x, clampd(node.y + offset, y_min, y_max)};
+      if (std::abs(stage.second - corridor_pose.second) < 0.05) continue;
+      for (bool allow_unknown : {false, true}) {
+        auto approach = astar_path(belief, start, stage, allow_unknown, true);
+        if (!approach.empty()) {
+          std::vector<std::pair<double, double>> recovered;
+          append_path(recovered, approach);
+          append_path(recovered, {corridor_pose});
+          return recovered;
+        }
+      }
+    }
+    return {};
+  }
+
+  std::vector<std::pair<double, double>> room_inner_entry_fallback(
+      const std::vector<uint8_t>& belief, const nav::GraphNode& node,
+      const std::pair<double, double>& entry_pose) const {
+    // A* can reject the whole room interior when an old occupied wall cell is
+    // inflated into the room.  The room node exists only after persistent
+    // lidar doorway probes, so crossing from its observed entry point to a
+    // 1.15 m interior point is a bounded, map-checked recovery.  It is not a
+    // geometric route through an arbitrary wall.
+    std::optional<Bounds> bounds = room_bounds(node);
+    if (!bounds.has_value()) return {};
+    bool left = room_side(node) == "left";
+    double direction = left ? -1.0 : 1.0;
+    double wall_x = observed_wall_x(node.floor, left);
+    std::pair<double, double> inner = {wall_x + direction * 1.15, node.y};
+    double margin = 0.45;
+    if (!(bounds->x_min + margin <= inner.first &&
+          inner.first <= bounds->x_max - margin &&
+          bounds->y_min + margin <= inner.second &&
+          inner.second <= bounds->y_max - margin))
+      return {};
+    if (std::hypot(inner.first - entry_pose.first,
+                   inner.second - entry_pose.second) > 0.70 ||
+        std::abs(inner.second - entry_pose.second) > 0.45)
+      return {};
+
+    // Tie the shortcut to the same positive lidar evidence used to create
+    // the room node.  Unknown is acceptable because the persistent
+    // observation is the provenance; a currently occupied probe is not.
+    for (double depth : {0.85, 1.15}) {
+      auto probe = cell(std::make_pair(wall_x + direction * depth, node.y));
+      if (!probe.has_value() || belief[idx(probe->first, probe->second)] == OCCUPIED)
+        return {};
+    }
+    return {inner};
   }
 
   std::vector<std::pair<double, double>> room_path(
@@ -1554,20 +2107,32 @@ class CompetitionNavigation {
     std::pair<double, double> corridor_pose = std::make_pair(0.0, node.y);
     std::pair<double, double> entry_pose = node.position();
     if (entering) {
-      auto approach = astar_path(belief, std::make_pair(pose.x, pose.y),
-                                 corridor_pose, false, true);
-      if (approach.empty() &&
-          std::hypot(pose.x - corridor_pose.first,
-                     pose.y - corridor_pose.second) > 0.55)
-        return {};
+      auto approach = room_corridor_approach(belief, pose, node,
+                                              corridor_pose);
+      if (approach.empty()) return {};
       append_path(path, approach);
       auto doorway = astar_path(belief, corridor_pose, entry_pose, true, true);
+      if (doorway.empty() &&
+          std::hypot(corridor_pose.first - entry_pose.first,
+                     corridor_pose.second - entry_pose.second) <= 1.90 &&
+          std::abs(corridor_pose.second - entry_pose.second) <= 0.45) {
+        // The node exists only after a persistent lidar doorway observation.
+        // If footprint inflation seals that one side crossing, preserve the
+        // bounded sensor-confirmed geometry.
+        doorway = {entry_pose};
+      }
       if (doorway.empty()) return {};
       append_path(path, doorway);
       auto target = room_target(node);
       if (!target.has_value()) return {};
       auto interior =
           astar_path(belief, entry_pose, *target, true, true);
+      if (interior.empty()) {
+        // If the inflated map rejects the full entry-to-centre path, enter
+        // only to the sensor-confirmed short interior point.  Surveying can
+        // then scan/frontier-plan from a pose inside the inferred room.
+        interior = room_inner_entry_fallback(belief, node, entry_pose);
+      }
       if (interior.empty()) return {};
       append_path(path, interior);
       return path;
@@ -1607,12 +2172,130 @@ class CompetitionNavigation {
             b->y_min + margin <= pose.y && pose.y <= b->y_max - margin);
   }
 
+  bool pose_in_corridor(const Pose& pose) const {
+    const double left_wall = observed_wall_x(current_floor_, true);
+    const double right_wall = observed_wall_x(current_floor_, false);
+    return (left_wall - 0.35 <= pose.x &&
+            pose.x <= right_wall + 0.35 &&
+            corridor_bounds_.y_min - 0.35 <= pose.y &&
+            pose.y <= corridor_bounds_.y_max + 0.35);
+  }
+
+  void request_pending_corridor_return(const Pose& pose) {
+    if (pose_in_corridor(pose)) return;
+    pending_corridor_return_ = true;
+    pending_corridor_return_floor_ = current_floor_;
+    pending_corridor_return_node_ = active_room_node_;
+    path_.clear();
+    path_index_ = 0;
+  }
+
+  bool plan_pending_corridor_return(
+      const std::vector<uint8_t>& belief, const Pose& pose,
+      int floor_index) {
+    if (!pending_corridor_return_ ||
+        pending_corridor_return_floor_ != floor_index)
+      return false;
+    if (pose_in_corridor(pose)) {
+      pending_corridor_return_ = false;
+      pending_corridor_return_node_ = -1;
+      room_return_escape_count_ = 0;
+      path_.clear();
+      path_index_ = 0;
+      return false;
+    }
+    if (path_index_ < static_cast<int>(path_.size())) return true;
+    // The live y coordinate can drift several metres while a room is being
+    // surveyed.  If the released task still identifies its sensor-observed
+    // doorway, return on that doorway row first; crossing the room at the
+    // current y can create a long path through a solid wall and wedge the
+    // robot before the live-door bridge is applicable.
+    double goal_y = pose.y;
+    if (pending_corridor_return_node_ >= 0) {
+      auto node_it = floor_graphs_[floor_index].nodes.find(
+          pending_corridor_return_node_);
+      if (node_it != floor_graphs_[floor_index].nodes.end() &&
+          node_it->second.node_type == "room_entry" &&
+          std::isfinite(node_it->second.y)) {
+        goal_y = node_it->second.y;
+      }
+    }
+    std::pair<double, double> corridor_goal = {0.0, goal_y};
+    corridor_goal.second = std::max(
+        corridor_bounds_.y_min + 0.5,
+        std::min(corridor_bounds_.y_max - 0.5, corridor_goal.second));
+    std::vector<uint8_t> recover_belief = belief;
+    if (pending_corridor_return_node_ >= 0) {
+      auto it = floor_graphs_[floor_index].nodes.find(
+          pending_corridor_return_node_);
+      if (it != floor_graphs_[floor_index].nodes.end()) {
+        auto entry_opt = cell(it->second.position());
+        if (entry_opt.has_value()) {
+          int radius = std::max(
+              1, static_cast<int>(std::ceil(0.55 / cell_size_)));
+          for (int dy = -radius; dy <= radius; ++dy)
+            for (int dx = -radius; dx <= radius; ++dx) {
+              int nx = entry_opt->first + dx;
+              int ny = entry_opt->second + dy;
+              if (!inside(nx, ny)) continue;
+              if (dx * dx + dy * dy > radius * radius) continue;
+              recover_belief[idx(nx, ny)] = FREE;
+              floor_beliefs_[floor_index][idx(nx, ny)] = FREE;
+            }
+        }
+      }
+    }
+    auto path = astar_path(recover_belief, std::make_pair(pose.x, pose.y),
+                           corridor_goal, true, false);
+    if (!path.empty()) {
+      // Do NOT name this state with "blocked": watchdog/status consumers treat
+      // blocked states as waiting and never detect the active return path
+      // being stuck.
+      set_path(path, "room_return_to_corridor");
+      return true;
+    }
+    auto bridge = live_corridor_return_bridge(pose, floor_index);
+    if (!bridge.empty()) {
+      set_path(bridge, "room_return_path live_door_bridge");
+      ROS_WARN_THROTTLE(
+          5.0,
+          "room return A* unavailable; using bounded live observed-door "
+          "bridge on floor %d",
+          floor_index);
+      return true;
+    }
+    if (pending_corridor_return_node_ >= 0) {
+      auto node_it = floor_graphs_[floor_index].nodes.find(
+          pending_corridor_return_node_);
+      if (node_it != floor_graphs_[floor_index].nodes.end()) {
+        auto backtrack = room_backtrack_path(recover_belief, pose,
+                                             node_it->second);
+        if (!backtrack.empty()) {
+          set_path(backtrack, "room_return_path pending_backtrack");
+          ROS_WARN_THROTTLE(
+              5.0,
+              "pending corridor return A* unavailable; backtracking the "
+              "room entry path on floor %d",
+              floor_index);
+          return true;
+        }
+      }
+    }
+    status_ = "room_blocked_corridor_return_unavailable";
+    path_.clear();
+    path_index_ = 0;
+    return true;
+  }
+
   bool plan_graph_room_task(const std::vector<uint8_t>& belief, const Pose& pose,
                             int floor_index) {
     if (floor_index >= static_cast<int>(graph_phase_.size())) return false;
     if (graph_phase_[floor_index] != "dfs" &&
-        graph_phase_[floor_index] != "room_reverse")
+        graph_phase_[floor_index] != "room_reverse" &&
+        graph_phase_[floor_index] != "frontier_fallback")
       return false;
+    // frontier_fallback is still recoverable: a later scan may have added an
+    // unvisited room after the original DFS event list was exhausted.
     nav::CorridorGraph& graph = floor_graphs_[floor_index];
 
     if (graph_phase_[floor_index] == "room_reverse") {
@@ -1629,7 +2312,8 @@ class CompetitionNavigation {
       bool has_late = false;
       for (const auto& kv : graph.nodes) {
         if (kv.second.node_type == "room_entry" &&
-            !known_nodes.count(kv.first)) {
+            !known_nodes.count(kv.first) && !kv.second.completed &&
+            !kv.second.blocked) {
           has_late = true;
           break;
         }
@@ -1656,14 +2340,25 @@ class CompetitionNavigation {
         int node_id = order[graph_dfs_index_[floor_index]];
         nav::GraphNode& node = graph.nodes.at(node_id);
         if (node.node_type == "room_entry") {
-          if (node.completed || node.blocked) {
+          if (node.completed) {
             graph_dfs_index_[floor_index] += 1;
             continue;
+          }
+          if (node.blocked) {
+            int retries = room_retry_counts_[floor_index][node.node_id];
+            if (retries >= 1) {
+              graph_dfs_index_[floor_index] += 1;
+              continue;
+            }
+            node.blocked = false;
+            room_retry_counts_[floor_index][node.node_id] = retries + 1;
           }
           active_room_node_ = node_id;
           active_room_phase_ = "entering";
           active_room_entered_ = false;
           active_room_started_ = ros::Time::now();
+          room_entry_spin_done_ = false;
+          clear_room_traverse_history();
           active_room_no_frontier_cycles_ = 0;
           active_room_target_cell_ = std::nullopt;
           active_room_frontier_blacklist_.clear();
@@ -1671,6 +2366,7 @@ class CompetitionNavigation {
           last_room_plan_ = std::nullopt;
           room_entry_progress_pose_ = pose;
           room_entry_progress_time_ = ros::Time::now();
+          reset_room_goal_progress();
           graph_dfs_attempts_[floor_index] = 0;
           graph.mark_node(node_id, true, std::nullopt, std::nullopt);
           path_.clear();
@@ -1715,6 +2411,59 @@ class CompetitionNavigation {
         status_ = ssprintf("dfs_segment_blocked id=%d", node.node_id);
       }
       if (active_room_node_ < 0) {
+        // A late scan can create a room node whose anchor is not reachable
+        // from the corridor-end DFS tree (for example after the corridor
+        // chain was already materialized).  Do not silently discard such a
+        // sensor-observed task: select the farthest pending room directly and
+        // let the normal room path planner validate reachability.  An
+        // unreachable candidate still receives the existing blocked outcome.
+        int pending_room_id = -1;
+        double pending_room_s = -std::numeric_limits<double>::infinity();
+        for (const auto& kv : graph.nodes) {
+          const nav::GraphNode& candidate = kv.second;
+          if (candidate.node_type != "room_entry" || candidate.completed ||
+              (candidate.blocked &&
+               room_retry_counts_[floor_index][candidate.node_id] >= 1))
+            continue;
+          double candidate_s = candidate.corridor_s.has_value()
+                                   ? *candidate.corridor_s
+                                   : -std::numeric_limits<double>::infinity();
+          if (pending_room_id < 0 || candidate_s > pending_room_s ||
+              (candidate_s == pending_room_s &&
+               candidate.node_id > pending_room_id)) {
+            pending_room_id = candidate.node_id;
+            pending_room_s = candidate_s;
+          }
+        }
+        if (pending_room_id >= 0) {
+          nav::GraphNode& node = graph.nodes.at(pending_room_id);
+          if (node.blocked) {
+            int retries = room_retry_counts_[floor_index][pending_room_id];
+            node.blocked = false;
+            room_retry_counts_[floor_index][pending_room_id] = retries + 1;
+          }
+          active_room_node_ = pending_room_id;
+          active_room_phase_ = "entering";
+          active_room_entered_ = false;
+          active_room_started_ = ros::Time::now();
+          room_entry_spin_done_ = false;
+          clear_room_traverse_history();
+          active_room_no_frontier_cycles_ = 0;
+          active_room_target_cell_ = std::nullopt;
+          active_room_frontier_blacklist_.clear();
+          room_entry_path_failures_ = 0;
+          last_room_plan_ = std::nullopt;
+          room_entry_progress_pose_ = pose;
+          room_entry_progress_time_ = ros::Time::now();
+          reset_room_goal_progress();
+          graph_dfs_attempts_[floor_index] = 0;
+          graph.mark_node(pending_room_id, true, std::nullopt, std::nullopt);
+          path_.clear();
+          path_index_ = 0;
+          status_ = ssprintf("dfs_pending_room_selected id=%d y=%.2f",
+                             node.node_id, node.y);
+          return true;
+        }
         graph_phase_[floor_index] = "frontier_fallback";
         status_ = "room_graph_complete";
         path_.clear();
@@ -1734,20 +2483,33 @@ class CompetitionNavigation {
         active_room_entered_ = true;
         node.entered = true;
         active_room_phase_ = "surveying";
+        room_spin_done_ = false;
+        room_spin_active_ = false;
+        room_spin_accum_ = 0.0;
+        room_entry_spin_done_ = false;
         path_.clear();
         path_index_ = 0;
         status_ = ssprintf("room_entered id=%d", node.node_id);
         return true;
       }
       if (path_index_ < static_cast<int>(path_.size())) {
-        if (room_progress_stalled(pose)) {
+        bool pose_stalled = room_progress_stalled(pose);
+        bool goal_stalled = room_goal_progress_stalled(pose, node);
+        if (pose_stalled || goal_stalled) {
           graph.mark_node(active_room_node_, std::nullopt, std::nullopt, true);
-          status_ = ssprintf("room_blocked_stalled id=%d", node.node_id);
+          status_ = ssprintf(
+              goal_stalled ? "room_blocked_goal_stalled id=%d"
+                           : "room_blocked_stalled id=%d",
+              node.node_id);
+          request_pending_corridor_return(pose);
           active_room_node_ = -1;
           active_room_phase_.clear();
           room_entry_progress_pose_ = std::nullopt;
           room_entry_progress_time_ = ros::Time(0);
+          reset_room_goal_progress();
           graph_dfs_index_[floor_index] += 1;
+          path_.clear();
+          path_index_ = 0;
           return true;
         }
         return true;
@@ -1756,6 +2518,7 @@ class CompetitionNavigation {
       if (!path.empty()) {
         room_entry_path_failures_ = 0;
         set_path(path, ssprintf("room_enter_path id=%d", node.node_id));
+        append_room_traverse_history(path);
         return true;
       }
       room_entry_path_failures_ += 1;
@@ -1764,9 +2527,12 @@ class CompetitionNavigation {
         graph.mark_node(active_room_node_, std::nullopt, std::nullopt, true);
         status_ = ssprintf("room_blocked id=%d entry_failures=%d", node.node_id,
                            room_entry_path_failures_);
+        request_pending_corridor_return(pose);
         active_room_node_ = -1;
         active_room_phase_.clear();
         graph_dfs_index_[floor_index] += 1;
+        path_.clear();
+        path_index_ = 0;
         return true;
       }
       status_ = ssprintf("room_waiting_for_entry_path id=%d failures=%d",
@@ -1780,21 +2546,92 @@ class CompetitionNavigation {
       double coverage = room_coverage(belief, node);
       node.coverage = std::max(node.coverage, coverage);
       if (active_room_entered_ && coverage > 0.05) node.interior_observation = true;
+      if (active_room_entered_ && !room_entry_spin_done_ &&
+          node.y < corridor_bounds_.y_min + 9.0) {
+        room_entry_spin_done_ = true;
+        room_spin_active_ = true;
+        room_spin_accum_ = 0.0;
+        room_spin_last_yaw_ = pose.yaw;
+        status_ = ssprintf("room_entry_spin_scan id=%d cov=%.3f",
+                           node.node_id, coverage);
+        path_.clear();
+        path_index_ = 0;
+        return true;
+      }
+      if (active_room_entered_ && !room_spin_done_) {
+        // 进入房间后先往房间内部走一点，再原地旋转一圈扫描：相机扫过房间
+        // 内部，提高危险源 RGB 检测率。深度不能无限靠近房间中心：房间深处
+        // 的矮障碍不在 2-D 地图里，会反复卡住返廊（实测 x≈4.8,y≈17.5），
+        // 因此从门口朝房间中心最多走 room_go_deeper_max_m。
+        auto raw_target = room_target(node);
+        std::optional<std::pair<double, double>> spin_target;
+        if (raw_target.has_value()) {
+          auto entry = node.position();
+          double full = std::hypot(raw_target->first - entry.first,
+                                   raw_target->second - entry.second);
+          if (full > 1e-3) {
+            double scale = std::min(1.0, room_go_deeper_max_m_ / full);
+            spin_target = std::make_pair(
+                entry.first + (raw_target->first - entry.first) * scale,
+                entry.second + (raw_target->second - entry.second) * scale);
+          }
+        }
+        double to_target =
+            spin_target.has_value()
+                ? std::hypot(pose.x - spin_target->first,
+                             pose.y - spin_target->second)
+                : 0.0;
+        if (spin_target.has_value() && to_target > 1.5) {
+          auto deep_path = astar_path(belief, std::make_pair(pose.x, pose.y),
+                                      *spin_target, true, true);
+          if (!deep_path.empty()) {
+            set_path(deep_path, "room_go_deeper_before_spin");
+            append_room_traverse_history(deep_path);
+            return true;
+          }
+        }
+        room_spin_done_ = true;
+        room_spin_active_ = true;
+        room_spin_accum_ = 0.0;
+        room_spin_last_yaw_ = pose.yaw;
+        status_ = ssprintf("room_spin_scan id=%d cov=%.3f", node.node_id,
+                           coverage);
+        path_.clear();
+        path_index_ = 0;
+        return true;
+      }
       if (active_room_entered_ && coverage >= min_room_coverage_) {
         active_room_phase_ = "returning";
         status_ = ssprintf("room_coverage_reached id=%d %.3f", node.node_id,
                            coverage);
       } else {
         if (path_index_ < static_cast<int>(path_.size())) {
-          if (room_progress_stalled(pose)) {
+          bool pose_stalled = room_progress_stalled(pose);
+          bool goal_stalled = room_goal_progress_stalled(pose, node);
+          if (goal_stalled && active_room_target_cell_.has_value()) {
+            auto target = *active_room_target_cell_;
+            blacklist_active_room_target();
+            path_.clear();
+            path_index_ = 0;
+            status_ = ssprintf("room_frontier_target_stalled id=%d cell=%d,%d",
+                               node.node_id, target.first, target.second);
+            return true;
+          }
+          if (pose_stalled || goal_stalled) {
             graph.mark_node(active_room_node_, std::nullopt, std::nullopt, true);
             status_ =
-                ssprintf("room_blocked_frontier_stalled id=%d", node.node_id);
+                ssprintf(goal_stalled ? "room_blocked_frontier_goal_stalled id=%d"
+                                       : "room_blocked_frontier_stalled id=%d",
+                         node.node_id);
+            request_pending_corridor_return(pose);
             active_room_node_ = -1;
             active_room_phase_.clear();
             room_entry_progress_pose_ = std::nullopt;
             room_entry_progress_time_ = ros::Time(0);
+            reset_room_goal_progress();
             graph_dfs_index_[floor_index] += 1;
+            path_.clear();
+            path_index_ = 0;
             return true;
           }
           return true;
@@ -1812,6 +2649,7 @@ class CompetitionNavigation {
                              "path=%.2f return=%.2f score=%.2f",
                              node.node_id, coverage, gain.c_str(), plan.path_m,
                              plan.return_m, plan.score));
+          append_room_traverse_history(path);
           return true;
         }
         active_room_no_frontier_cycles_ += 1;
@@ -1822,19 +2660,18 @@ class CompetitionNavigation {
         if (elapsed < room_task_timeout_) return true;
         graph.mark_node(active_room_node_, std::nullopt, std::nullopt, true);
         status_ = ssprintf("room_blocked_no_frontier id=%d", node.node_id);
+        request_pending_corridor_return(pose);
         active_room_node_ = -1;
         active_room_phase_.clear();
         graph_dfs_index_[floor_index] += 1;
+        path_.clear();
+        path_index_ = 0;
         return true;
       }
     }
 
     if (active_room_phase_ == "returning") {
-      bool in_corridor =
-          (corridor_bounds_.x_min - 0.35 <= pose.x &&
-           pose.x <= corridor_bounds_.x_max + 0.35 &&
-           corridor_bounds_.y_min - 0.35 <= pose.y &&
-           pose.y <= corridor_bounds_.y_max + 0.35);
+      bool in_corridor = pose_in_corridor(pose);
       if (in_corridor) {
         graph.mark_node(active_room_node_, std::nullopt, true, std::nullopt);
         node.coverage = std::max(node.coverage, room_coverage(belief, node));
@@ -1848,29 +2685,84 @@ class CompetitionNavigation {
         return true;
       }
       if (path_index_ < static_cast<int>(path_.size())) {
-        if (room_progress_stalled(pose)) {
-          graph.mark_node(active_room_node_, std::nullopt, std::nullopt, true);
-          status_ = ssprintf("room_return_blocked_stalled id=%d", node.node_id);
+        bool pose_stalled = room_progress_stalled(pose);
+        bool goal_stalled = room_goal_progress_stalled(pose, node);
+        if (pose_stalled || goal_stalled) {
+          double cov = node.coverage;
+          if (cov >= min_room_coverage_) {
+            if (room_return_escape_count_ < 8 &&
+                elapsed < room_task_timeout_) {
+              // Do not mark the room complete while the body is still wedged
+              // deep inside it.  Keep the room task active and let the next
+              // bounded reverse escape / re-plan cycle retry; releasing the
+              // task here used to strand the robot with no corridor-return
+              // path (measured floor-2 last-room deadlock).
+              status_ = ssprintf(
+                  "room_return_stall_retrying id=%d cov=%.3f escape=%d",
+                  node.node_id, cov, room_return_escape_count_);
+              path_.clear();
+              path_index_ = 0;
+              return true;
+            }
+            graph.mark_node(active_room_node_, std::nullopt, true,
+                            std::nullopt);
+            status_ = ssprintf("room_return_forced_complete id=%d cov=%.3f",
+                               node.node_id, cov);
+          } else {
+            graph.mark_node(active_room_node_, std::nullopt, std::nullopt,
+                            true);
+            status_ = ssprintf(
+                goal_stalled ? "room_return_goal_stalled id=%d"
+                             : "room_return_blocked_stalled id=%d",
+                node.node_id);
+          }
+          request_pending_corridor_return(pose);
           active_room_node_ = -1;
           active_room_phase_.clear();
           room_entry_progress_pose_ = std::nullopt;
           room_entry_progress_time_ = ros::Time(0);
+          reset_room_goal_progress();
           graph_dfs_index_[floor_index] += 1;
+          path_.clear();
+          path_index_ = 0;
           return true;
         }
         return true;
       }
-      auto path = room_path(belief, pose, node, false);
+      // Prefer a route planned from the current occupancy belief.  The
+      // historical traverse route is only a bounded recovery fallback: it
+      // was recorded under an older pose/map and can otherwise replay a
+      // now-occupied doorway or wall-adjacent segment.
+      std::vector<std::pair<double, double>> path =
+          room_path(belief, pose, node, false);
+      if (path.empty() && room_return_escape_count_ >= 2) {
+        path = room_backtrack_path(belief, pose, node);
+      }
       if (!path.empty()) {
-        set_path(path, ssprintf("room_return_path id=%d", node.node_id));
+        set_path(path,
+                 ssprintf("room_return_path id=%d%s", node.node_id,
+                          room_return_escape_count_ >= 2
+                              ? " backtrack=1"
+                              : ""));
         return true;
       }
       if (elapsed >= room_task_timeout_) {
-        graph.mark_node(active_room_node_, std::nullopt, std::nullopt, true);
-        status_ = ssprintf("room_return_blocked id=%d", node.node_id);
+        double cov = node.coverage;
+        if (cov >= min_room_coverage_) {
+          graph.mark_node(active_room_node_, std::nullopt, true,
+                          std::nullopt);
+          status_ = ssprintf("room_return_forced_complete id=%d cov=%.3f",
+                             node.node_id, cov);
+        } else {
+          graph.mark_node(active_room_node_, std::nullopt, std::nullopt, true);
+          status_ = ssprintf("room_return_blocked id=%d", node.node_id);
+        }
+        request_pending_corridor_return(pose);
         active_room_node_ = -1;
         active_room_phase_.clear();
         graph_dfs_index_[floor_index] += 1;
+        path_.clear();
+        path_index_ = 0;
         return true;
       }
       status_ = ssprintf("room_waiting_for_return_path id=%d", node.node_id);
@@ -1938,10 +2830,36 @@ class CompetitionNavigation {
     return true;
   }
 
-  bool finish_stair_transition() {
-    if (!transition_target_floor_.has_value() ||
-        current_floor_ != transition_target_floor_.value())
+  bool stair_route_at_endpoint() const {
+    if (path_.empty() || !pose_.has_value() ||
+        path_index_ < static_cast<int>(path_.size()))
       return false;
+    const double finish_tol = std::max(waypoint_tolerance(mode_), 0.40);
+    return std::hypot(pose_->x - path_.back().first,
+                      pose_->y - path_.back().second) <= finish_tol;
+  }
+
+  bool finish_stair_transition() {
+    if (!transition_target_floor_.has_value())
+      return false;
+    const int target_floor = transition_target_floor_.value();
+    if (current_floor_ != target_floor) {
+      // FAST-LIO2 can keep a stale/flattened z estimate while the live XY
+      // pose has completed the validated five-waypoint stair route.  In that
+      // case do not wait forever for a height threshold: accept only an
+      // adjacent-floor transition whose route is fully consumed and whose
+      // current live pose is at the route endpoint.  This uses no simulator
+      // truth and keeps malformed or partial stair paths rejected.
+      if (std::abs(target_floor - current_floor_) != 1 ||
+          !stair_route_at_endpoint())
+        return false;
+      ROS_WARN_THROTTLE(
+          5.0,
+          "stair transition confirming floor %d from completed live route "
+          "while FAST-LIO2 height remains on floor %d",
+          target_floor, current_floor_);
+      current_floor_ = target_floor;
+    }
     if (!path_.empty() && pose_.has_value()) {
       double finish_tol = std::max(waypoint_tolerance(mode_), 0.40);
       if (std::hypot(pose_->x - path_.back().first,
@@ -1972,6 +2890,21 @@ class CompetitionNavigation {
   }
 
   void mark_floor_complete(int floor_index) {
+    if (floor_index < 0 || floor_index >= floor_count_) return;
+    if (floor_complete_[floor_index]) return;
+    if (floor_index != current_floor_) {
+      distributed_coverage_cycles_[floor_index] = 0;
+      status_ = ssprintf(
+          "floor_completion_rejected_floor_mismatch requested=%d current=%d",
+          floor_index, current_floor_);
+      return;
+    }
+    if (!graph_floor_ready(floor_index)) {
+      distributed_coverage_cycles_[floor_index] = 0;
+      status_ = ssprintf("floor_completion_waiting_for_rooms floor=%d",
+                         floor_index);
+      return;
+    }
     floor_complete_[floor_index] = true;
     ROS_INFO("floor %d exploration complete: coverage=%.3f distance=%.2f",
              floor_index, floor_coverage_[floor_index],
@@ -2133,6 +3066,45 @@ class CompetitionNavigation {
     double rel = (z_value - home_->z) / floor_height_;
     return static_cast<int>(
         clampd(static_cast<double>(std::lrint(rel)), 0.0, floor_count_ - 1.0));
+  }
+
+  // Re-mark the entrance corridor (building gate -> spawn/home) as known-free
+  // during the return to the home floor.  The online-built map leaves this
+  // corridor UNKNOWN/OCCUPIED (scan_min_range=2.0 skips the narrow gate, and
+  // the front wall / gate step reads as an obstacle), so the return A*
+  // (allow_unknown_return=false) otherwise cannot path through it.  This marks
+  // the ACTUAL floor belief (not just the planning copy) so the published map
+  // and collision_safety see it too, and clears the ghost counters so a later
+  // scan does not immediately re-obstruct it.  Only runs on the home floor.
+  void mark_return_corridor_free(int floor_index) {
+    if (!home_.has_value() || !map_origin_x_.has_value() ||
+        !map_origin_y_.has_value())
+      return;
+    double entrance_x = 0.5 * (footprint_bounds_.x_min + footprint_bounds_.x_max);
+    double cx_min = std::min(entrance_x, home_->x) - 1.25;
+    double cx_max = std::max(entrance_x, home_->x) + 1.25;
+    double cy_min = std::min(home_->y, footprint_bounds_.y_min) - 0.5;
+    double cy_max = std::max(home_->y, footprint_bounds_.y_min) + 1.5;
+    int x0 = std::max(
+        0, static_cast<int>(std::floor((cx_min - *map_origin_x_) / cell_size_)));
+    int x1 = std::min(
+        map_cells_,
+        static_cast<int>(std::ceil((cx_max - *map_origin_x_) / cell_size_)) + 1);
+    int y0 = std::max(
+        0, static_cast<int>(std::floor((cy_min - *map_origin_y_) / cell_size_)));
+    int y1 = std::min(
+        map_cells_,
+        static_cast<int>(std::ceil((cy_max - *map_origin_y_) / cell_size_)) + 1);
+    std::vector<uint8_t>& belief = floor_beliefs_[floor_index];
+    std::vector<int32_t>& obs_hits = obs_hits_[floor_index];
+    std::vector<int32_t>& obs_free = obs_free_[floor_index];
+    for (int y = y0; y < y1; ++y)
+      for (int x = x0; x < x1; ++x) {
+        int i = idx(x, y);
+        belief[i] = FREE;
+        obs_hits[i] = 0;
+        obs_free[i] = 0;
+      }
   }
 
   // ---- masks / planning ----
@@ -2718,6 +3690,12 @@ class CompetitionNavigation {
           status_ = "return_requires_floor_transition";
           return;
         }
+        // Re-load the entrance corridor as known-free so the return A* can
+        // path back to the spawn (only on the home floor).  This also updates
+        // the published map (floor_beliefs_) so collision_safety lets the robot
+        // through the gate.
+        mark_return_corridor_free(floor_index);
+        belief = floor_beliefs_[floor_index];
         auto goal = std::make_pair(home_->x, home_->y);
         auto new_path = astar_path(belief, std::make_pair(pose.x, pose.y), goal,
                                    allow_unknown_return_, false);
@@ -2731,6 +3709,7 @@ class CompetitionNavigation {
       }
       if (mode != "explore") return;
 
+      if (plan_pending_corridor_return(belief, pose, floor_index)) return;
       if (plan_graph_corridor_survey(belief, pose, floor_index)) return;
       if (plan_graph_room_task(belief, pose, floor_index)) return;
 
@@ -2763,6 +3742,23 @@ class CompetitionNavigation {
         last_progress_time_ = now;
         status_ = "stalled_frontier_blacklisted";
         ROS_WARN("stalled exploration frontier blacklisted on floor %d", floor_index);
+        if (graph_phase_[floor_index] == "corridor_discovery") {
+          corridor_frontier_stall_counts_[floor_index] += 1;
+          const nav::CorridorGraph& graph = floor_graphs_[floor_index];
+          int room_count = 0;
+          for (const auto& kv : graph.nodes)
+            if (kv.second.node_type == "room_entry") room_count++;
+          if (room_count > 0 &&
+              corridor_frontier_stall_counts_[floor_index] >= 2 &&
+              assume_corridor_end_from_stall(
+                  belief, floor_index, "corridor_end_assumed")) {
+            ROS_WARN(
+                "corridor discovery repeatedly stalled after observing rooms; "
+                "assuming live corridor end on floor %d",
+                floor_index);
+            return;
+          }
+        }
       }
 
       FrontierPlan fp = reachable_frontier_plan(belief, pose, floor_index);
@@ -2828,6 +3824,13 @@ class CompetitionNavigation {
       double sel_to_target = std::hypot(goal.first - fp.target->first,
                                         goal.second - fp.target->second);
       if (sel_to_target > cur_to_target - 0.20) {
+        if (++hdplanner_nonprogress_count_ >=
+            hdplanner_nonprogress_recovery_threshold_) {
+          hdplanner_nonprogress_count_ = 0;
+          set_path(fp.waypoints,
+                   "frontier_astar_fallback_after_nonprogress");
+          return;
+        }
         set_path(fp.waypoints,
                  ssprintf("hdplanner_nonprogress_recovery inference=%d",
                           policy_->inference_count));
@@ -2839,6 +3842,7 @@ class CompetitionNavigation {
         set_path(fp.waypoints, "hdplanner_selected_path_recovery");
         return;
       }
+      hdplanner_nonprogress_count_ = 0;
       set_path(new_path,
                ssprintf("%s inference=%d center=%ld logp=%.5f",
                         plan_status.c_str(), policy_->inference_count,
@@ -2877,13 +3881,18 @@ class CompetitionNavigation {
     if (active_room_node_ >= 0) return false;
     const nav::CorridorGraph& graph = floor_graphs_[floor_index];
     int rooms = 0;
+    int completed = 0;
     for (const auto& kv : graph.nodes)
-      if (kv.second.node_type == "room_entry") rooms++;
+      if (kv.second.node_type == "room_entry") {
+        rooms++;
+        if (kv.second.completed) completed++;
+      }
     int expected = floor_index < static_cast<int>(expected_room_count_.size())
                        ? expected_room_count_[floor_index]
                        : 0;
     if (expected && rooms < expected) return false;
     if (rooms == 0) return false;
+    if (expected) return completed >= expected;
     for (const auto& kv : graph.nodes)
       if (kv.second.node_type == "room_entry" &&
           !(kv.second.completed || kv.second.blocked))
@@ -2954,6 +3963,106 @@ class CompetitionNavigation {
     return std::copysign(std::abs(stair_speed), body_x);
   }
 
+  void clear_room_traverse_history() {
+    room_traverse_history_.clear();
+    room_traverse_history_floor_ = -1;
+  }
+
+  void append_room_traverse_history(
+      const std::vector<std::pair<double, double>>& points) {
+    if (points.empty() || active_room_node_ < 0) return;
+    if (room_traverse_history_floor_ != current_floor_) {
+      room_traverse_history_.clear();
+      room_traverse_history_floor_ = current_floor_;
+    }
+    for (const auto& point : points) {
+      if (!room_traverse_history_.empty() &&
+          std::hypot(point.first - room_traverse_history_.back().first,
+                     point.second - room_traverse_history_.back().second) <
+              0.15)
+        continue;
+      room_traverse_history_.push_back(point);
+      if (room_traverse_history_.size() > 4000) {
+        room_traverse_history_.erase(room_traverse_history_.begin(),
+                                     room_traverse_history_.begin() + 500);
+      }
+    }
+  }
+
+  bool room_backtrack_path_clear(
+      const std::vector<uint8_t>& belief, const Pose& pose,
+      const std::vector<std::pair<double, double>>& path) const {
+    if (path.empty() || belief.size() !=
+                            static_cast<size_t>(map_cells_ * map_cells_))
+      return false;
+    std::pair<double, double> previous = {pose.x, pose.y};
+    double sample_step = std::max(0.05, 0.5 * cell_size_);
+    for (const auto& target : path) {
+      double distance = std::hypot(target.first - previous.first,
+                                   target.second - previous.second);
+      int samples = std::max(1, static_cast<int>(
+                                      std::ceil(distance / sample_step)));
+      for (int sample = 1; sample <= samples; ++sample) {
+        double ratio = static_cast<double>(sample) / samples;
+        double x = previous.first + ratio * (target.first - previous.first);
+        double y = previous.second + ratio * (target.second - previous.second);
+        auto cell_opt = cell(std::make_pair(x, y));
+        if (!cell_opt.has_value()) return false;
+        int cx = cell_opt->first;
+        int cy = cell_opt->second;
+        for (int dy = -robot_radius_cells_; dy <= robot_radius_cells_; ++dy)
+          for (int dx = -robot_radius_cells_; dx <= robot_radius_cells_; ++dx) {
+            if (dx * dx + dy * dy > robot_radius_cells_ * robot_radius_cells_)
+              continue;
+            int nx = cx + dx;
+            int ny = cy + dy;
+            if (!inside(nx, ny) || belief[idx(nx, ny)] == OCCUPIED)
+              return false;
+          }
+      }
+      previous = target;
+    }
+    return true;
+  }
+
+  std::vector<std::pair<double, double>> room_backtrack_path(
+      const std::vector<uint8_t>& belief, const Pose& pose,
+      const nav::GraphNode& node) const {
+    if (room_traverse_history_.empty() ||
+        room_traverse_history_floor_ != current_floor_)
+      return {};
+    size_t nearest = 0;
+    double best = std::numeric_limits<double>::infinity();
+    for (size_t i = 0; i < room_traverse_history_.size(); ++i) {
+      const auto& point = room_traverse_history_[i];
+      double d = std::hypot(pose.x - point.first, pose.y - point.second);
+      if (d < best) {
+        best = d;
+        nearest = i;
+      }
+    }
+    std::vector<std::pair<double, double>> backtrack;
+    // Walk the traversed route backwards toward the doorway.  Skip the
+    // nearest point itself if it is essentially the current pose; the
+    // controller already stands there and a zero-length first segment only
+    // delays the turn toward the free path behind the body.
+    size_t first = (best < 0.30 && nearest > 0) ? nearest - 1 : nearest;
+    for (size_t i = first + 1; i-- > 0;) {
+      if (backtrack.empty() ||
+          std::hypot(room_traverse_history_[i].first - backtrack.back().first,
+                     room_traverse_history_[i].second - backtrack.back().second) >=
+              0.15)
+        backtrack.push_back(room_traverse_history_[i]);
+    }
+    if (backtrack.empty()) return {};
+    std::pair<double, double> corridor_goal = {0.0, node.y};
+    if (std::hypot(corridor_goal.first - backtrack.back().first,
+                   corridor_goal.second - backtrack.back().second) > 0.3)
+      backtrack.push_back(corridor_goal);
+    if (!room_backtrack_path_clear(belief, pose, backtrack)) return {};
+    return backtrack;
+  }
+
   void control_timer(const ros::TimerEvent&) {
     geometry_msgs::Twist command;
     double home_tolerance = 0.35;
@@ -2975,6 +4084,34 @@ class CompetitionNavigation {
       cmd_pub_.publish(command);
       return;
     }
+    if (room_return_escape_active_) {
+      // 房间返廊路径的“无进展”并不总是能被 collision_safety 的占用栅格发现
+      // （例如低矮家具/门框或定位盲区）。路径已连续停滞时，沿当前车体方向
+      // 短距离倒退一段，回到刚才走过的自由空间再重规划；倒退仍经过
+      // collision_safety，不会穿墙。
+      double traveled = 0.0;
+      if (room_return_escape_start_.toSec() > 0.0) {
+        traveled = std::hypot(pose.x - room_return_escape_start_pose_.x,
+                              pose.y - room_return_escape_start_pose_.y);
+      }
+      double elapsed = (ros::Time::now() - room_return_escape_start_).toSec();
+      if (traveled >= 0.50 || elapsed >= 3.0) {
+        room_return_escape_active_ = false;
+        room_return_escape_count_ += 1;
+        status_ = "room_return_escape_done";
+        path_.clear();
+        path_index_ = 0;
+        ctrl_last_pose_ = pose;
+        ctrl_last_time_ = ros::Time::now();
+      } else {
+        command.linear.x = -0.35;
+        command.linear.y = 0.0;
+        command.angular.z = 0.0;
+        last_command_ = command;
+        cmd_pub_.publish(command);
+        return;
+      }
+    }
     if (index < static_cast<int>(path.size()) && mode != "stairs_up" &&
         mode != "stairs_down") {
       double moved = 0.0;
@@ -2985,11 +4122,22 @@ class CompetitionNavigation {
         ctrl_last_pose_ = pose;
         ctrl_last_time_ = now;
       } else if (now - ctrl_last_time_ > ros::Duration(ctrl_stall_timeout_)) {
+        std::string prior_status = status_;
         path_.clear();
         path_index_ = 0;
         status_ = "path_stalled_replan";
         ctrl_last_pose_ = pose;
         ctrl_last_time_ = now;
+        if (room_return_escape_count_ < 8 &&
+            (pending_corridor_return_ ||
+            prior_status.rfind("room_return_path", 0) == 0 ||
+            prior_status.rfind("room_return_to_corridor", 0) == 0)) {
+          room_return_escape_active_ = true;
+          room_return_escape_start_pose_ = pose;
+          room_return_escape_start_ = now;
+          status_ = "room_return_reverse_escape";
+          ROS_WARN("room return path stalled; starting bounded reverse escape");
+        }
         ROS_WARN_THROTTLE(5.0, "path progress stalled; dropping path for re-plan");
       }
     } else {
@@ -3001,7 +4149,58 @@ class CompetitionNavigation {
       ROS_WARN_THROTTLE(5.0, "scan map is stale; holding zero velocity");
       return;
     }
+    if (room_spin_active_) {
+      // 原地旋转扫描房间内部（危险源 RGB 检测）：累计转满一圈后回到正常规划。
+      double delta = std::atan2(std::sin(pose.yaw - room_spin_last_yaw_),
+                                std::cos(pose.yaw - room_spin_last_yaw_));
+      room_spin_accum_ += std::abs(delta);
+      room_spin_last_yaw_ = pose.yaw;
+      if (room_spin_accum_ < 2.0 * M_PI) {
+        command.linear.x = 0.0;
+        command.linear.y = 0.0;
+        command.angular.z = std::min(scan_yaw_rate_, max_yaw_rate_);
+        last_command_ = command;
+        cmd_pub_.publish(command);
+        return;
+      }
+      // 转满一圈：结束旋转，下个周期规划层走房间 frontier（往房间内部多走）。
+      room_spin_active_ = false;
+      path_.clear();
+      path_index_ = 0;
+      status_ = "room_spin_done";
+      cmd_pub_.publish(command);
+      return;
+    }
     if (mode == "return") {
+      // 返航兜底：机器人离开建筑物（footprint 外）即判定探索完成，导航程序
+      // 自行停止（非被打断）。解决返航 A* 因幽灵障碍/未探索房间无法精确回到
+      // home 时机器人一直在楼外乱走、永不完成的问题。不改探索/房间内探索/
+      // 危险源逻辑。
+      bool outside_footprint =
+          pose.x < footprint_bounds_.x_min - 0.1 ||
+          pose.x > footprint_bounds_.x_max + 0.1 ||
+          pose.y < footprint_bounds_.y_min - 0.1 ||
+          pose.y > footprint_bounds_.y_max + 0.1;
+      if (outside_footprint && !return_leave_building_finish_) {
+        return_leave_building_finish_ = true;
+        active_ = false;
+        mode_ = "idle";
+        status_ = ssprintf("returned_home full_map=%s",
+                           full_map_complete_ ? "True" : "False");
+        cmd_pub_.publish(command);
+        ROS_INFO("return-home completed: robot left building at (%.2f, %.2f)",
+                 pose.x, pose.y);
+        // 延迟自停：给 save_pcd / hazard_finalize_trigger 时间处理完成状态，
+        // 然后导航节点退出（required=true 会随之结束整个 roslaunch）。
+        finish_shutdown_timer_ = nh_.createTimer(
+            ros::Duration(5.0),
+            [this](const ros::TimerEvent&) {
+              shutdown();
+              ros::shutdown();
+            },
+            true /* oneshot */);
+        return;
+      }
       if (home_.has_value() &&
           std::hypot(pose.x - home_->x, pose.y - home_->y) <= home_tolerance) {
         active_ = false;
@@ -3024,7 +4223,7 @@ class CompetitionNavigation {
         return;
       }
       if (mode == "explore" && status.rfind("survey_", 0) == 0) {
-        command.angular.z = std::min(0.8, max_yaw_rate_);
+        command.angular.z = std::min(scan_yaw_rate_, max_yaw_rate_);
         last_command_ = command;
         cmd_pub_.publish(command);
         return;
@@ -3061,11 +4260,21 @@ class CompetitionNavigation {
     double target_yaw = std::atan2(dy, dx);
     double heading_error = target_yaw - pose.yaw;
     heading_error = std::atan2(std::sin(heading_error), std::cos(heading_error));
-    command.linear.x = clampd(linear_gain_ * body_x, -max_linear_, max_linear_);
+    std::optional<double> region_cap;
+    double linear_limit = max_linear_;
+    if (mode != "stairs_up" && mode != "stairs_down") {
+      region_cap = corridor_max_linear_;
+      if (status.rfind("room_", 0) == 0) region_cap = room_max_linear_;
+      // The tunable corridor cap is allowed to exceed the generic default
+      // limit (the BO search range reaches 1.15 m/s).  Stairs stay on their
+      // dedicated cap below, and room paths remain bounded by room_max_linear.
+      linear_limit = std::max(linear_limit, region_cap.value());
+    }
+    command.linear.x = clampd(linear_gain_ * body_x, -linear_limit, linear_limit);
     command.linear.y = clampd(0.55 * body_y, -max_lateral_, max_lateral_);
-    if (std::abs(heading_error) > 1.0) {
-      command.linear.x *= 0.2;
-      command.linear.y *= 0.2;
+    if (std::abs(heading_error) > turn_heading_threshold_) {
+      command.linear.x *= turn_linear_scale_;
+      command.linear.y *= turn_linear_scale_;
     }
     command.angular.z = clampd(0.9 * heading_error, -max_yaw_rate_, max_yaw_rate_);
     if (mode == "stairs_up" || mode == "stairs_down") {
@@ -3090,6 +4299,9 @@ class CompetitionNavigation {
       double yaw_limit = std::min(max_yaw_rate_, stair_yaw_rate_);
       command.angular.z = clampd(command.angular.z, -yaw_limit, yaw_limit);
     }
+    if (region_cap.has_value())
+      command.linear.x = clampd(command.linear.x, -region_cap.value(),
+                                region_cap.value());
     if (!(std::isfinite(command.linear.x) && std::isfinite(command.linear.y) &&
           std::isfinite(command.angular.z))) {
       ROS_ERROR("computed cmd_vel contains NaN/Inf; sending zero");
@@ -3211,8 +4423,10 @@ class CompetitionNavigation {
   int map_progress_cell_batch_ = 8;
   double obstacle_clear_percent_ = 80.0;
   int obstacle_clear_min_obs_ = 5;
-  double max_linear_ = 0.5, linear_gain_ = 1.0, max_lateral_ = 0.15,
-         max_yaw_rate_ = 1.2;
+  double max_linear_ = 0.5, corridor_max_linear_ = 1.0,
+         room_max_linear_ = 0.60, turn_heading_threshold_ = 0.8,
+         turn_linear_scale_ = 0.2, scan_yaw_rate_ = 0.8, linear_gain_ = 1.0,
+         max_lateral_ = 0.15, max_yaw_rate_ = 1.2;
   double robot_radius_ = 0.20;
   int robot_radius_cells_ = 0;
   bool allow_unknown_return_ = false, auto_start_ = false;
@@ -3224,7 +4438,7 @@ class CompetitionNavigation {
          completion_min_sector_coverage_ = 0.30,
          completion_min_floor_distance_ = 35.0;
   int completion_cycles_required_ = 3, no_frontier_cycles_required_ = 6;
-  double stair_speed_ = 0.80, stair_landing_speed_ = 0.40, stair_yaw_rate_ = 1.0;
+  double stair_speed_ = 1.00, stair_landing_speed_ = 0.40, stair_yaw_rate_ = 1.0;
   bool stair_flat_use_max_linear_ = true;
   double stair_lookahead_ = 0.30, stair_brake_distance_ = 0.35,
          stair_lateral_limit_ = 0.08, stair_cruise_heading_tolerance_ = 0.70,
@@ -3237,11 +4451,19 @@ class CompetitionNavigation {
   double room_path_cost_weight_ = 0.45, room_return_cost_weight_ = 0.20,
          room_obstacle_cost_weight_ = 0.80, room_target_blacklist_radius_ = 0.80;
   int room_entry_confirmation_cycles_ = 2;
+  double room_entry_end_margin_ = 5.27;
+  int room_entry_probe_min_free_ = 2;
+  double room_entry_merge_corridor_s_ = 1.35;
   bool room_entry_allow_unknown_wall_ = true;
   int room_entry_min_width_cells_ = 3, room_entry_wall_support_cells_ = 3,
       room_entry_wall_support_min_occupied_ = 2, room_entry_max_width_cells_ = 7,
       room_entry_path_fail_limit_ = 5;
+  bool room_entry_require_two_sided_support_ = true;
+  double room_wall_search_max_offset_ = 1.3;
+  int room_wall_min_support_score_ = 12;
+  double room_go_deeper_max_m_ = 3.2;
   int rooms_per_floor_ = 4;
+  std::vector<std::vector<double>> room_wall_x_observed_;
   Bounds stair_bounds_, corridor_bounds_, footprint_bounds_, lobby_bounds_,
       elevator_bounds_;
   std::vector<double> room_door_ys_;
@@ -3274,13 +4496,33 @@ class CompetitionNavigation {
   bool return_after_transition_ = false, full_map_complete_ = false;
   std::optional<std::pair<int, int>> current_frontier_cell_,
       frontier_progress_cell_;
+  int hdplanner_nonprogress_count_ = 0;
+  int hdplanner_nonprogress_recovery_threshold_ = 3;
+  bool pending_corridor_return_ = false;
+  int pending_corridor_return_floor_ = -1;
+  int pending_corridor_return_node_ = -1;
   double frontier_best_distance_ = std::numeric_limits<double>::infinity();
+  // corridor survey 卡住兜底：odom 漂移使 pose.y 达不到 end_y 判断，机器人
+  // 实际已到走廊末端但 path 反复失败。跟踪卡住时长，超时强制完成 corridor_end。
+  ros::Time corridor_survey_stall_since_{0};
+  Pose corridor_survey_stall_pose_{0, 0, 0, 0};
+  bool corridor_survey_stall_pose_valid_ = false;
   ros::Time frontier_progress_time_{0};
   std::vector<std::set<std::pair<int, int>>> blacklisted_frontiers_;
+  std::vector<int> corridor_frontier_stall_counts_;
   std::optional<Pose> last_progress_pose_;
   ros::Time last_progress_time_{0};
   std::optional<Pose> ctrl_last_pose_;
   ros::Time ctrl_last_time_{0};
+  // 房间返廊/返航路径停滞时的有界倒退逃生：先沿车体后方退 0.5 m 或最多
+  // 3 s，再让规划层重新选路。它只作用于 room_return/pending corridor return，
+  // 不改变正常路径跟踪。
+  bool room_return_escape_active_ = false;
+  ros::Time room_return_escape_start_{0};
+  Pose room_return_escape_start_pose_{0, 0, 0, 0};
+  int room_return_escape_count_ = 0;
+  std::vector<std::pair<double, double>> room_traverse_history_;
+  int room_traverse_history_floor_ = -1;
   std::vector<int> pending_known_cells_;
   ros::Time latest_scan_stamp_{0}, last_map_update_{0};
   bool active_ = false;
@@ -3298,9 +4540,16 @@ class CompetitionNavigation {
   std::vector<std::map<std::string, int>> graph_anchor_nodes_;
   std::vector<std::string> graph_phase_;
   std::vector<std::vector<int>> graph_dfs_order_;
+  std::vector<std::map<int, int>> room_retry_counts_;
   int active_room_node_ = -1;
   std::string active_room_phase_;
   bool active_room_entered_ = false;
+  // 进入房间后先原地旋转一圈扫描（相机扫过房间内部，提高危险源 RGB 检测率）。
+  bool room_spin_active_ = false;    // 正在原地旋转扫描
+  double room_spin_accum_ = 0.0;     // 已累计旋转角度
+  double room_spin_last_yaw_ = 0.0;  // 上次控制周期记录 yaw
+  bool room_spin_done_ = false;      // 本房间是否已做过旋转扫描
+  bool room_entry_spin_done_ = false; // 第一排房间进门后的补充旋转
   ros::Time active_room_started_{0};
   int active_room_no_frontier_cycles_ = 0;
   std::optional<std::pair<int, int>> active_room_target_cell_;
@@ -3309,6 +4558,9 @@ class CompetitionNavigation {
   std::optional<RoomPlan> last_room_plan_;
   std::optional<Pose> room_entry_progress_pose_;
   ros::Time room_entry_progress_time_{0};
+  std::string room_goal_progress_key_;
+  double room_goal_best_distance_ = std::numeric_limits<double>::infinity();
+  ros::Time room_goal_progress_time_{0};
   double room_entry_stall_timeout_ = 10.0;
   std::vector<std::vector<double>> room_door_ys_by_floor_;
 
@@ -3320,7 +4572,10 @@ class CompetitionNavigation {
   std::vector<ros::Publisher> floor_map_pubs_;
   ros::Subscriber odom_sub_, scan_sub_;
   ros::ServiceServer start_srv_, return_srv_, set_home_srv_, stop_srv_;
-  ros::Timer control_timer_, planning_timer_, publish_timer_;
+  ros::Timer control_timer_, planning_timer_, publish_timer_, finish_shutdown_timer_;
+  // 返航兜底：机器人离开建筑物（footprint 外）即判定探索完成，延迟后自停。
+  // 只触发一次，防止在控制周期内反复发布完成状态。
+  bool return_leave_building_finish_ = false;
 };
 
 int main(int argc, char** argv) {

@@ -65,6 +65,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/carto_localization" TYPE PROGRAM FILES "/home/loser/SimEnv/build/carto_localization/catkin_generated/installspace/carto_correction.py")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/carto_localization" TYPE DIRECTORY FILES
     "/home/loser/SimEnv/src/carto_localization/launch"
     "/home/loser/SimEnv/src/carto_localization/config"

@@ -71,7 +71,9 @@ competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/src/scan_tf_rel
  /opt/ros/noetic/include/ros/wall_timer_options.h
  /opt/ros/noetic/include/rosconsole/macros_generated.h
  /opt/ros/noetic/include/sensor_msgs/ChannelFloat32.h
+ /opt/ros/noetic/include/sensor_msgs/Imu.h
  /opt/ros/noetic/include/sensor_msgs/PointCloud.h
+ /opt/ros/noetic/include/std_msgs/Bool.h
  /opt/ros/noetic/include/std_msgs/Header.h
  /opt/ros/noetic/include/tf2_ros/transform_broadcaster.h
  /opt/ros/noetic/include/xmlrpcpp/XmlRpcDecl.h

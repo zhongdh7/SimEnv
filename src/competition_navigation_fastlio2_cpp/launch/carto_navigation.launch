@@ -21,9 +21,9 @@
        it makes turning look much more responsive. -->
   <arg name="map_publish_rate" default="5.0" />
   <arg name="require_hdplanner" default="true" />
-  <arg name="model_path" default="/home/uf/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
-  <arg name="library_path" default="$(env HOME)/SimEnv/devel/lib/libhdplanner_inference.so" />
-  <arg name="layout_metadata_path" default="$(env HOME)/SimEnv/generated_building/layout_metadata.json" />
+  <arg name="model_path" default="/home/uf/robot_project/explorer-v1-best-integration/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
+  <arg name="library_path" default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/devel/lib/libhdplanner_inference.so" />
+  <arg name="layout_metadata_path" default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/generated_building/layout_metadata.json" />
   <arg name="floor_count" default="3" />
   <arg name="rooms_per_floor" default="4" />
   <arg name="floor_height" default="2.6" />
@@ -101,11 +101,16 @@
        phantom openings are only 0.2-0.4 m (1-2 cells), so 3 cells filters them. -->
   <arg name="room_entry_min_width_cells" default="3" />
   <arg name="max_linear" default="1.00" />
+  <arg name="corridor_max_linear" default="1.00" />
+  <arg name="room_max_linear" default="0.60" />
+  <arg name="turn_heading_threshold" default="0.80" />
+  <arg name="turn_linear_scale" default="0.20" />
+  <arg name="scan_yaw_rate" default="0.80" />
   <!-- Robot footprint radius (m): Unitree A1 ~0.4 m wide => 0.20 m half-width.
        Used to inflate obstacles in unknown-space paths so the robot centres in
        a doorway instead of hugging the frame. -->
   <arg name="robot_radius" default="0.20" />
-  <arg name="coverage_report_path" default="$(env HOME)/SimEnv/results/full_map_coverage.json" />
+  <arg name="coverage_report_path" default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/results/full_map_coverage.json" />
   <!-- The navigation node publishes its raw command here; collision_safety
        checks it against the map and re-publishes on /cmd_vel (what the robot's
        unitree_gazebo_servo actually consumes). -->
@@ -180,6 +185,11 @@
     <param name="room_entry_allow_unknown_wall" value="$(arg room_entry_allow_unknown_wall)" />
     <param name="room_entry_min_width_cells" value="$(arg room_entry_min_width_cells)" />
     <param name="max_linear" value="$(arg max_linear)" />
+    <param name="corridor_max_linear" value="$(arg corridor_max_linear)" />
+    <param name="room_max_linear" value="$(arg room_max_linear)" />
+    <param name="turn_heading_threshold" value="$(arg turn_heading_threshold)" />
+    <param name="turn_linear_scale" value="$(arg turn_linear_scale)" />
+    <param name="scan_yaw_rate" value="$(arg scan_yaw_rate)" />
     <param name="robot_radius" value="$(arg robot_radius)" />
     <param name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
   </node>

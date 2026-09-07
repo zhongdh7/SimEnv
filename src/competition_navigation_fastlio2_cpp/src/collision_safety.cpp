@@ -5,6 +5,7 @@
 
 #include <cctype>
 #include <cmath>
+#include <cstdio>
 #include <optional>
 #include <string>
 
@@ -61,6 +62,14 @@ class CollisionSafety {
     pnh_.param<double>("safety_dist", safety_dist_, 0.6);
     pnh_.param<double>("safety_half_width", safety_half_width_, 0.35);
     pnh_.param<double>("min_check_dist", min_check_dist_, 0.25);
+    pnh_.param<bool>("room_entry_bypass", room_entry_bypass_, true);
+    pnh_.param<bool>("corridor_route_bypass", corridor_route_bypass_, true);
+    pnh_.param<double>("corridor_x_min", corridor_x_min_, -1.1);
+    pnh_.param<double>("corridor_x_max", corridor_x_max_, 1.1);
+    pnh_.param<double>("room_return_crossing_margin",
+                       room_return_crossing_margin_, 1.0);
+    pnh_.param<double>("corridor_route_bypass_margin",
+                       corridor_route_bypass_margin_, 1.0);
 
     pnh_.param<bool>("recover_enable", recover_enable_, true);
     double reverse_speed = 0.30;
@@ -96,9 +105,10 @@ class CollisionSafety {
   void mapCb(const nav_msgs::OccupancyGrid::ConstPtr& msg) { map_ = msg; }
 
   void statusCb(const std_msgs::String::ConstPtr& msg) {
+    nav_status_ = msg->data;
     bool in_stairs = parse_in_stairs(msg->data);
-    if (in_stairs != in_stairs_) {
-      in_stairs_ = in_stairs;
+    if (in_stairs != legacy_in_stairs_) {
+      legacy_in_stairs_ = in_stairs;
       ROS_INFO("collision_safety: stair flight %s -> safety box %s",
                in_stairs ? "ACTIVE" : "inactive",
                in_stairs ? "DISABLED" : "enabled");
@@ -191,8 +201,96 @@ class CollisionSafety {
   }
 
   bool blocked_forward(const geometry_msgs::Twist& cmd) const {
-    return has_pose_ && map_ && !in_stairs_ && cmd.linear.x > 0.01 &&
-           blocked(+1);
+    return has_pose_ && map_ && cmd.linear.x > 0.01 && blocked(+1);
+  }
+
+  static bool starts_with(const std::string& value,
+                          const std::string& prefix) {
+    return value.rfind(prefix, 0) == 0;
+  }
+
+  static bool parse_path(const std::string& status, int* index,
+                         int* length) {
+    const size_t pos = status.find("path=");
+    if (pos == std::string::npos) return false;
+    int parsed_index = -1;
+    int parsed_length = -1;
+    if (std::sscanf(status.c_str() + pos, "path=%d/%d", &parsed_index,
+                    &parsed_length) != 2) {
+      return false;
+    }
+    *index = parsed_index;
+    *length = parsed_length;
+    return true;
+  }
+
+  // Allow only the bounded forward crossing used by the sensor-built route.
+  // FAST-LIO2 and the navigation map share the same pose, so a thin stale
+  // door-frame cell can overlap the safety box even after navigation has
+  // selected a valid room/corridor path.  The exception is limited to the
+  // measured corridor band; all other poses keep the normal safety check.
+  bool allow_mapped_crossing(const geometry_msgs::Twist& cmd) const {
+    if (!has_pose_ || cmd.linear.x <= 0.01) return false;
+    const double x = pose_.x;
+    if (starts_with(nav_status_, "room_enter_path")) {
+      if (!room_entry_bypass_) return false;
+      const double margin = 0.25;
+      return x >= corridor_x_min_ - margin &&
+             x <= corridor_x_max_ + margin;
+    }
+    if (starts_with(nav_status_, "room_return_path") ||
+        starts_with(nav_status_, "room_return_to_corridor")) {
+      if (!room_entry_bypass_) return false;
+      return x >= corridor_x_min_ - room_return_crossing_margin_ &&
+             x <= corridor_x_max_ + room_return_crossing_margin_;
+    }
+    if (starts_with(nav_status_, "hdplanner_policy_selected")) {
+      if (!corridor_route_bypass_ || pose_.y > 7.85) return false;
+      return x >= corridor_x_min_ - corridor_route_bypass_margin_ &&
+             x <= corridor_x_max_ + corridor_route_bypass_margin_;
+    }
+    const bool mapped_route_status =
+        starts_with(nav_status_, "dfs_started") ||
+        starts_with(nav_status_, "dfs_corridor_segment") ||
+        starts_with(nav_status_, "graph_corridor_survey") ||
+        starts_with(nav_status_, "frontier_astar_fallback") ||
+        starts_with(nav_status_, "hdplanner_graph_recovery") ||
+        starts_with(nav_status_, "hdplanner_action_recovery") ||
+        starts_with(nav_status_, "hdplanner_selected_path_recovery") ||
+        starts_with(nav_status_, "hdplanner_nonprogress_recovery") ||
+        starts_with(nav_status_, "go_stairs_up_door_route") ||
+        starts_with(nav_status_, "go_stairs_down_door_route") ||
+        starts_with(nav_status_, "full_map_complete_return_via_stairs") ||
+        starts_with(nav_status_, "full_map_complete_return") ||
+        starts_with(nav_status_, "return_planned") ||
+        starts_with(nav_status_, "return_waiting_for_path");
+    if (!mapped_route_status || !corridor_route_bypass_) return false;
+    // The mapped-route exception is only for a straight crossing of a stale
+    // single-cell frame.  A large lateral or yaw correction means the body is
+    // not following the route's forward corridor anymore; keep the normal
+    // safety box active so recovery can turn/replan.
+    if (std::abs(cmd.linear.y) > 0.08 || std::abs(cmd.angular.z) > 0.35) {
+      return false;
+    }
+    return x >= corridor_x_min_ - corridor_route_bypass_margin_ &&
+           x <= corridor_x_max_ + corridor_route_bypass_margin_;
+  }
+
+  // Formal stair flight statuses carry a five-waypoint path.  The flattened
+  // 2-D map contains the risers as occupied cells, so only these validated
+  // forward flight segments may bypass the safety box.  Approach/planning
+  // states and malformed paths remain protected by the normal check.
+  bool allow_stair_transition_crossing(
+      const geometry_msgs::Twist& cmd) const {
+    if (cmd.linear.x <= 0.01) return false;
+    if (!(starts_with(nav_status_, "stairs_up_started") ||
+          starts_with(nav_status_, "stairs_down_started"))) {
+      return false;
+    }
+    int path_index = -1;
+    int path_length = -1;
+    if (!parse_path(nav_status_, &path_index, &path_length)) return false;
+    return path_length == 5 && path_index >= 0 && path_index < path_length;
   }
 
   void start_recover(const ros::Time& now) {
@@ -217,11 +315,14 @@ class CollisionSafety {
           blocked(-1)) {
         if (turn_recovery_) {
           recover_phase_ = "turn";
-          turn_sign_ = 1.0;
+          // Alternate the escape direction after each wedged recovery.  A
+          // fixed turn direction can keep the robot circling into the same
+          // wall when both the forward and reverse safety boxes are blocked.
+          turn_sign_ = -turn_sign_;
           recover_start_time_ = now;
           ROS_WARN(
-              "collision_safety: reverse blocked/done (%.2f m), turning",
-              traveled);
+              "collision_safety: reverse blocked/done (%.2f m), turning %s",
+              traveled, turn_sign_ > 0.0 ? "left" : "right");
         } else {
           recover_phase_ = "hold";
           recover_start_time_ = now;
@@ -283,7 +384,16 @@ class CollisionSafety {
       } else if (!recover_phase_.empty()) {
         cmd = recover_step(now);
       } else if (blocked_forward(cmd)) {
-        if (!recover_enable_) {
+        const bool mapped_bypass = allow_mapped_crossing(cmd);
+        const bool stair_bypass = allow_stair_transition_crossing(cmd);
+        if (mapped_bypass || stair_bypass) {
+          blocked_since_ = std::nullopt;
+          ROS_INFO_THROTTLE(
+              2.0,
+              "collision_safety: allowing bounded planned forward crossing "
+              "status=%s",
+              nav_status_.c_str());
+        } else if (!recover_enable_) {
           cmd.linear.x = 0.0;
           cmd.linear.y = 0.0;
           ROS_WARN_THROTTLE(1.0,
@@ -310,7 +420,7 @@ class CollisionSafety {
                 "holding");
           }
         }
-      } else if (cmd.linear.x < -0.01 && has_pose_ && map_ && !in_stairs_ &&
+      } else if (cmd.linear.x < -0.01 && has_pose_ && map_ &&
                  blocked(-1)) {
         cmd.linear.x = 0.0;
         cmd.linear.y = 0.0;
@@ -358,7 +468,14 @@ class CollisionSafety {
   nav_msgs::OccupancyGrid::ConstPtr map_;
   Pose pose_{0, 0, 0, 0};
   bool has_pose_ = false;
-  bool in_stairs_ = false;
+  bool legacy_in_stairs_ = false;
+  std::string nav_status_;
+  bool room_entry_bypass_ = true;
+  bool corridor_route_bypass_ = true;
+  double corridor_x_min_ = -1.1;
+  double corridor_x_max_ = 1.1;
+  double room_return_crossing_margin_ = 1.0;
+  double corridor_route_bypass_margin_ = 1.0;
   geometry_msgs::Twist last_cmd_;
   ros::Time last_cmd_stamp_;
   bool has_cmd_stamp_ = false;
@@ -367,7 +484,8 @@ class CollisionSafety {
   ros::Time recover_start_time_;
   std::optional<ros::Time> blocked_since_;
   ros::Time last_recover_end_{0};
-  double turn_sign_ = 1.0;
+  // First recovery turns left; subsequent wedged recoveries alternate sides.
+  double turn_sign_ = -1.0;
 };
 
 int main(int argc, char** argv) {

@@ -56,27 +56,17 @@ CMAKE_BINARY_DIR = /home/loser/SimEnv/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
 
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
 
 # Special rule for the target install
 install: preinstall
@@ -90,28 +80,15 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
 
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
+.PHONY : list_install_components/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -134,6 +111,29 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -168,51 +168,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/rule
-.PHONY : competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/rule
-
-# Convenience name for target.
-_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py: competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/rule
-
-.PHONY : _run_tests_competition_navigation_nosetests_test.test_full_map_logic.py
-
-# fast build rule for target.
-_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/build.make competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/build
-.PHONY : _run_tests_competition_navigation_nosetests_test.test_full_map_logic.py/fast
-
-# Convenience name for target.
-competition_navigation/CMakeFiles/run_tests_competition_navigation.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation/CMakeFiles/run_tests_competition_navigation.dir/rule
-.PHONY : competition_navigation/CMakeFiles/run_tests_competition_navigation.dir/rule
-
-# Convenience name for target.
-run_tests_competition_navigation: competition_navigation/CMakeFiles/run_tests_competition_navigation.dir/rule
-
-.PHONY : run_tests_competition_navigation
-
-# fast build rule for target.
-run_tests_competition_navigation/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation/CMakeFiles/run_tests_competition_navigation.dir/build.make competition_navigation/CMakeFiles/run_tests_competition_navigation.dir/build
-.PHONY : run_tests_competition_navigation/fast
-
-# Convenience name for target.
-competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/rule
-.PHONY : competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/rule
-
-# Convenience name for target.
-_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py: competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/rule
-
-.PHONY : _run_tests_competition_navigation_nosetests_test.test_corridor_graph.py
-
-# fast build rule for target.
-_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/build.make competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/build
-.PHONY : _run_tests_competition_navigation_nosetests_test.test_corridor_graph.py/fast
-
-# Convenience name for target.
 competition_navigation/CMakeFiles/hdplanner_inference.dir/rule:
 	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation/CMakeFiles/hdplanner_inference.dir/rule
 .PHONY : competition_navigation/CMakeFiles/hdplanner_inference.dir/rule
@@ -226,96 +181,6 @@ hdplanner_inference: competition_navigation/CMakeFiles/hdplanner_inference.dir/r
 hdplanner_inference/fast:
 	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation/CMakeFiles/hdplanner_inference.dir/build.make competition_navigation/CMakeFiles/hdplanner_inference.dir/build
 .PHONY : hdplanner_inference/fast
-
-# Convenience name for target.
-competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests.dir/rule
-.PHONY : competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests.dir/rule
-
-# Convenience name for target.
-run_tests_competition_navigation_nosetests: competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests.dir/rule
-
-.PHONY : run_tests_competition_navigation_nosetests
-
-# fast build rule for target.
-run_tests_competition_navigation_nosetests/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests.dir/build.make competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests.dir/build
-.PHONY : run_tests_competition_navigation_nosetests/fast
-
-# Convenience name for target.
-competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests.dir/rule
-.PHONY : competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests.dir/rule
-
-# Convenience name for target.
-_run_tests_competition_navigation_nosetests: competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests.dir/rule
-
-.PHONY : _run_tests_competition_navigation_nosetests
-
-# fast build rule for target.
-_run_tests_competition_navigation_nosetests/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests.dir/build.make competition_navigation/CMakeFiles/_run_tests_competition_navigation_nosetests.dir/build
-.PHONY : _run_tests_competition_navigation_nosetests/fast
-
-# Convenience name for target.
-competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/rule
-.PHONY : competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/rule
-
-# Convenience name for target.
-run_tests_competition_navigation_nosetests_test.test_corridor_graph.py: competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/rule
-
-.PHONY : run_tests_competition_navigation_nosetests_test.test_corridor_graph.py
-
-# fast build rule for target.
-run_tests_competition_navigation_nosetests_test.test_corridor_graph.py/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/build.make competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_corridor_graph.py.dir/build
-.PHONY : run_tests_competition_navigation_nosetests_test.test_corridor_graph.py/fast
-
-# Convenience name for target.
-competition_navigation/CMakeFiles/_run_tests_competition_navigation.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation/CMakeFiles/_run_tests_competition_navigation.dir/rule
-.PHONY : competition_navigation/CMakeFiles/_run_tests_competition_navigation.dir/rule
-
-# Convenience name for target.
-_run_tests_competition_navigation: competition_navigation/CMakeFiles/_run_tests_competition_navigation.dir/rule
-
-.PHONY : _run_tests_competition_navigation
-
-# fast build rule for target.
-_run_tests_competition_navigation/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation/CMakeFiles/_run_tests_competition_navigation.dir/build.make competition_navigation/CMakeFiles/_run_tests_competition_navigation.dir/build
-.PHONY : _run_tests_competition_navigation/fast
-
-# Convenience name for target.
-competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/rule
-.PHONY : competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/rule
-
-# Convenience name for target.
-run_tests_competition_navigation_nosetests_test.test_full_map_logic.py: competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/rule
-
-.PHONY : run_tests_competition_navigation_nosetests_test.test_full_map_logic.py
-
-# fast build rule for target.
-run_tests_competition_navigation_nosetests_test.test_full_map_logic.py/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/build.make competition_navigation/CMakeFiles/run_tests_competition_navigation_nosetests_test.test_full_map_logic.py.dir/build
-.PHONY : run_tests_competition_navigation_nosetests_test.test_full_map_logic.py/fast
-
-# Convenience name for target.
-competition_navigation/CMakeFiles/clean_test_results_competition_navigation.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation/CMakeFiles/clean_test_results_competition_navigation.dir/rule
-.PHONY : competition_navigation/CMakeFiles/clean_test_results_competition_navigation.dir/rule
-
-# Convenience name for target.
-clean_test_results_competition_navigation: competition_navigation/CMakeFiles/clean_test_results_competition_navigation.dir/rule
-
-.PHONY : clean_test_results_competition_navigation
-
-# fast build rule for target.
-clean_test_results_competition_navigation/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation/CMakeFiles/clean_test_results_competition_navigation.dir/build.make competition_navigation/CMakeFiles/clean_test_results_competition_navigation.dir/build
-.PHONY : clean_test_results_competition_navigation/fast
 
 src/hdplanner_inference.o: src/hdplanner_inference.cpp.o
 
@@ -350,23 +215,14 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/strip"
-	@echo "... list_install_components"
-	@echo "... install"
 	@echo "... install/local"
-	@echo "... _run_tests_competition_navigation_nosetests_test.test_full_map_logic.py"
-	@echo "... run_tests_competition_navigation"
-	@echo "... _run_tests_competition_navigation_nosetests_test.test_corridor_graph.py"
-	@echo "... hdplanner_inference"
-	@echo "... run_tests_competition_navigation_nosetests"
-	@echo "... _run_tests_competition_navigation_nosetests"
-	@echo "... run_tests_competition_navigation_nosetests_test.test_corridor_graph.py"
-	@echo "... _run_tests_competition_navigation"
-	@echo "... run_tests_competition_navigation_nosetests_test.test_full_map_logic.py"
-	@echo "... clean_test_results_competition_navigation"
-	@echo "... test"
+	@echo "... install"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... test"
+	@echo "... hdplanner_inference"
+	@echo "... install/strip"
 	@echo "... src/hdplanner_inference.o"
 	@echo "... src/hdplanner_inference.i"
 	@echo "... src/hdplanner_inference.s"

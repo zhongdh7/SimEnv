@@ -17,6 +17,7 @@ catkin_install_python(PROGRAMS
   scripts/pointcloud_to_laserscan.py
   scripts/odom_dedup.py
   scripts/carto_relay.py
+  scripts/carto_correction.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

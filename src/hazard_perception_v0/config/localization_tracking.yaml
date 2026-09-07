@@ -1,0 +1,63 @@
+# RGB-D synchronization and alignment.
+sync_queue_size: 10
+sync_tolerance: 0.08
+cloud_cache_size: 10
+depth_cloud_tolerance: 0.12
+alignment_mode: auto  # auto, aligned, or pointcloud
+camera_model_tolerance: 0.001
+
+# Gazebo OpenNI publishes 32FC1 metres. The point-cloud cutoff is 0.4 m and
+# camera far clip is 8.0 m in the current robot sensor definition.
+min_depth: 0.4
+max_depth: 8.0
+min_depth_pixels: 20
+depth_mad_scale: 3.5
+
+# RGB-D sphere centre fitting and sphere-versus-plane verification.
+sphere_fit_enabled: true
+sphere_fit_mode: known_radius  # known_radius or free_radius
+sphere_radius_m: 0.15
+sphere_min_radius_m: 0.10      # free_radius mode only
+sphere_max_radius_m: 0.22      # free_radius mode only
+sphere_fit_min_points: 80
+edge_sphere_fit_min_points: 35
+sphere_fit_max_points: 4000
+sphere_fit_max_iterations: 20
+sphere_fit_huber_delta_m: 0.008
+sphere_fit_max_residual_m: 0.012
+edge_sphere_fit_max_residual_m: 0.018
+sphere_plane_ratio_max: 0.65
+sphere_min_plane_residual_m: 0.003
+sphere_min_radial_correlation: 0.20
+edge_min_radial_correlation: 0.05
+sphere_min_inlier_ratio: 0.65
+
+# A median-depth fallback remains visible as an unconfirmed low-confidence
+# candidate when fitting is unavailable. A geometrically rejected target is
+# never sent to the tracker/final list.
+geometry_fallback_confidence_scale: 0.40
+edge_confirmation_count: 6
+
+# Optional known-size monocular estimate. Disabled by default: with it off,
+# RGB-only observations remain explicit 2-D candidates without fabricated XYZ.
+enable_monocular_fallback: false
+monocular_confidence_scale: 0.25
+
+# Frames and TF lookup.
+odom_frame: odom
+base_frame: base
+start_frame: start_frame
+tf_timeout: 0.15
+
+# Multi-frame tracking.
+confirmation_count: 3
+merge_distance: 0.60
+smoothing_alpha: 0.35
+candidate_timeout: 3.0
+max_position_jump: 0.45
+final_merge_distance: 0.60
+
+publish_candidates: true
+publish_debug_images: true
+save_csv: false
+run_id: ""

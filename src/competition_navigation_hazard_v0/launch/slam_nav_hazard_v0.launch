@@ -1,0 +1,42 @@
+<launch>
+<!-- 整合启动：FAST-LIO2 SLAM + C++ 导航 + v0 危险源监测（浅整合，互不改动）。
+
+     这是 competition_navigation_hazard 的 v0-hazard 变体：唯一区别是危险源检测
+     由 hazard_perception_v0 提供（从 explorer-v0 复制而来），导航逻辑
+     (competition_navigation_fastlio2_cpp) 与完成触发逻辑与原来完全一致。
+
+     Usage (after SimEnv + junior_ctrl 运行，且 ws_livox 已 source):
+       source /opt/ros/noetic/setup.bash
+       source $HOME/SimEnv/devel/setup.bash
+       source $HOME/ws_livox/devel/setup.bash
+       roslaunch competition_navigation_hazard_v0 slam_nav_hazard_v0.launch
+-->
+
+  <arg name="rviz" default="false" />
+  <arg name="auto_start" default="true" />
+  <arg name="start_verifier" default="true" />
+  <arg name="use_livox" default="false" />
+  <arg name="output_directory" default="$(env HOME)/SimEnv/results/hazard_v0" />
+
+  <!-- 1. FAST-LIO2 SLAM + C++ 导航 + save_pcd -->
+  <include file="$(find competition_navigation_fastlio2_cpp)/launch/slam_nav.launch">
+    <arg name="rviz" value="$(arg rviz)" />
+    <arg name="auto_start" value="$(arg auto_start)" />
+    <arg name="start_verifier" value="$(arg start_verifier)" />
+  </include>
+
+  <!-- 2. v0 危险源监测（红球 RGB-D 检测 + 定位跟踪 + 结果管理）-->
+  <include file="$(find hazard_perception_v0)/launch/hazard_pipeline.launch">
+    <arg name="use_livox" value="$(arg use_livox)" />
+    <arg name="output_directory" value="$(arg output_directory)" />
+    <arg name="rviz" value="false" />
+  </include>
+
+  <!-- 3. 探索完成自动保存危险源结果：监听导航状态，检测到三层全图完成
+       (full_map_complete / returned_home) 后调用 /hazard_perception_v0/finalize，
+       把检测到的危险源坐标写入 output_directory。 -->
+  <node pkg="competition_navigation_hazard_v0"
+        type="hazard_finalize_trigger.py"
+        name="hazard_finalize_trigger"
+        output="screen" />
+</launch>

@@ -111,10 +111,10 @@ unitree_guide/unitree_ros_to_real/unitree_legged_msgs/CMakeFiles/unitree_legged_
 
 /home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/LowState.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/LowState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/LowState.msg
-/home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/LowState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/BmsState.msg
 /home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/LowState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/IMU.msg
-/home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/LowState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/Cartesian.msg
 /home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/LowState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/MotorState.msg
+/home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/LowState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/BmsState.msg
+/home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/LowState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/Cartesian.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/loser/SimEnv/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Generating EusLisp code from unitree_legged_msgs/LowState.msg"
 	cd /home/loser/SimEnv/build/unitree_guide/unitree_ros_to_real/unitree_legged_msgs && ../../../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/LowState.msg -Iunitree_legged_msgs:/home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -p unitree_legged_msgs -o /home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg
 
@@ -127,10 +127,10 @@ unitree_guide/unitree_ros_to_real/unitree_legged_msgs/CMakeFiles/unitree_legged_
 
 /home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/HighState.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/HighState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/HighState.msg
-/home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/HighState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/BmsState.msg
 /home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/HighState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/IMU.msg
-/home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/HighState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/Cartesian.msg
 /home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/HighState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/MotorState.msg
+/home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/HighState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/BmsState.msg
+/home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg/HighState.l: /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/Cartesian.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/loser/SimEnv/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Generating EusLisp code from unitree_legged_msgs/HighState.msg"
 	cd /home/loser/SimEnv/build/unitree_guide/unitree_ros_to_real/unitree_legged_msgs && ../../../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg/HighState.msg -Iunitree_legged_msgs:/home/loser/SimEnv/src/unitree_guide/unitree_ros_to_real/unitree_legged_msgs/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -p unitree_legged_msgs -o /home/loser/SimEnv/devel/share/roseus/ros/unitree_legged_msgs/msg
 

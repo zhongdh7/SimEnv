@@ -11,6 +11,7 @@
 
 using namespace std;
 ros::Publisher robotVelocity_BASE_frame_pub;
+ros::NodeHandle *private_node_handle = nullptr;
 string robot_name = "a1";
 nav_msgs::Odometry Odom;
 double x=0, y=0, z=0, roll=0, pitch=0, yaw=0;
@@ -28,8 +29,14 @@ void callback_BASE(const gazebo_msgs::LinkStates::ConstPtr &msg) {
     }
     ros::Rate rate(500);//延迟至100hz发布，避免重复发布
 
+    // Keep /Odometry_gazebo available for offline checks, but allow the
+    // sensor-localised navigation launch to suppress its truth TF publishers.
+    bool publish_truth_tf = true;
+    if (private_node_handle != nullptr) {
+        private_node_handle->param("publish_truth_tf", publish_truth_tf, true);
+    }
+
     //map到odom的tf变换
-    static tf::TransformBroadcaster bf1;
     tf::Transform transform_odom2map;
     tf::Quaternion qtn;
     qtn.setRPY(roll, pitch, yaw);
@@ -41,7 +48,10 @@ void callback_BASE(const gazebo_msgs::LinkStates::ConstPtr &msg) {
                                     y,
                                     z));
     // 发布odom到map的tf关系
-    bf1.sendTransform(tf::StampedTransform(transform_odom2map, ros::Time::now(), "map", "odom"));
+    if (publish_truth_tf) {
+        static tf::TransformBroadcaster bf1;
+        bf1.sendTransform(tf::StampedTransform(transform_odom2map, ros::Time::now(), "map", "odom"));
+    }
     
     //求变化矩阵的逆解，用于推算map到odom的关系，以便能得到base到map的关系，及
     tf::Transform transform_map2odom = transform_odom2map.inverse();
@@ -68,13 +78,14 @@ void callback_BASE(const gazebo_msgs::LinkStates::ConstPtr &msg) {
         msg->twist[index].angular.z);
     tf::Vector3 transformed_angular_vel = transform_map2odom * angular_vel;
     
-    //发布base到odom的tf变换
-    static tf::TransformBroadcaster bf2;
     tf::Transform transform_odom2base;
     transform_odom2base.setRotation(q_odom);
     transform_odom2base.setOrigin(pt_odom);
 
-    bf2.sendTransform(tf::StampedTransform(transform_odom2base, ros::Time::now(), "odom", "base"));
+    if (publish_truth_tf) {
+        static tf::TransformBroadcaster bf2;
+        bf2.sendTransform(tf::StampedTransform(transform_odom2base, ros::Time::now(), "odom", "base"));
+    }
 
     Odom.header.stamp = ros::Time::now();
     Odom.header.frame_id = "odom";
@@ -110,6 +121,7 @@ void callback_BASE(const gazebo_msgs::LinkStates::ConstPtr &msg) {
 int main(int argc, char **argv) {
     ros::init(argc, argv, "state_from_gazebo");
     ros::NodeHandle nh("~");
+    private_node_handle = &nh;
     ros::NodeHandle node;
     ros::Subscriber tfState_BASE_sub;
 
@@ -136,5 +148,4 @@ int main(int argc, char **argv) {
     ros::spin();
     return 0;
 }
-
 

@@ -1,0 +1,8 @@
+prefix=/home/loser/SimEnv/install
+
+Name: hazard_perception
+Description: Description of hazard_perception
+Version: 0.1.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: cv_bridge geometry_msgs image_geometry message_filters message_runtime nav_msgs rospy sensor_msgs std_msgs std_srvs tf2_geometry_msgs tf2_ros visualization_msgs

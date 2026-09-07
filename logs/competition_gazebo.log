@@ -1,21 +1,67 @@
 xacro: in-order processing became default in ROS Melodic. You can drop the option.
-[31m[ERROR] [1787666281.070606321]: Couldn't open joystick /dev/input/js0. Will retry every second.[0m
-[0m[INFO] [1787666281.363638003]: Finished loading Gazebo ROS API Plugin.[0m
-[0m[INFO] [1787666281.364276446]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m
-[0m[INFO] [1787666282.364722941]: waitForService: Service [/gazebo/set_physics_properties] is now available.[0m
-[0m[INFO] [1787666282.374760234]: Physics dynamic reconfigure ready.[0m
-[0m[INFO] [1787666282.722871250]: <initialOrientationAsReference> is unset, using default value of false to comply with REP 145 (world as orientation reference)[0m
-[0m[INFO] [1787666282.722910350]: <robotNamespace> set to: //[0m
-[0m[INFO] [1787666282.722918594]: <topicName> set to: trunk_imu[0m
-[0m[INFO] [1787666282.722923711]: <frameName> set to: imu_link[0m
-[0m[INFO] [1787666282.722947784]: <updateRateHZ> set to: 1000[0m
-[0m[INFO] [1787666282.722955059]: <gaussianNoise> set to: 0[0m
-[0m[INFO] [1787666282.722982451]: <xyzOffset> set to: 0 0 0[0m
-[0m[INFO] [1787666282.723057279]: <rpyOffset> set to: 0 -0 0[0m
-[0m[INFO] [1787666282.813648816]: load csv file name:/home/loser/SimEnv/src/unitree_guide/unitree_ros/robots/a1_description/scan_mode/mid360.csv[0m
+[31m[ERROR] [1788788333.871912899]: Couldn't open joystick /dev/input/js0. Will retry every second.[0m
+[0m[INFO] [1788788334.207819279]: Finished loading Gazebo ROS API Plugin.[0m
+[0m[INFO] [1788788334.208969236]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m
+[0m[INFO] [1788788335.245300905]: waitForService: Service [/gazebo/set_physics_properties] is now available.[0m
+[0m[INFO] [1788788335.290529856, 0.034000000]: Physics dynamic reconfigure ready.[0m
+[0m[INFO] [1788788335.586512515, 0.236000000]: <initialOrientationAsReference> is unset, using default value of false to comply with REP 145 (world as orientation reference)[0m
+[0m[INFO] [1788788335.586553354, 0.236000000]: <robotNamespace> set to: //[0m
+[0m[INFO] [1788788335.586561288, 0.236000000]: <topicName> set to: trunk_imu[0m
+[0m[INFO] [1788788335.586566754, 0.236000000]: <frameName> set to: imu_link[0m
+[0m[INFO] [1788788335.586588911, 0.236000000]: <updateRateHZ> set to: 1000[0m
+[0m[INFO] [1788788335.586596680, 0.236000000]: <gaussianNoise> set to: 0[0m
+[0m[INFO] [1788788335.586630160, 0.236000000]: <xyzOffset> set to: 0 0 0[0m
+[0m[INFO] [1788788335.586731814, 0.236000000]: <rpyOffset> set to: 0 -0 0[0m
+[0m[INFO] [1788788335.683078578, 0.236000000]: load csv file name:/home/loser/SimEnv/src/unitree_guide/unitree_ros/robots/a1_description/scan_mode/mid360.csv[0m
 cannot convert str:
 data size:800000
-[INFO] [1787666281.209806, 0.000000]: Loading model XML from ros parameter robot_description
-[INFO] [1787666281.216330, 0.000000]: Waiting for service /gazebo/spawn_urdf_model
-[INFO] [1787666282.422586, 0.000000]: Calling service /gazebo/spawn_urdf_model
-[INFO] [1787666284.254016, 0.000000]: Spawn status: SpawnModel: Successfully spawned entity
+[INFO] [1788788334.140397, 0.000000]: Loading model XML from ros parameter robot_description
+[INFO] [1788788334.147006, 0.000000]: Waiting for service /gazebo/spawn_urdf_model
+[INFO] [1788788335.353885, 0.000000]: Calling service /gazebo/spawn_urdf_model
+[INFO] [1788788337.126572, 0.000000]: Spawn status: SpawnModel: Successfully spawned entity
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 17.688000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 83.424000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 245.346000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 453.394000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 454.106000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 553.176000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame odom (parent map) at time 649.904000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 649.904000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 701.352000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 712.010000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 720.292000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 733.000000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 760.362000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 767.508000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 827.410000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame odom (parent map) at time 838.094000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 838.094000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 855.404000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 891.740000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 914.520000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 930.368000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 935.014000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp
+Warning: TF_REPEATED_DATA ignoring data with redundant timestamp for frame base (parent odom) at time 936.602000 according to authority /state_from_gazebo
+         at line 277 in /tmp/binarydeb/ros-noetic-tf2-0.7.10/src/buffer_core.cpp

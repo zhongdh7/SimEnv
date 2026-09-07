@@ -1,0 +1,7 @@
+set(hazard_perception_v0_SETUP_PY_SETUP_MODULE "setuptools")
+set(hazard_perception_v0_SETUP_PY_VERSION "0.1.0")
+set(hazard_perception_v0_SETUP_PY_SCRIPTS "")
+set(hazard_perception_v0_SETUP_PY_PACKAGES "hazard_perception_v0")
+set(hazard_perception_v0_SETUP_PY_PACKAGE_DIRS "src/hazard_perception_v0")
+set(hazard_perception_v0_SETUP_PY_MODULES "")
+set(hazard_perception_v0_SETUP_PY_MODULE_DIRS "")

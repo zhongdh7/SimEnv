@@ -70,7 +70,9 @@ competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/src/scan_tf_rel
 competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/src/scan_tf_relay.cpp.o: /opt/ros/noetic/include/ros/wall_timer_options.h
 competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/src/scan_tf_relay.cpp.o: /opt/ros/noetic/include/rosconsole/macros_generated.h
 competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/src/scan_tf_relay.cpp.o: /opt/ros/noetic/include/sensor_msgs/ChannelFloat32.h
+competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/src/scan_tf_relay.cpp.o: /opt/ros/noetic/include/sensor_msgs/Imu.h
 competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/src/scan_tf_relay.cpp.o: /opt/ros/noetic/include/sensor_msgs/PointCloud.h
+competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/src/scan_tf_relay.cpp.o: /opt/ros/noetic/include/std_msgs/Bool.h
 competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/src/scan_tf_relay.cpp.o: /opt/ros/noetic/include/std_msgs/Header.h
 competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/src/scan_tf_relay.cpp.o: /opt/ros/noetic/include/tf2_ros/transform_broadcaster.h
 competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/src/scan_tf_relay.cpp.o: /opt/ros/noetic/include/xmlrpcpp/XmlRpcDecl.h

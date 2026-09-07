@@ -62,9 +62,9 @@
         <arg name="rname" value="$(arg rname)"/>
     </include>
 
-    <node pkg="unitree_guide" type="pointcloud2livox.py" name="pointcloud2livox" output="screen">
-        <param name="laser_blind" value="0.5" />
-        <param name="min_angle" value="-7"/>
-        <param name="max_angle" value="55"/>
-    </node>
+    <!-- FAST-LIO2 integration owns the single /scan -> PointCloud2 relay.
+         The legacy pointcloud2livox node publishes a second copy of
+         /livox/Pointcloud2_local and also consumes Gazebo odometry for its
+         odom-registered visualization.  Do not start it in the formal
+         FAST-LIO2 runtime chain. -->
 </launch>

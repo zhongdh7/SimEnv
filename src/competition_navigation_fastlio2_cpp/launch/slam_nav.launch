@@ -18,14 +18,24 @@
     <arg name="auto_start" default="true" />
     <arg name="start_verifier" default="true" />
     <arg name="model_path"
-         default="$(env HOME)/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
+         default="/home/uf/robot_project/explorer-v1-best-integration/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
     <arg name="library_path"
-         default="$(env HOME)/SimEnv/devel/lib/libhdplanner_inference.so" />
+         default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/devel/lib/libhdplanner_inference.so" />
     <arg name="layout_metadata_path"
-         default="$(env HOME)/SimEnv/generated_building/layout_metadata.json" />
+         default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/generated_building/layout_metadata.json" />
     <arg name="coverage_report_path"
-         default="$(env HOME)/SimEnv/results/full_map_coverage.json" />
+         default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/results/full_map_coverage.json" />
     <arg name="cell_size" default="0.2" />
+    <arg name="hdplanner_nonprogress_recovery_threshold" default="3" />
+    <arg name="corridor_max_linear" default="1.00" />
+    <arg name="room_max_linear" default="0.60" />
+    <arg name="turn_heading_threshold" default="0.80" />
+    <arg name="turn_linear_scale" default="0.20" />
+    <arg name="scan_yaw_rate" default="0.80" />
+    <!-- Expose the inner navigation launch controls so fixed-condition
+         diagnostics can actually select the requested command path. -->
+    <arg name="collision_safety" default="true" />
+    <arg name="cmd_vel_topic" default="/cmd_vel_raw" />
 
     <!-- 1. FAST-LIO2 SLAM for SimEnv (MARSIM lidar_type=4) -->
     <include file="$(find fastlio2_merge)/launch/mapping_sim.launch">
@@ -41,8 +51,16 @@
         <arg name="layout_metadata_path" value="$(arg layout_metadata_path)" />
         <arg name="coverage_report_path" value="$(arg coverage_report_path)" />
         <arg name="cell_size" value="$(arg cell_size)" />
+        <arg name="hdplanner_nonprogress_recovery_threshold" value="$(arg hdplanner_nonprogress_recovery_threshold)" />
         <arg name="odom_topic" value="/Odometry_fastlio" />
         <arg name="map_frame" value="odom" />
+        <arg name="collision_safety" value="$(arg collision_safety)" />
+        <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+        <arg name="corridor_max_linear" value="$(arg corridor_max_linear)" />
+        <arg name="room_max_linear" value="$(arg room_max_linear)" />
+        <arg name="turn_heading_threshold" value="$(arg turn_heading_threshold)" />
+        <arg name="turn_linear_scale" value="$(arg turn_linear_scale)" />
+        <arg name="scan_yaw_rate" value="$(arg scan_yaw_rate)" />
     </include>
 
     <!-- 3. Save accumulated cloud to PCD after exploration completes -->

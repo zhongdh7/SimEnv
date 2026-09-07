@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_FLAGS =  -D_GLIBCXX_USE_CXX11_ABI=1 -fPIC   -D_GLIBCXX_USE_CXX11_ABI=1 -std=gnu++17
 
-CXX_DEFINES = -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\"competition_navigation\" -DUSE_C10D_GLOO -DUSE_C10D_NCCL -DUSE_DISTRIBUTED -DUSE_RPC -DUSE_TENSORPIPE -Dhdplanner_inference_EXPORTS
+CXX_DEFINES = -DROS_BUILD_SHARED_LIBS=1 -DUSE_C10D_GLOO -DUSE_C10D_NCCL -DUSE_DISTRIBUTED -DUSE_RPC -DUSE_TENSORPIPE -Dhdplanner_inference_EXPORTS
 
 CXX_INCLUDES = -isystem /home/loser/libtorch/include -isystem /home/loser/libtorch/include/torch/csrc/api/include -isystem /usr/local/cuda/include 
 
