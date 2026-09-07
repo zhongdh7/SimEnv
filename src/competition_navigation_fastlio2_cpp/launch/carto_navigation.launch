@@ -21,9 +21,9 @@
        it makes turning look much more responsive. -->
   <arg name="map_publish_rate" default="5.0" />
   <arg name="require_hdplanner" default="true" />
-  <arg name="model_path" default="/home/uf/robot_project/explorer-v1-best-integration/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
-  <arg name="library_path" default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/devel/lib/libhdplanner_inference.so" />
-  <arg name="layout_metadata_path" default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/generated_building/layout_metadata.json" />
+  <arg name="model_path" default="$(env HDPLANNER_ROOT)/model/HDPlanner_Nav/policy_traced.pt" />
+  <arg name="library_path" default="$(env SIMENV)/devel/lib/libhdplanner_inference.so" />
+  <arg name="layout_metadata_path" default="$(env SIMENV)/generated_building/layout_metadata.json" />
   <arg name="floor_count" default="3" />
   <arg name="rooms_per_floor" default="4" />
   <arg name="floor_height" default="2.6" />
@@ -110,7 +110,7 @@
        Used to inflate obstacles in unknown-space paths so the robot centres in
        a doorway instead of hugging the frame. -->
   <arg name="robot_radius" default="0.20" />
-  <arg name="coverage_report_path" default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/results/full_map_coverage.json" />
+  <arg name="coverage_report_path" default="$(env SIMENV)/results/full_map_coverage.json" />
   <!-- The navigation node publishes its raw command here; collision_safety
        checks it against the map and re-publishes on /cmd_vel (what the robot's
        unitree_gazebo_servo actually consumes). -->

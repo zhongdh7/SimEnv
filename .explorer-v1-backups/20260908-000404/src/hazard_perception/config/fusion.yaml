@@ -1,0 +1,19 @@
+use_livox: false
+livox_topic: /scan
+livox_message_type: auto  # auto, pointcloud, or pointcloud2
+livox_min_points: 3
+livox_sync_tolerance: 0.15
+livox_min_range: 0.2
+livox_max_range: 40.0
+livox_cluster_tolerance: 0.25
+
+# Livox-only candidates use the same sphere-vs-plane principle before they may
+# become confirmed tracks. Sparse/failed fits remain low-confidence candidates.
+livox_sphere_fit_min_points: 12
+livox_sphere_fit_max_residual_m: 0.025
+livox_sphere_plane_ratio_max: 0.80
+livox_sphere_min_plane_residual_m: 0.001
+livox_sphere_min_inlier_ratio: 0.50
+fusion_max_disagreement: 0.50
+rgbd_weight: 0.70
+livox_weight: 0.30

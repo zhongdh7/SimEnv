@@ -9,22 +9,22 @@
 
      Usage (after SimEnv + junior_ctrl are running, and ws_livox is sourced):
        source /opt/ros/noetic/setup.bash
-       source $HOME/SimEnv/devel/setup.bash
-       source $HOME/ws_livox/devel/setup.bash
+       source $SIMENV/devel/setup.bash
+       source $WSLIVOX/devel/setup.bash
        roslaunch competition_navigation_fastlio2_cpp slam_nav.launch
 -->
 
     <arg name="rviz" default="false" />
     <arg name="auto_start" default="true" />
-    <arg name="start_verifier" default="true" />
+    <arg name="start_verifier" default="false" />
     <arg name="model_path"
-         default="/home/uf/robot_project/explorer-v1-best-integration/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
+         default="$(env HDPLANNER_ROOT)/model/HDPlanner_Nav/policy_traced.pt" />
     <arg name="library_path"
-         default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/devel/lib/libhdplanner_inference.so" />
+         default="$(env SIMENV)/devel/lib/libhdplanner_inference.so" />
     <arg name="layout_metadata_path"
-         default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/generated_building/layout_metadata.json" />
+         default="$(env SIMENV)/generated_building/layout_metadata.json" />
     <arg name="coverage_report_path"
-         default="/home/uf/robot_project/explorer-v1-best-integration/SimEnv/results/full_map_coverage.json" />
+         default="$(env SIMENV)/results/full_map_coverage.json" />
     <arg name="cell_size" default="0.2" />
     <arg name="hdplanner_nonprogress_recovery_threshold" default="3" />
     <arg name="corridor_max_linear" default="1.00" />
@@ -32,6 +32,7 @@
     <arg name="turn_heading_threshold" default="0.80" />
     <arg name="turn_linear_scale" default="0.20" />
     <arg name="scan_yaw_rate" default="0.80" />
+    <arg name="stair_speed" default="1.00" />
     <!-- Expose the inner navigation launch controls so fixed-condition
          diagnostics can actually select the requested command path. -->
     <arg name="collision_safety" default="true" />
@@ -61,6 +62,7 @@
         <arg name="turn_heading_threshold" value="$(arg turn_heading_threshold)" />
         <arg name="turn_linear_scale" value="$(arg turn_linear_scale)" />
         <arg name="scan_yaw_rate" value="$(arg scan_yaw_rate)" />
+        <arg name="stair_speed" value="$(arg stair_speed)" />
     </include>
 
     <!-- 3. Save accumulated cloud to PCD after exploration completes -->

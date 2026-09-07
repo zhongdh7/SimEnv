@@ -11,4 +11,5 @@
   <exec_depend>competition_navigation_fastlio2_cpp</exec_depend>
   <exec_depend>hazard_perception</exec_depend>
   <exec_depend>fastlio2_merge</exec_depend>
+  <exec_depend>competition_navigation</exec_depend>
 </package>

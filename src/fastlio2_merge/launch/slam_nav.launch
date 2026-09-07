@@ -11,22 +11,22 @@
 
      Usage (after SimEnv + junior_ctrl are running, and ws_livox is sourced):
        source /opt/ros/noetic/setup.bash
-       source $HOME/SimEnv/devel/setup.bash
-       source $HOME/ws_livox/devel/setup.bash
+       source $SIMENV/devel/setup.bash
+       source $WSLIVOX/devel/setup.bash
        roslaunch fastlio2_merge slam_nav.launch
 -->
 
     <arg name="rviz" default="false" />
     <arg name="auto_start" default="true" />
-    <arg name="start_verifier" default="true" />
+    <arg name="start_verifier" default="false" />
     <arg name="model_path"
-         default="$(env HOME)/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
+         default="$(env HDPLANNER_ROOT)/model/HDPlanner_Nav/policy_traced.pt" />
     <arg name="library_path"
-         default="$(env HOME)/SimEnv/devel/lib/libhdplanner_inference.so" />
+         default="$(env SIMENV)/devel/lib/libhdplanner_inference.so" />
     <arg name="layout_metadata_path"
-         default="$(env HOME)/SimEnv/generated_building/layout_metadata.json" />
+         default="$(env SIMENV)/generated_building/layout_metadata.json" />
     <arg name="coverage_report_path"
-         default="$(env HOME)/SimEnv/results/full_map_coverage.json" />
+         default="$(env SIMENV)/results/full_map_coverage.json" />
     <arg name="cell_size" default="0.2" />
 
     <!-- 1. FAST-LIO2 SLAM for SimEnv (MARSIM lidar_type=4) -->

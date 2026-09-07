@@ -1,0 +1,65 @@
+<launch>
+<!-- FAST-LIO2 SLAM for SimEnv Gazebo simulation (direct registration, no feature
+     extraction).  This is the loop-closure-ready successor to fastlio_slam_merge's
+     FAST-LIO v1.  Step 1 of the two-step plan runs official FAST-LIO2 unmodified;
+     loop closure (ScanContext + GTSAM) is added afterward.
+
+     Uses MARSIM lidar type (4) with SimEnv topics:
+       - /livox/Pointcloud2_local (relayed from /scan by pointcloud_converter)
+       - /trunk_imu (already gravity-inclusive specific force)
+
+     The fast_lio package must be available on the ROS package path.  Since
+     FAST-LIO2 lives in its own workspace, source it in addition to SimEnv:
+       source ~/ws_livox/devel/setup.bash
+-->
+
+    <arg name="rviz" default="false" />
+    <arg name="target_frame" default="odom" />
+    <arg name="imu_topic" default="/trunk_imu" />
+    <arg name="imu_compensated_topic" default="/trunk_imu_specific" />
+    <arg name="use_imu_compensator" default="false" />
+
+    <rosparam command="load" file="$(find fastlio2_merge)/config/fastlio2_sim.yaml" />
+
+    <param name="feature_extract_enable" type="bool" value="0"/>
+    <param name="point_filter_num" type="int" value="3"/>
+    <param name="max_iteration" type="int" value="3" />
+    <param name="filter_size_surf" type="double" value="0.2" />
+    <param name="filter_size_map" type="double" value="0.3" />
+    <param name="cube_side_length" type="double" value="1000" />
+    <param name="runtime_pos_log_enable" type="bool" value="0" />
+
+    <group unless="$(arg use_imu_compensator)">
+        <param name="common/imu_topic" value="$(arg imu_topic)" />
+    </group>
+    <group if="$(arg use_imu_compensator)">
+        <param name="common/imu_topic" value="$(arg imu_compensated_topic)" />
+    </group>
+
+    <!-- Opt-in only for a plugin whose input is explicitly gravity-free. -->
+    <node if="$(arg use_imu_compensator)"
+          pkg="fastlio2_merge" type="imu_gravity_compensator.py"
+          name="imu_gravity_compensator" output="screen">
+        <param name="imu_topic" value="$(arg imu_topic)" />
+        <param name="out_topic" value="$(arg imu_compensated_topic)" />
+        <param name="add_gravity" value="false" />
+    </node>
+
+    <!-- Relay /scan (PointCloud) to /livox/Pointcloud2_local (PointCloud2) -->
+    <node pkg="fastlio2_merge" type="pointcloud_converter.py"
+          name="pointcloud_converter" output="screen" />
+
+    <node pkg="fast_lio" type="fastlio_mapping" name="laserMapping"
+          output="screen" />
+
+    <node pkg="fastlio2_merge" type="frame_republisher.py"
+          name="frame_republisher" output="screen">
+        <param name="target_frame" value="$(arg target_frame)" />
+    </node>
+
+    <group if="$(arg rviz)">
+        <node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz"
+              args="-d $(find fastlio2_merge)/rviz/slam.rviz" />
+    </group>
+
+</launch>

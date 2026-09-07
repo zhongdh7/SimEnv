@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstdarg>
 #include <cstdint>
+#include <cstdlib>
 #include <deque>
 #include <functional>
 #include <limits>
@@ -51,6 +52,12 @@ constexpr double DEFAULT_SCAN_MIN_RANGE = 2.0;
 
 double clampd(double value, double lower, double upper) {
   return std::max(lower, std::min(upper, value));
+}
+
+std::string env_path_default(const char* env_name, const char* suffix) {
+  const char* root = std::getenv(env_name);
+  if (root == nullptr || root[0] == '\0') return "";
+  return std::string(root) + "/" + suffix;
 }
 
 // Python round(): round-half-to-even (banker's rounding), unlike std::round.
@@ -496,10 +503,13 @@ class CompetitionNavigation {
       room_wall_x_observed_[floor][1] = corridor_bounds_.x_max;
     }
 
-    pnh_.param<std::string>("model_path", model_path_,
-                            "/home/uf/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt");
-    pnh_.param<std::string>("library_path", library_path_,
-                            "/home/uf/SimEnv/devel/lib/libhdplanner_inference.so");
+    pnh_.param<std::string>(
+        "model_path", model_path_,
+        env_path_default("HDPLANNER_ROOT",
+                         "model/HDPlanner_Nav/policy_traced.pt"));
+    pnh_.param<std::string>(
+        "library_path", library_path_,
+        env_path_default("SIMENV", "devel/lib/libhdplanner_inference.so"));
 
     double ctrl_stall = 8.0;
     pnh_.param<double>("ctrl_stall_timeout", ctrl_stall, 8.0);

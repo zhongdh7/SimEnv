@@ -19,4 +19,5 @@
   <depend>eigen</depend>
 
   <exec_depend>libdl</exec_depend>
+  <exec_depend>competition_navigation</exec_depend>
 </package>

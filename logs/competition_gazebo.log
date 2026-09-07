@@ -1,24 +1,24 @@
 xacro: in-order processing became default in ROS Melodic. You can drop the option.
-[31m[ERROR] [1788793689.063477378]: Couldn't open joystick /dev/input/js0. Will retry every second.[0m
-[0m[INFO] [1788793689.377164270]: Finished loading Gazebo ROS API Plugin.[0m
-[0m[INFO] [1788793689.378511692]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m
-[0m[INFO] [1788793690.422988349]: waitForService: Service [/gazebo/set_physics_properties] is now available.[0m
-[0m[INFO] [1788793690.459629013, 0.032000000]: Physics dynamic reconfigure ready.[0m
-[0m[INFO] [1788793690.965952127, 0.442000000]: <initialOrientationAsReference> is unset, using default value of false to comply with REP 145 (world as orientation reference)[0m
-[0m[INFO] [1788793690.965994943, 0.442000000]: <robotNamespace> set to: //[0m
-[0m[INFO] [1788793690.966002378, 0.442000000]: <topicName> set to: trunk_imu[0m
-[0m[INFO] [1788793690.966008689, 0.442000000]: <frameName> set to: imu_link[0m
-[0m[INFO] [1788793690.966033275, 0.442000000]: <updateRateHZ> set to: 1000[0m
-[0m[INFO] [1788793690.966040027, 0.442000000]: <gaussianNoise> set to: 0[0m
-[0m[INFO] [1788793690.966072952, 0.442000000]: <xyzOffset> set to: 0 0 0[0m
-[0m[INFO] [1788793690.966145571, 0.442000000]: <rpyOffset> set to: 0 -0 0[0m
-[0m[INFO] [1788793691.066542323, 0.442000000]: load csv file name:/home/loser/SimEnv/src/unitree_guide/unitree_ros/robots/a1_description/scan_mode/mid360.csv[0m
+[31m[ERROR] [1788795075.946566949]: Couldn't open joystick /dev/input/js0. Will retry every second.[0m
+[0m[INFO] [1788795076.287601314]: Finished loading Gazebo ROS API Plugin.[0m
+[0m[INFO] [1788795076.288882789]: waitForService: Service [/gazebo/set_physics_properties] has not been advertised, waiting...[0m
+[0m[INFO] [1788795077.769841149]: waitForService: Service [/gazebo/set_physics_properties] is now available.[0m
+[0m[INFO] [1788795077.783175184]: Physics dynamic reconfigure ready.[0m
+[0m[INFO] [1788795078.352159633, 0.396000000]: <initialOrientationAsReference> is unset, using default value of false to comply with REP 145 (world as orientation reference)[0m
+[0m[INFO] [1788795078.352237070, 0.396000000]: <robotNamespace> set to: //[0m
+[0m[INFO] [1788795078.352249970, 0.396000000]: <topicName> set to: trunk_imu[0m
+[0m[INFO] [1788795078.352259873, 0.396000000]: <frameName> set to: imu_link[0m
+[0m[INFO] [1788795078.352296675, 0.396000000]: <updateRateHZ> set to: 1000[0m
+[0m[INFO] [1788795078.352309182, 0.396000000]: <gaussianNoise> set to: 0[0m
+[0m[INFO] [1788795078.352349170, 0.396000000]: <xyzOffset> set to: 0 0 0[0m
+[0m[INFO] [1788795078.352469425, 0.396000000]: <rpyOffset> set to: 0 -0 0[0m
+[0m[INFO] [1788795078.519433808, 0.396000000]: load csv file name:/home/loser/SimEnv/src/unitree_guide/unitree_ros/robots/a1_description/scan_mode/mid360.csv[0m
 cannot convert str:
 data size:800000
-[INFO] [1788793689.461411, 0.000000]: Loading model XML from ros parameter robot_description
-[INFO] [1788793689.472039, 0.000000]: Waiting for service /gazebo/spawn_urdf_model
-[INFO] [1788793690.678580, 0.248000]: Calling service /gazebo/spawn_urdf_model
-[INFO] [1788793692.293414, 0.442000]: Spawn status: SpawnModel: Successfully spawned entity
+[INFO] [1788795076.203069, 0.000000]: Loading model XML from ros parameter robot_description
+[INFO] [1788795076.209797, 0.000000]: Waiting for service /gazebo/spawn_urdf_model
+[INFO] [1788795078.016424, 0.226000]: Calling service /gazebo/spawn_urdf_model
+[INFO] [1788795079.917362, 0.396000]: Spawn status: SpawnModel: Successfully spawned entity
 Error in XmlRpcClient::writeRequest: write error (Connection refused).
 Error in XmlRpcDispatch::work: couldn't find source iterator
 Error in XmlRpcClient::writeRequest: write error (Connection refused).
@@ -41,14 +41,12 @@ Error in XmlRpcClient::writeRequest: write error (Connection refused).
 Error in XmlRpcDispatch::work: couldn't find source iterator
 Error in XmlRpcClient::writeRequest: write error (Connection refused).
 Error in XmlRpcDispatch::work: couldn't find source iterator
-Error in XmlRpcClient::writeRequest: write error (Connection refused).
-Error in XmlRpcDispatch::work: couldn't find source iterator
-[0m[INFO] [1788793689.488376258]: Finished loading Gazebo ROS API Plugin.[0m
-[0m[INFO] [1788793689.489485829]: waitForService: Service [/gazebo_gui/set_physics_properties] has not been advertised, waiting...[0m
-[0m[INFO] [1788793692.945308940, 0.442000000]: Load FR_foot_contact Draw Force plugin.[0m
-[0m[INFO] [1788793692.948263756, 0.442000000]: Load RL_foot_contact Draw Force plugin.[0m
-[0m[INFO] [1788793692.950844673, 0.442000000]: Load RR_foot_contact Draw Force plugin.[0m
-[0m[INFO] [1788793693.241864737, 0.442000000]: Load FL_foot_contact Draw Force plugin.[0m
+[0m[INFO] [1788795076.305801201]: Finished loading Gazebo ROS API Plugin.[0m
+[0m[INFO] [1788795076.307141778]: waitForService: Service [/gazebo_gui/set_physics_properties] has not been advertised, waiting...[0m
+[0m[INFO] [1788795080.136594071, 0.396000000]: Load FR_foot_contact Draw Force plugin.[0m
+[0m[INFO] [1788795080.139645266, 0.396000000]: Load RL_foot_contact Draw Force plugin.[0m
+[0m[INFO] [1788795080.143406997, 0.396000000]: Load RR_foot_contact Draw Force plugin.[0m
+[0m[INFO] [1788795080.188509585, 0.396000000]: Load FL_foot_contact Draw Force plugin.[0m
 Error in XmlRpcClient::writeRequest: write error (拒绝连接).
 Error in XmlRpcDispatch::work: couldn't find source iterator
 Error in XmlRpcClient::writeRequest: write error (Connection refused).
@@ -71,9 +69,17 @@ Error in XmlRpcClient::writeRequest: write error (Connection refused).
 Error in XmlRpcDispatch::work: couldn't find source iterator
 Error in XmlRpcClient::writeRequest: write error (Connection refused).
 Error in XmlRpcDispatch::work: couldn't find source iterator
+Error in XmlRpcClient::writeRequest: write error (Connection refused).
+Error in XmlRpcDispatch::work: couldn't find source iterator
+Error in XmlRpcClient::writeRequest: write error (Connection refused).
+Error in XmlRpcDispatch::work: couldn't find source iterator
+Error in XmlRpcClient::writeRequest: write error (Connection refused).
 Error in XmlRpcClient::writeRequest: write error (拒绝连接).
 Error in XmlRpcDispatch::work: couldn't find source iterator
-Error in XmlRpcClient::writeRequest: write error (拒绝连接).
+Error in XmlRpcDispatch::work: couldn't find source iterator
+Error in XmlRpcClient::writeRequest: write error (Connection refused).
+Error in XmlRpcDispatch::work: couldn't find source iterator
+Error in XmlRpcClient::writeRequest: write error (Connection refused).
 Error in XmlRpcDispatch::work: couldn't find source iterator
 Error in XmlRpcClient::writeRequest: write error (拒绝连接).
 Error in XmlRpcDispatch::work: couldn't find source iterator

@@ -8,17 +8,20 @@
 
      Usage (after SimEnv + junior_ctrl 运行，且 ws_livox 已 source):
        source /opt/ros/noetic/setup.bash
-       source $HOME/SimEnv/devel/setup.bash
-       source $HOME/ws_livox/devel/setup.bash
+       source $SIMENV/devel/setup.bash
+       source $WSLIVOX/devel/setup.bash
        roslaunch competition_navigation_hazard slam_nav_hazard.launch
 -->
 
   <arg name="rviz" default="false" />
   <arg name="auto_start" default="true" />
-  <arg name="start_verifier" default="true" />
+  <!-- full_map_verifier lived in the archived competition_navigation_fastlio2
+       package.  Keep the optional flag for legacy users, but do not let the
+       clean self-contained default chain depend on an archived package. -->
+  <arg name="start_verifier" default="false" />
   <arg name="use_livox" default="false" />
-  <arg name="output_directory" default="$(env HOME)/SimEnv/results/hazard" />
-  <arg name="model_path" default="$(env HOME)/HDPlanner_Exp_and_Nav/model/HDPlanner_Nav/policy_traced.pt" />
+  <arg name="output_directory" default="$(env SIMENV)/results/hazard" />
+  <arg name="model_path" default="$(env HDPLANNER_ROOT)/model/HDPlanner_Nav/policy_traced.pt" />
   <arg name="library_path" default="$(env SIMENV)/devel/lib/libhdplanner_inference.so" />
   <arg name="layout_metadata_path" default="$(env SIMENV)/generated_building/layout_metadata.json" />
   <arg name="coverage_report_path" default="$(env SIMENV)/results/full_map_coverage.json" />
@@ -26,6 +29,7 @@
   <arg name="room_max_linear" default="0.60" />
   <arg name="turn_linear_scale" default="0.20" />
   <arg name="scan_yaw_rate" default="0.80" />
+  <arg name="stair_speed" default="1.00" />
 
   <!-- 1. FAST-LIO2 SLAM + C++ 导航 + save_pcd -->
   <include file="$(find competition_navigation_fastlio2_cpp)/launch/slam_nav.launch">
@@ -40,6 +44,7 @@
     <arg name="room_max_linear" value="$(arg room_max_linear)" />
     <arg name="turn_linear_scale" value="$(arg turn_linear_scale)" />
     <arg name="scan_yaw_rate" value="$(arg scan_yaw_rate)" />
+    <arg name="stair_speed" value="$(arg stair_speed)" />
   </include>
 
   <!-- 2. 危险源监测（红球 RGB-D 检测 + 定位跟踪 + 结果管理）-->
