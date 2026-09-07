@@ -91,6 +91,15 @@ install(TARGETS
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+# Full-map acceptance verifier (independent occupancy-grid coverage monitor,
+# started by the nav launch when start_verifier:=true).  Shipped here so the
+# final C++ chain is self-contained after the Python nav packages were pruned.
+catkin_install_python(
+  PROGRAMS
+    scripts/full_map_verifier.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
 install(DIRECTORY launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>competition_navigation</name>
+  <version>0.2.0</version>
+  <description>HDPlanner exploration and GBPlanner2-style return-home adapter for the A1 competition simulation.</description>
+  <maintainer email="ros@todo.todo">SimEnv navigation</maintainer>
+  <license>UNLICENSED</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>

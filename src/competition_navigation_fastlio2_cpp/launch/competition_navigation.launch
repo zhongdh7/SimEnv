@@ -333,7 +333,7 @@
   </node>
 
   <node if="$(arg start_verifier)"
-        pkg="competition_navigation_fastlio2"
+        pkg="competition_navigation_fastlio2_cpp"
         type="full_map_verifier.py"
         name="full_map_verifier"
         output="screen">

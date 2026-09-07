@@ -34,7 +34,7 @@ add_custom_target(_hazard_perception_generate_messages_check_deps_${_filename}
 
 get_filename_component(_filename "/home/loser/SimEnv/src/hazard_perception/msg/Hazard3DArray.msg" NAME_WE)
 add_custom_target(_hazard_perception_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "hazard_perception" "/home/loser/SimEnv/src/hazard_perception/msg/Hazard3DArray.msg" "std_msgs/Header:hazard_perception/Hazard3D:geometry_msgs/Point"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "hazard_perception" "/home/loser/SimEnv/src/hazard_perception/msg/Hazard3DArray.msg" "geometry_msgs/Point:hazard_perception/Hazard3D:std_msgs/Header"
 )
 
 #
@@ -64,7 +64,7 @@ _generate_msg_cpp(hazard_perception
 _generate_msg_cpp(hazard_perception
   "/home/loser/SimEnv/src/hazard_perception/msg/Hazard3DArray.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/hazard_perception
 )
 
@@ -121,7 +121,7 @@ _generate_msg_eus(hazard_perception
 _generate_msg_eus(hazard_perception
   "/home/loser/SimEnv/src/hazard_perception/msg/Hazard3DArray.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/hazard_perception
 )
 
@@ -178,7 +178,7 @@ _generate_msg_lisp(hazard_perception
 _generate_msg_lisp(hazard_perception
   "/home/loser/SimEnv/src/hazard_perception/msg/Hazard3DArray.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/hazard_perception
 )
 
@@ -235,7 +235,7 @@ _generate_msg_nodejs(hazard_perception
 _generate_msg_nodejs(hazard_perception
   "/home/loser/SimEnv/src/hazard_perception/msg/Hazard3DArray.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/hazard_perception
 )
 
@@ -292,7 +292,7 @@ _generate_msg_py(hazard_perception
 _generate_msg_py(hazard_perception
   "/home/loser/SimEnv/src/hazard_perception/msg/Hazard3DArray.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg;/home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/hazard_perception
 )
 

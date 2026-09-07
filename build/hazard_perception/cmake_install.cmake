@@ -114,22 +114,6 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/hazard_perception" TYPE PROGRAM FILES "/home/loser/SimEnv/build/hazard_perception/catkin_generated/installspace/evaluate_floor0.py")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/hazard_perception" TYPE PROGRAM FILES "/home/loser/SimEnv/build/hazard_perception/catkin_generated/installspace/evaluate_floor0_visibility.py")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/hazard_perception" TYPE PROGRAM FILES "/home/loser/SimEnv/build/hazard_perception/catkin_generated/installspace/evaluate_floor0_witness.py")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/hazard_perception" TYPE PROGRAM FILES "/home/loser/SimEnv/build/hazard_perception/catkin_generated/installspace/replay_floor0_tracker.py")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hazard_perception" TYPE DIRECTORY FILES
     "/home/loser/SimEnv/src/hazard_perception/config"
     "/home/loser/SimEnv/src/hazard_perception/launch"

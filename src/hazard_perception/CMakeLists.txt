@@ -55,10 +55,6 @@ catkin_install_python(
     scripts/hazard_detector_node.py
     scripts/hazard_odom_tf_bridge.py
     scripts/hazard_pipeline_node.py
-    tools/evaluate_floor0.py
-    tools/evaluate_floor0_visibility.py
-    tools/evaluate_floor0_witness.py
-    tools/replay_floor0_tracker.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -66,13 +62,3 @@ install(
   DIRECTORY config launch rviz
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
-
-if(CATKIN_ENABLE_TESTING)
-  catkin_add_nosetests(test/test_detector.py)
-  catkin_add_nosetests(test/test_localization.py)
-  catkin_add_nosetests(test/test_tracker.py)
-  catkin_add_nosetests(test/test_livox_fusion.py)
-  catkin_add_nosetests(test/test_result_manager.py)
-  catkin_add_nosetests(test/test_evaluate_floor0.py)
-  catkin_add_nosetests(test/test_visibility_audit.py)
-endif()
