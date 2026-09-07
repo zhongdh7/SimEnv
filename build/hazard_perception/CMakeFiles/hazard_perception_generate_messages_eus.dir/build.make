@@ -80,9 +80,9 @@ hazard_perception/CMakeFiles/hazard_perception_generate_messages_eus: /home/lose
 
 /home/loser/SimEnv/devel/share/roseus/ros/hazard_perception/msg/Hazard3DArray.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/loser/SimEnv/devel/share/roseus/ros/hazard_perception/msg/Hazard3DArray.l: /home/loser/SimEnv/src/hazard_perception/msg/Hazard3DArray.msg
-/home/loser/SimEnv/devel/share/roseus/ros/hazard_perception/msg/Hazard3DArray.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
-/home/loser/SimEnv/devel/share/roseus/ros/hazard_perception/msg/Hazard3DArray.l: /home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg
 /home/loser/SimEnv/devel/share/roseus/ros/hazard_perception/msg/Hazard3DArray.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/loser/SimEnv/devel/share/roseus/ros/hazard_perception/msg/Hazard3DArray.l: /home/loser/SimEnv/src/hazard_perception/msg/Hazard3D.msg
+/home/loser/SimEnv/devel/share/roseus/ros/hazard_perception/msg/Hazard3DArray.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/loser/SimEnv/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from hazard_perception/Hazard3DArray.msg"
 	cd /home/loser/SimEnv/build/hazard_perception && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/loser/SimEnv/src/hazard_perception/msg/Hazard3DArray.msg -Ihazard_perception:/home/loser/SimEnv/src/hazard_perception/msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -p hazard_perception -o /home/loser/SimEnv/devel/share/roseus/ros/hazard_perception/msg
 

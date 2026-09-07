@@ -56,6 +56,18 @@ CMAKE_BINARY_DIR = /home/loser/SimEnv/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -90,16 +102,16 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
 
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
+# Special rule for the target test
+test/fast: test
 
-.PHONY : rebuild_cache/fast
+.PHONY : test/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -112,28 +124,16 @@ edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
 
-# Special rule for the target test
-test/fast: test
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
 
-.PHONY : test/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -168,19 +168,49 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/rule
-.PHONY : competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/rule
+competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule:
+	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
+.PHONY : competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-collision_safety: competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/rule
+nav_msgs_generate_messages_eus: competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_eus.dir/rule
 
-.PHONY : collision_safety
+.PHONY : nav_msgs_generate_messages_eus
 
 # fast build rule for target.
-collision_safety/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/build.make competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/build
-.PHONY : collision_safety/fast
+nav_msgs_generate_messages_eus/fast:
+	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_eus.dir/build.make competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_eus.dir/build
+.PHONY : nav_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule:
+	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
+.PHONY : competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+nav_msgs_generate_messages_cpp: competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : nav_msgs_generate_messages_cpp
+
+# fast build rule for target.
+nav_msgs_generate_messages_cpp/fast:
+	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_cpp.dir/build.make competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_cpp.dir/build
+.PHONY : nav_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule:
+	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
+.PHONY : competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+nav_msgs_generate_messages_lisp: competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : nav_msgs_generate_messages_lisp
+
+# fast build rule for target.
+nav_msgs_generate_messages_lisp/fast:
+	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_lisp.dir/build.make competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_lisp.dir/build
+.PHONY : nav_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
 competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/rule:
@@ -196,6 +226,66 @@ scan_tf_relay: competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/
 scan_tf_relay/fast:
 	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/build.make competition_navigation_fastlio2_cpp/CMakeFiles/scan_tf_relay.dir/build
 .PHONY : scan_tf_relay/fast
+
+# Convenience name for target.
+competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/rule:
+	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/rule
+.PHONY : competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/rule
+
+# Convenience name for target.
+collision_safety: competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/rule
+
+.PHONY : collision_safety
+
+# fast build rule for target.
+collision_safety/fast:
+	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/build.make competition_navigation_fastlio2_cpp/CMakeFiles/collision_safety.dir/build
+.PHONY : collision_safety/fast
+
+# Convenience name for target.
+competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule
+.PHONY : competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+nav_msgs_generate_messages_nodejs: competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : nav_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+nav_msgs_generate_messages_nodejs/fast:
+	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/build.make competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/build
+.PHONY : nav_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_py.dir/rule:
+	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
+.PHONY : competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+nav_msgs_generate_messages_py: competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_py.dir/rule
+
+.PHONY : nav_msgs_generate_messages_py
+
+# fast build rule for target.
+nav_msgs_generate_messages_py/fast:
+	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_py.dir/build.make competition_navigation_fastlio2_cpp/CMakeFiles/nav_msgs_generate_messages_py.dir/build
+.PHONY : nav_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/rule:
+	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/rule
+.PHONY : competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/rule
+
+# Convenience name for target.
+corridor_graph: competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/rule
+
+.PHONY : corridor_graph
+
+# fast build rule for target.
+corridor_graph/fast:
+	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/build.make competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/build
+.PHONY : corridor_graph/fast
 
 # Convenience name for target.
 competition_navigation_fastlio2_cpp/CMakeFiles/competition_navigation_node.dir/rule:
@@ -226,21 +316,6 @@ hdplanner_policy: competition_navigation_fastlio2_cpp/CMakeFiles/hdplanner_polic
 hdplanner_policy/fast:
 	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation_fastlio2_cpp/CMakeFiles/hdplanner_policy.dir/build.make competition_navigation_fastlio2_cpp/CMakeFiles/hdplanner_policy.dir/build
 .PHONY : hdplanner_policy/fast
-
-# Convenience name for target.
-competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/rule:
-	cd /home/loser/SimEnv/build && $(MAKE) -f CMakeFiles/Makefile2 competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/rule
-.PHONY : competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/rule
-
-# Convenience name for target.
-corridor_graph: competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/rule
-
-.PHONY : corridor_graph
-
-# fast build rule for target.
-corridor_graph/fast:
-	cd /home/loser/SimEnv/build && $(MAKE) -f competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/build.make competition_navigation_fastlio2_cpp/CMakeFiles/corridor_graph.dir/build
-.PHONY : corridor_graph/fast
 
 src/collision_safety.o: src/collision_safety.cpp.o
 
@@ -383,18 +458,23 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... install/strip"
 	@echo "... install/local"
 	@echo "... install"
-	@echo "... list_install_components"
-	@echo "... rebuild_cache"
-	@echo "... edit_cache"
-	@echo "... test"
-	@echo "... collision_safety"
+	@echo "... nav_msgs_generate_messages_eus"
+	@echo "... nav_msgs_generate_messages_cpp"
+	@echo "... nav_msgs_generate_messages_lisp"
 	@echo "... scan_tf_relay"
+	@echo "... collision_safety"
+	@echo "... nav_msgs_generate_messages_nodejs"
+	@echo "... list_install_components"
+	@echo "... nav_msgs_generate_messages_py"
+	@echo "... corridor_graph"
 	@echo "... competition_navigation_node"
 	@echo "... hdplanner_policy"
-	@echo "... install/strip"
-	@echo "... corridor_graph"
+	@echo "... test"
+	@echo "... edit_cache"
+	@echo "... rebuild_cache"
 	@echo "... src/collision_safety.o"
 	@echo "... src/collision_safety.i"
 	@echo "... src/collision_safety.s"
