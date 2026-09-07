@@ -1,9 +1,0 @@
-uint32 x
-uint32 y
-uint32 width
-uint32 height
-float32 center_x
-float32 center_y
-float32 area
-float32 circularity
-float32 aspect_ratio
