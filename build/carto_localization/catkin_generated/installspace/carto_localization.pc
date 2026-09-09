@@ -1,8 +1,0 @@
-prefix=/home/loser/SimEnv/install
-
-Name: carto_localization
-Description: Description of carto_localization
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

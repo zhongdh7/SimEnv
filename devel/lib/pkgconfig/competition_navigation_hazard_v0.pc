@@ -1,8 +1,0 @@
-prefix=/home/loser/SimEnv/devel
-
-Name: competition_navigation_hazard_v0
-Description: Description of competition_navigation_hazard_v0
-Version: 0.1.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

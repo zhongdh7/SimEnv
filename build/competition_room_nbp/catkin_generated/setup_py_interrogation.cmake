@@ -1,7 +1,0 @@
-set(competition_room_nbp_SETUP_PY_SETUP_MODULE "setuptools")
-set(competition_room_nbp_SETUP_PY_VERSION "0.1.0")
-set(competition_room_nbp_SETUP_PY_SCRIPTS "")
-set(competition_room_nbp_SETUP_PY_PACKAGES "competition_room_nbp")
-set(competition_room_nbp_SETUP_PY_PACKAGE_DIRS "src/competition_room_nbp")
-set(competition_room_nbp_SETUP_PY_MODULES "")
-set(competition_room_nbp_SETUP_PY_MODULE_DIRS "")

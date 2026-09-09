@@ -1,8 +1,0 @@
-prefix=/home/loser/SimEnv/install
-
-Name: competition_navigation_fastlio2
-Description: Description of competition_navigation_fastlio2
-Version: 0.2.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

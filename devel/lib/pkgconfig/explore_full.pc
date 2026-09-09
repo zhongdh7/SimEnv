@@ -1,8 +1,0 @@
-prefix=/home/loser/SimEnv/devel
-
-Name: explore_full
-Description: Description of explore_full
-Version: 0.2.0
-Cflags: 
-Libs: -L${prefix}/lib -lhdplanner_inference
-Requires: 

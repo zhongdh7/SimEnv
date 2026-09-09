@@ -1,8 +1,0 @@
-prefix=/home/loser/SimEnv/devel
-
-Name: competition_navigation
-Description: Description of competition_navigation
-Version: 0.2.0
-Cflags: 
-Libs: -L${prefix}/lib -lhdplanner_inference
-Requires: 

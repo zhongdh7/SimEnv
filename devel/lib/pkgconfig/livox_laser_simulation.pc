@@ -1,8 +1,0 @@
-prefix=/home/loser/SimEnv/devel
-
-Name: livox_laser_simulation
-Description: Description of livox_laser_simulation
-Version: 0.0.0
-Cflags: -I/home/loser/SimEnv/src/Mid360_imu_sim/include
-Libs: -L${prefix}/lib -llivox_laser_simulation -lsimenv_gazebo_ros_imu_sensor
-Requires: gazebo_plugins roscpp sensor_msgs tf
