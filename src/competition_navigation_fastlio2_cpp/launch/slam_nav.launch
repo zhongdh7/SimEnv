@@ -37,6 +37,7 @@
          diagnostics can actually select the requested command path. -->
     <arg name="collision_safety" default="true" />
     <arg name="cmd_vel_topic" default="/cmd_vel_raw" />
+    <arg name="obstacle_topic" default="" />
 
     <!-- 1. FAST-LIO2 SLAM for SimEnv (MARSIM lidar_type=4) -->
     <include file="$(find fastlio2_merge)/launch/mapping_sim.launch">
@@ -57,6 +58,7 @@
         <arg name="map_frame" value="odom" />
         <arg name="collision_safety" value="$(arg collision_safety)" />
         <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)" />
+        <arg name="obstacle_topic" value="$(arg obstacle_topic)" />
         <arg name="corridor_max_linear" value="$(arg corridor_max_linear)" />
         <arg name="room_max_linear" value="$(arg room_max_linear)" />
         <arg name="turn_heading_threshold" value="$(arg turn_heading_threshold)" />

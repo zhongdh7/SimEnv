@@ -20,7 +20,7 @@ for pat in \
   "rosmaster" "roslaunch" "gzserver" "gzclient" "junior_ctrl" "start_sim.py" \
   "state_from_gazebo" "controller_spawner" "robot_state_publisher" \
   "pointcloud2livox" "pointcloud_converter" "imu_gravity_compensator" \
-  "fastlio2_mapping" "frame_republisher" "scan_tf_relay" \
+  "fastlio2_mapping" "fastlio_mapping" "laserMapping" "frame_republisher" "scan_tf_relay" \
   "competition_navigation_node" "collision_safety" "full_map_verifier" \
   "save_pcd" "hazard_pipeline_node" "hazard_finalize_trigger" \
   "monitor_fall" "auto.sh" "multi_floor_gazeboSim" "carto_localization" \

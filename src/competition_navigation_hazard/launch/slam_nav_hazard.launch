@@ -19,6 +19,11 @@
        package.  Keep the optional flag for legacy users, but do not let the
        clean self-contained default chain depend on an archived package. -->
   <arg name="start_verifier" default="false" />
+  <!-- Low small-obstacle RGB-D avoidance.  off by default so a plain hazard
+       run keeps identical behaviour; set true to feed low_obstacle_node into
+       collision_safety. -->
+  <arg name="enable_low_obstacle" default="true" />
+  <arg name="low_obstacle_topic" default="/hazard_perception/low_obstacles" />
   <arg name="use_livox" default="false" />
   <arg name="output_directory" default="$(env SIMENV)/results/hazard" />
   <arg name="model_path" default="$(env HDPLANNER_ROOT)/model/HDPlanner_Nav/policy_traced.pt" />
@@ -40,6 +45,7 @@
     <arg name="library_path" value="$(arg library_path)" />
     <arg name="layout_metadata_path" value="$(arg layout_metadata_path)" />
     <arg name="coverage_report_path" value="$(arg coverage_report_path)" />
+    <arg name="obstacle_topic" value="$(arg low_obstacle_topic)" />
     <arg name="corridor_max_linear" value="$(arg corridor_max_linear)" />
     <arg name="room_max_linear" value="$(arg room_max_linear)" />
     <arg name="turn_linear_scale" value="$(arg turn_linear_scale)" />
@@ -53,6 +59,17 @@
     <arg name="output_directory" value="$(arg output_directory)" />
     <arg name="rviz" value="false" />
   </include>
+
+  <!-- 2b. 低矮小型障碍物 RGB-D 检出 → 接入 collision_safety 避障。
+       与红球危险源报告管线完全独立：不改变 hazard 识别/最终化，
+       只发布 odom 系小物云供 C++ 避障层消费。 -->
+  <node if="$(arg enable_low_obstacle)"
+        pkg="hazard_perception"
+        type="low_obstacle_node.py"
+        name="low_obstacle_node"
+        output="screen">
+    <param name="out_topic" value="$(arg low_obstacle_topic)" />
+  </node>
 
   <!-- 3. 探索完成自动保存危险源结果：监听导航状态，检测到三层全图完成
        (full_map_complete / returned_home) 后调用 /hazard_perception/finalize，

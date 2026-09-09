@@ -55,6 +55,7 @@ catkin_install_python(
     scripts/hazard_detector_node.py
     scripts/hazard_odom_tf_bridge.py
     scripts/hazard_pipeline_node.py
+    scripts/low_obstacle_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

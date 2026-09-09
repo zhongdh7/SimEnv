@@ -160,6 +160,9 @@
        unitree_gazebo_servo actually consumes). -->
   <arg name="cmd_vel_topic" default="/cmd_vel_raw" />
   <arg name="collision_safety" default="true" />
+  <!-- Optional low small-obstacle cloud topic for collision_safety
+       (RGB-D low_obstacle_node output).  Empty = feature disabled. -->
+  <arg name="obstacle_topic" default="" />
   <arg name="safety_dist" default="0.60" />
   <!-- Safety-box half-width.  Was 0.35, which is 0.15 wider than the A1 body
        half-width (0.20).  That extra margin eats into a 0.8 m doorway: 0.35*2
@@ -310,6 +313,7 @@
     <param name="cmd_out" value="/cmd_vel" />
     <param name="odom_topic" value="$(arg odom_topic)" />
     <param name="map_topic" value="/competition_navigation/map" />
+    <param name="obstacle_topic" value="$(arg obstacle_topic)" />
     <param name="safety_dist" value="$(arg safety_dist)" />
     <param name="safety_half_width" value="$(arg safety_half_width)" />
     <param name="room_entry_bypass" value="$(arg room_entry_bypass)" />

@@ -12,6 +12,8 @@
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/OccupancyGrid.h>
 #include <nav_msgs/Odometry.h>
+#include <sensor_msgs/PointCloud2.h>
+#include <sensor_msgs/point_cloud2_iterator.h>
 #include <std_msgs/String.h>
 
 namespace {
@@ -50,6 +52,14 @@ class CollisionSafety {
     pnh_.param<std::string>("odom_topic", odom_topic_, "/Odometry_fastlio");
     pnh_.param<std::string>("map_topic", map_topic_,
                             "/competition_navigation/map");
+    // Optional low small-obstacle cloud (odom frame) from the RGB-D
+    // low_obstacle_node.  When empty the feature is disabled and behaviour is
+    // byte-identical to the map-only safety layer.
+    pnh_.param<std::string>("obstacle_topic", obstacle_topic_, "");
+    pnh_.param<double>("obstacle_fwd_dist", obstacle_fwd_dist_, 1.2);
+    pnh_.param<double>("obstacle_half_width", obstacle_half_width_, 0.45);
+    pnh_.param<double>("obstacle_z_tol", obstacle_z_tol_, 1.2);
+    pnh_.param<double>("obstacle_stale", obstacle_stale_, 1.0);
     pnh_.param<std::string>("status_topic", status_topic_,
                             "/competition_navigation/status");
     double rate = 20.0;
@@ -95,14 +105,63 @@ class CollisionSafety {
         nh_.subscribe(map_topic_, 5, &CollisionSafety::mapCb, this);
     status_sub_ =
         nh_.subscribe(status_topic_, 5, &CollisionSafety::statusCb, this);
+    if (!obstacle_topic_.empty()) {
+      obstacle_sub_ = nh_.subscribe(obstacle_topic_, 5,
+                                    &CollisionSafety::obstacleCb, this);
+    }
 
     ROS_INFO(
         "collision_safety: %s -> %s (dist=%.2fm half-width=%.2fm rate=%.0fHz)",
         cmd_in_.c_str(), cmd_out_.c_str(), safety_dist_, safety_half_width_,
         rate_);
+    if (!obstacle_topic_.empty()) {
+      ROS_INFO("collision_safety: low-obstacle blocking on %s "
+               "(fwd=%.2fm half=%.2fm z-tol=%.2fm)",
+               obstacle_topic_.c_str(), obstacle_fwd_dist_,
+               obstacle_half_width_, obstacle_z_tol_);
+    }
   }
 
   void mapCb(const nav_msgs::OccupancyGrid::ConstPtr& msg) { map_ = msg; }
+
+  void obstacleCb(const sensor_msgs::PointCloud2::ConstPtr& msg) {
+    obstacles_.clear();
+    sensor_msgs::PointCloud2ConstIterator<float> it_x(*msg, "x");
+    sensor_msgs::PointCloud2ConstIterator<float> it_y(*msg, "y");
+    sensor_msgs::PointCloud2ConstIterator<float> it_z(*msg, "z");
+    for (; it_x != it_x.end(); ++it_x, ++it_y, ++it_z) {
+      const float x = *it_x, y = *it_y, z = *it_z;
+      if (!std::isfinite(x) || !std::isfinite(y) || !std::isfinite(z)) continue;
+      obstacles_.push_back({x, y, z});
+    }
+    obstacle_stamp_ = ros::Time::now();
+  }
+
+  // True when a fresh low obstacle lies in the robot's forward box.  Unlike the
+  // occupancy map, this signal is *not* exempted by mapped-crossing / stair
+  // bypasses: a small real object on the floor is never something to drive
+  // over on a planned crossing.
+  bool lowObstacleBlocked() const {
+    if (!has_pose_ || obstacles_.empty()) return false;
+    if (!obstacle_stamp_.is_zero() &&
+        (ros::Time::now() - obstacle_stamp_) > ros::Duration(obstacle_stale_)) {
+      return false;
+    }
+    const double x = pose_.x, y = pose_.y, yaw = pose_.yaw;
+    const double cos_yaw = std::cos(yaw), sin_yaw = std::sin(yaw);
+    for (const auto& o : obstacles_) {
+      // Same-floor gate: low obstacles are published in the odom frame with
+      // their true height; ignore objects on other floors (spacing 2.6 m).
+      if (std::fabs(o.z - pose_.z) > obstacle_z_tol_) continue;
+      const double dx = o.x - x;
+      const double dy = o.y - y;
+      const double fwd = dx * cos_yaw + dy * sin_yaw;
+      if (fwd < 0.0 || fwd > obstacle_fwd_dist_) continue;
+      const double lat = -dx * sin_yaw + dy * cos_yaw;
+      if (std::fabs(lat) <= obstacle_half_width_) return true;
+    }
+    return false;
+  }
 
   void statusCb(const std_msgs::String::ConstPtr& msg) {
     nav_status_ = msg->data;
@@ -383,10 +442,15 @@ class CollisionSafety {
                           "collision_safety: cmd_vel stale, holding zero");
       } else if (!recover_phase_.empty()) {
         cmd = recover_step(now);
-      } else if (blocked_forward(cmd)) {
+      } else if (blocked_forward(cmd) ||
+                 (cmd.linear.x > 0.01 && lowObstacleBlocked())) {
+        const bool obstacle_blocked = lowObstacleBlocked();
         const bool mapped_bypass = allow_mapped_crossing(cmd);
         const bool stair_bypass = allow_stair_transition_crossing(cmd);
-        if (mapped_bypass || stair_bypass) {
+        // Only occupancy-map blocks may be exempted at a mapped door / stair
+        // crossing.  A real low obstacle on the floor is never something to
+        // drive over on a planned crossing.
+        if (!obstacle_blocked && (mapped_bypass || stair_bypass)) {
           blocked_since_ = std::nullopt;
           ROS_INFO_THROTTLE(
               2.0,
@@ -443,6 +507,16 @@ class CollisionSafety {
   ros::NodeHandle pnh_;
 
   std::string cmd_in_, cmd_out_, odom_topic_, map_topic_, status_topic_;
+  std::string obstacle_topic_;
+  double obstacle_fwd_dist_ = 1.2;
+  double obstacle_half_width_ = 0.45;
+  double obstacle_z_tol_ = 1.2;
+  double obstacle_stale_ = 1.0;
+  struct Obstacle {
+    float x, y, z;
+  };
+  std::vector<Obstacle> obstacles_;
+  ros::Time obstacle_stamp_;
   double rate_ = 20.0;
   ros::Duration stale_timeout_{0.6};
 
@@ -463,7 +537,7 @@ class CollisionSafety {
   double turn_duration_ = 2.5;
 
   ros::Publisher pub_;
-  ros::Subscriber cmd_sub_, odom_sub_, map_sub_, status_sub_;
+  ros::Subscriber cmd_sub_, odom_sub_, map_sub_, status_sub_, obstacle_sub_;
 
   nav_msgs::OccupancyGrid::ConstPtr map_;
   Pose pose_{0, 0, 0, 0};
