@@ -1,0 +1,255 @@
+{
+  "frame_id": "start_frame",
+  "hazard_count": 3,
+  "hazards": [
+    {
+      "confidence": 0.6183073049847838,
+      "diagnostics": {
+        "bbox": [
+          609,
+          246,
+          31,
+          18
+        ],
+        "candidate_state": "confirmed",
+        "center": [
+          626.049804966218,
+          261.76002887086156
+        ],
+        "combined_confidence": 0.6608258885978449,
+        "confirmed": true,
+        "depth_valid_pixels": 482,
+        "edge_fit_residual": 0.038000556422863714,
+        "geometry_reason": "ok",
+        "geometry_status": "passed",
+        "geometry_validated": true,
+        "livox_geometry_status": "unavailable",
+        "livox_point_count": 0,
+        "livox_sphere_fit_radius_m": null,
+        "livox_sphere_fit_residual_m": null,
+        "localization_confidence": 0.921816231015908,
+        "plane_fit_residual_m": 0.018535629988846225,
+        "radial_depth_correlation": 0.6434871381193796,
+        "raw_camera_xyz": [
+          2.728838216411426,
+          0.19358974845513494,
+          4.933472926590232
+        ],
+        "required_confirmation_count": 2,
+        "rgbd_method": "sphere_fit",
+        "source": "rgbd",
+        "sphere_fit_converged": true,
+        "sphere_fit_inliers": 482,
+        "sphere_fit_mode": "known_radius",
+        "sphere_fit_points": 482,
+        "sphere_fit_radius_m": 0.15,
+        "sphere_fit_residual_m": 0.0001492758151696855,
+        "start_frame_xyz": [
+          11.68627273682754,
+          2.339693915666984,
+          -0.22552645670699792
+        ],
+        "three_d_available": true,
+        "touches_border": true,
+        "track_confirmed": true,
+        "track_id": 6,
+        "track_observation_count": 2,
+        "track_position_xyz": [
+          11.712619858926121,
+          2.339064861213485,
+          -0.2253711907334378
+        ],
+        "track_required_confirmation_count": 2,
+        "track_validated_observation_count": 2,
+        "tracker_event": {
+          "confirmed": true,
+          "distance": 0.040546289126215176,
+          "event": "associated",
+          "observation_count": 2,
+          "required_confirmation_count": 2,
+          "track_id": 6,
+          "validated_observation_count": 2
+        },
+        "two_d_confidence": 0.7168737828249856,
+        "two_d_detected": true
+      },
+      "id": 6,
+      "localization_source": "rgbd",
+      "observation_count": 2,
+      "x": 11.712622575253812,
+      "y": 2.3390562106348938,
+      "z": -0.11805822424910033
+    },
+    {
+      "confidence": 0.6821731601405412,
+      "diagnostics": {
+        "bbox": [
+          289,
+          248,
+          31,
+          29
+        ],
+        "candidate_state": "confirmed",
+        "center": [
+          306.37562656641603,
+          260.6168546365915
+        ],
+        "combined_confidence": 0.7397105680891048,
+        "confirmed": true,
+        "depth_valid_pixels": 572,
+        "edge_fit_residual": null,
+        "geometry_reason": "ok",
+        "geometry_status": "passed",
+        "geometry_validated": true,
+        "livox_geometry_status": "unavailable",
+        "livox_point_count": 0,
+        "livox_sphere_fit_radius_m": null,
+        "livox_sphere_fit_residual_m": null,
+        "localization_confidence": 0.9046300948925007,
+        "plane_fit_residual_m": 0.022950971371855998,
+        "radial_depth_correlation": 0.6324253147338218,
+        "raw_camera_xyz": [
+          -0.1475834330704913,
+          0.20923623811285644,
+          4.623957663857435
+        ],
+        "required_confirmation_count": 2,
+        "rgbd_method": "sphere_fit",
+        "source": "rgbd",
+        "sphere_fit_converged": true,
+        "sphere_fit_inliers": 572,
+        "sphere_fit_mode": "known_radius",
+        "sphere_fit_points": 572,
+        "sphere_fit_radius_m": 0.15,
+        "sphere_fit_residual_m": 0.00019997917294780303,
+        "start_frame_xyz": [
+          15.798502710413349,
+          -6.144975352287352,
+          4.572686077157233
+        ],
+        "three_d_available": true,
+        "touches_border": false,
+        "track_confirmed": true,
+        "track_id": 10,
+        "track_observation_count": 13,
+        "track_position_xyz": [
+          15.788121081168864,
+          -6.138963782313981,
+          4.556627878106704
+        ],
+        "track_required_confirmation_count": 2,
+        "track_validated_observation_count": 12,
+        "tracker_event": {
+          "confirmed": true,
+          "distance": 0.03083772975554241,
+          "event": "associated",
+          "observation_count": 13,
+          "required_confirmation_count": 2,
+          "track_id": 10,
+          "validated_observation_count": 12
+        },
+        "two_d_confidence": 0.8176939638261829,
+        "two_d_detected": true
+      },
+      "id": 10,
+      "localization_source": "rgbd",
+      "observation_count": 13,
+      "x": 15.788134358111675,
+      "y": -6.139006064855092,
+      "z": 5.08115521117766
+    },
+    {
+      "confidence": 0.7488733658467662,
+      "diagnostics": {
+        "bbox": [
+          199,
+          255,
+          31,
+          26
+        ],
+        "candidate_state": "confirmed",
+        "center": [
+          214.02076923076922,
+          268.3079487179487
+        ],
+        "combined_confidence": 0.7271033772545695,
+        "confirmed": true,
+        "depth_valid_pixels": 191,
+        "edge_fit_residual": null,
+        "geometry_reason": "ok",
+        "geometry_status": "passed",
+        "geometry_validated": true,
+        "livox_geometry_status": "unavailable",
+        "livox_point_count": 0,
+        "livox_sphere_fit_radius_m": null,
+        "livox_sphere_fit_residual_m": null,
+        "localization_confidence": 0.8499065499666761,
+        "plane_fit_residual_m": 0.005066646314425967,
+        "radial_depth_correlation": 0.43757032025311643,
+        "raw_camera_xyz": [
+          -0.9802661431360196,
+          0.27799188033068867,
+          5.132574838464282
+        ],
+        "required_confirmation_count": 2,
+        "rgbd_method": "sphere_fit",
+        "source": "rgbd",
+        "sphere_fit_converged": true,
+        "sphere_fit_inliers": 191,
+        "sphere_fit_mode": "known_radius",
+        "sphere_fit_points": 191,
+        "sphere_fit_radius_m": 0.15,
+        "sphere_fit_residual_m": 0.0001243258613516227,
+        "start_frame_xyz": [
+          26.032082657680554,
+          5.8366177132778425,
+          4.522064574045993
+        ],
+        "three_d_available": true,
+        "touches_border": false,
+        "track_confirmed": true,
+        "track_id": 12,
+        "track_observation_count": 32,
+        "track_position_xyz": [
+          26.021938880511655,
+          5.818417116374583,
+          4.519222707773602
+        ],
+        "track_required_confirmation_count": 2,
+        "track_validated_observation_count": 32,
+        "tracker_event": {
+          "confirmed": true,
+          "distance": 0.032352867566216276,
+          "event": "associated",
+          "observation_count": 32,
+          "required_confirmation_count": 2,
+          "track_id": 12,
+          "validated_observation_count": 32
+        },
+        "two_d_confidence": 0.8555097937332974,
+        "two_d_detected": true
+      },
+      "id": 12,
+      "localization_source": "rgbd",
+      "observation_count": 32,
+      "x": 26.021953122103135,
+      "y": 5.81837176175598,
+      "z": 5.08186006385122
+    }
+  ],
+  "start_frame_transform": {
+    "child_frame": "start_frame",
+    "parent_frame": "odom",
+    "quaternion_xyzw": {
+      "w": 0.7143336668163761,
+      "x": -1.9934679071722952e-05,
+      "y": -3.724659293194853e-05,
+      "z": 0.6998052662476687
+    },
+    "translation": {
+      "x": 0.008242534345418604,
+      "y": -3.2016957797185883,
+      "z": 0.2679503046098793
+    }
+  }
+}
